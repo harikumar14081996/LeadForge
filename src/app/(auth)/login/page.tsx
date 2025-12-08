@@ -64,6 +64,7 @@ export default function LoginPage() {
                 router.push("/dashboard");
                 router.refresh();
             }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error("Login Exception:", error);
             setError("An unexpected system error occurred: " + error.message);
