@@ -22,6 +22,7 @@ export default withAuth(
         pages: {
             signIn: "/login",
         },
+        secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-change-in-prod",
     }
 );
 
