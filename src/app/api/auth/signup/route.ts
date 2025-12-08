@@ -14,6 +14,10 @@ const signupSchema = z.object({
 export async function POST(req: Request) {
     try {
         const body = await req.json();
+        // Normalize email to lowercase to ensure case-insensitive login
+        if (body.email) {
+            body.email = body.email.toLowerCase();
+        }
         const validatedData = signupSchema.parse(body);
 
         const existingUser = await prisma.user.findUnique({

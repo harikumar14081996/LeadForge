@@ -203,6 +203,116 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Pricing Section - ADDED */}
+        <section id="pricing" className="w-full py-24 bg-slate-50 border-t border-slate-200">
+          <div className="container px-4 md:px-6 mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">Simple, Transparent Pricing</h2>
+              <p className="mt-4 text-xl text-slate-500">
+                Choose the plan that fits your volume. No hidden setup fees.
+              </p>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
+              {/* Starter Plan */}
+              <div className="flex flex-col p-6 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-slate-900">Starter Lead</h3>
+                  <p className="text-slate-500 text-sm mt-1">Perfect for new loan officers.</p>
+                </div>
+                <div className="mb-6">
+                  <span className="text-4xl font-extrabold text-slate-900">$25</span>
+                  <span className="text-slate-500">/lead</span>
+                </div>
+                <ul className="space-y-3 mb-8 flex-1">
+                  <li className="flex items-center text-sm text-slate-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Verified Contact Info
+                  </li>
+                  <li className="flex items-center text-sm text-slate-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Standard Delivery (24hr)
+                  </li>
+                  <li className="flex items-center text-sm text-slate-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Basic CRM Access
+                  </li>
+                </ul>
+                <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold">
+                  <Link href="/login">Get Started</Link>
+                </Button>
+              </div>
+
+              {/* Pro Plan (Highlighted) */}
+              <div className="flex flex-col p-6 bg-white rounded-2xl border-2 border-blue-600 shadow-xl relative scale-105 z-10">
+                <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">MOST POPULAR</div>
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-slate-900">Verified Transfer</h3>
+                  <p className="text-slate-500 text-sm mt-1">High-intent leads for serious closers.</p>
+                </div>
+                <div className="mb-6">
+                  <span className="text-4xl font-extrabold text-slate-900">$55</span>
+                  <span className="text-slate-500">/lead</span>
+                </div>
+                <ul className="space-y-3 mb-8 flex-1">
+                  <li className="flex items-center text-sm text-slate-900 font-medium">
+                    <CheckCircle className="h-4 w-4 text-blue-600 mr-2" />
+                    Phone Verified Prospects
+                  </li>
+                  <li className="flex items-center text-sm text-slate-900 font-medium">
+                    <CheckCircle className="h-4 w-4 text-blue-600 mr-2" />
+                    Income Documents Checked
+                  </li>
+                  <li className="flex items-center text-sm text-slate-900 font-medium">
+                    <CheckCircle className="h-4 w-4 text-blue-600 mr-2" />
+                    Instant SMS Notification
+                  </li>
+                  <li className="flex items-center text-sm text-slate-900 font-medium">
+                    <CheckCircle className="h-4 w-4 text-blue-600 mr-2" />
+                    Priority Support
+                  </li>
+                </ul>
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-lg shadow-blue-200 text-lg h-12">
+                  <Link href="/login">Buy Leads Now</Link>
+                </Button>
+              </div>
+
+              {/* Enterprise Plan */}
+              <div className="flex flex-col p-6 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-slate-900">Agency Bundle</h3>
+                  <p className="text-slate-500 text-sm mt-1">For teams scaling volume.</p>
+                </div>
+                <div className="mb-6">
+                  <span className="text-4xl font-extrabold text-slate-900">$1,500</span>
+                  <span className="text-slate-500">/mo</span>
+                </div>
+                <ul className="space-y-3 mb-8 flex-1">
+                  <li className="flex items-center text-sm text-slate-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    50 Leads / month included
+                  </li>
+                  <li className="flex items-center text-sm text-slate-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Dedicated Account Manager
+                  </li>
+                  <li className="flex items-center text-sm text-slate-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Custom API Integration
+                  </li>
+                  <li className="flex items-center text-sm text-slate-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    White-label Dashboard
+                  </li>
+                </ul>
+                <Button variant="outline" className="w-full border-slate-200 hover:bg-slate-50 text-slate-900 font-semibold">
+                  <Link href="mailto:sales@leadforge.com">Contact Sales</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
 
         {/* Deep Dive Features */}
         <section className="w-full py-24 bg-white border-t border-slate-100">

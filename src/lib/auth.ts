@@ -37,9 +37,11 @@ export const authOptions: NextAuthOptions = {
                     return null;
                 }
 
+                const normalizedEmail = credentials.email.toLowerCase();
+
                 const user = await prisma.user.findUnique({
                     where: {
-                        email: credentials.email,
+                        email: normalizedEmail,
                     },
                     include: {
                         company: true
