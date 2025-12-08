@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { format, subDays, startOfMonth, endOfMonth } from "date-fns";
+import { format, startOfMonth, endOfMonth } from "date-fns";
 import { Printer, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

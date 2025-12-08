@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const db = new PrismaClient();
 
-async function checkUser(email, password) {
+async function checkUser(email: string, password: string) {
     console.log(`Checking user: ${email}`);
     const user = await db.user.findUnique({ where: { email } });
 

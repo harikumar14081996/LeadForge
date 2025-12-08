@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Shield, Clock, TrendingUp, CheckCircle, Smartphone, Lock } from "lucide-react";
+import { ArrowRight, Shield, TrendingUp, CheckCircle, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -104,7 +104,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900">Maximize Conversions</h3>
                 <p className="text-slate-600 leading-relaxed text-lg">
-                  Don't let good leads slip through the cracks. Our system tracks every interaction and prompts follow-ups to ensure you close every eligible deal.
+                  Don&apos;t let good leads slip through the cracks. Our system tracks every interaction and prompts follow-ups to ensure you close every eligible deal.
                 </p>
               </div>
 
@@ -143,7 +143,7 @@ export default function Home() {
                   Built for Loan Companies,<br /><span className="text-slate-400">Not Borrowers.</span>
                 </h2>
                 <p className="text-xl text-slate-600 leading-relaxed">
-                  We understand the unique challenges of high-volume lending. You don't need another generic spreadsheet; you need a purpose-built CRM that speaks your language: "Funded Volume", "Admin Fees", and "Conversion Rates".
+                  We understand the unique challenges of high-volume lending. You don&apos;t need another generic spreadsheet; you need a purpose-built CRM that speaks your language: &quot;Funded Volume&quot;, &quot;Admin Fees&quot;, and &quot;Conversion Rates&quot;.
                 </p>
                 <ul className="space-y-5 pt-4">
                   <li className="flex items-center gap-4 text-slate-700 text-lg">

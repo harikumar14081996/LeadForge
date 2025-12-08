@@ -32,11 +32,11 @@ async function main() {
             console.log("✅ Update to UNASSIGNED successful!");
 
             // Revert
-            await db.lead.update({ where: { id: lead.id }, data: { status: 'NEW' } });
-            console.log("Reverted to NEW.");
+            await db.lead.update({ where: { id: lead.id }, data: { status: 'UNASSIGNED' } });
+            console.log("Reverted to UNASSIGNED.");
         }
 
-    } catch (e) {
+    } catch (e: any) {
         console.error("❌ Update failed:", e.message);
     } finally {
         await db.$disconnect();

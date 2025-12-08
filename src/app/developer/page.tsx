@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Linkedin, Globe, Layout, Server, Database, Shield, Smartphone, Code, Cpu, Activity, CheckCircle, ArrowRight, ArrowLeft, TrendingUp } from "lucide-react";
+import { Mail, Linkedin, Globe, Layout, Database, Shield, Cpu, Activity, CheckCircle, ArrowLeft, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -75,7 +75,7 @@ export default function DeveloperPage() {
                             </h1>
 
                             <p className="text-xl md:text-2xl text-slate-300 leading-relaxed font-light">
-                                A next-generation Financial CRM architected to solve the lending industry's biggest challenges: <span className="text-white font-medium">Data Fragmentation</span>, <span className="text-white font-medium">Fee Calculation Errors</span>, and <span className="text-white font-medium">Reporting Latency</span>.
+                                A next-generation Financial CRM architected to solve the lending industry&apos;s biggest challenges: <span className="text-white font-medium">Data Fragmentation</span>, <span className="text-white font-medium">Fee Calculation Errors</span>, and <span className="text-white font-medium">Reporting Latency</span>.
                             </p>
 
                             <div className="grid md:grid-cols-3 gap-6 w-full text-left mt-12">
@@ -130,7 +130,7 @@ export default function DeveloperPage() {
                                     <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Harikumar Patel</h2>
                                     <p className="text-xl text-slate-600 leading-relaxed">
                                         I am a <strong>Full Stack & iOS Engineer</strong> obsessed with performance and design.
-                                        I don't just write code; I build complete digital ecosystems.
+                                        I don&apos;t just write code; I build complete digital ecosystems.
                                     </p>
                                     <p className="text-lg text-slate-500 leading-relaxed mt-4">
                                         With expertise spanning from low-level C++ AI integration to high-level React architecture,
@@ -211,7 +211,7 @@ export default function DeveloperPage() {
                 {/* SECTION 4: CONTACT FOOTER */}
                 <footer className="bg-white py-12 border-t border-slate-200 text-center">
                     <div className="container mx-auto px-4">
-                        <h2 className="text-2xl font-bold text-slate-900 mb-6">Let's Connect</h2>
+                        <h2 className="text-2xl font-bold text-slate-900 mb-6">Let&apos;s Connect</h2>
                         <div className="flex flex-col md:flex-row justify-center items-center gap-8 text-slate-600">
                             <a href="mailto:contact@example.com" className="flex items-center gap-2 hover:text-blue-600 transition-colors">
                                 <Mail className="h-5 w-5" />

@@ -21,7 +21,7 @@ async function assignLead() {
             where: { id: lead.id },
             data: {
                 current_owner_id: TARGET_USER_ID,
-                status: 'ASSIGNED'
+                status: 'ATTEMPTED_TO_CONTACT'
             }
         });
         console.log("✅ Assignment Successful!");

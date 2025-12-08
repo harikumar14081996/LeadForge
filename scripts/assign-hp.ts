@@ -10,7 +10,7 @@ async function assign() {
         console.log(`Assigning lead ${lead.id} to ${USER_ID}`);
         await db.lead.update({
             where: { id: lead.id },
-            data: { current_owner_id: USER_ID, status: 'ASSIGNED' }
+            data: { current_owner_id: USER_ID, status: 'ATTEMPTED_TO_CONTACT' }
         });
         console.log("Done.");
     }

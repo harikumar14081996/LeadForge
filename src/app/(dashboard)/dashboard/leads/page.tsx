@@ -4,8 +4,7 @@ import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { LeadsFilters } from "@/components/leads/leads-filters";
 import { LeadsTable } from "@/components/leads/leads-table";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+
 import { LeadStatus, LoanType } from "@prisma/client";
 import { AddLeadDialog } from "@/components/leads/add-lead-dialog";
 
@@ -61,6 +60,7 @@ export default async function LeadsPage({
     }
 
     if (employment && employment !== "ALL") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         where.employment_status = employment as any; // Cast if enum import needed
     }
 
@@ -104,6 +104,7 @@ export default async function LeadsPage({
 
             <LeadsFilters />
 
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             <LeadsTable leads={leads as any[]} />
 
             {/* Basic Pagination info */}
