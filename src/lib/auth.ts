@@ -8,6 +8,8 @@ export const authOptions: NextAuthOptions = {
     // Explicitly set secret to debug Vercel configuration error
     // Fallback allows deployment to work even if Vercel Env Var is missing (NOT for production use)
     secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-change-in-prod",
+    // Trust Vercel Preview URLs
+    trustHost: true,
     session: {
         strategy: "jwt",
     },
