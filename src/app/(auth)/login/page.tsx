@@ -35,17 +35,23 @@ export default function LoginPage() {
     });
 
     const onSubmit = async (data: LoginFormValues) => {
-        setIsLoading(true);
-        setError(null);
-
+        console.log("Submit button clicked. Data:", data); // Debug
         try {
+            setIsLoading(true);
+            setError(null);
+
+            console.log("Calling signIn..."); // Debug
+
             const res = await signIn("credentials", {
                 redirect: false,
                 email: data.email,
                 password: data.password,
             });
 
+            console.log("signIn result:", res); // Debug
+
             if (res?.error) {
+                console.error("Login failed:", res.error);
                 if (res.error === "CredentialsSignin") {
                     setError("Invalid email or password. Please try again.");
                 } else if (res.error.includes("AccountDeactivated")) {
@@ -54,17 +60,20 @@ export default function LoginPage() {
                     setError("Authentication failed. " + res.error);
                 }
             } else {
+                console.log("Login successful. Redirecting...");
                 router.push("/dashboard");
                 router.refresh();
             }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-            console.error("Login Error:", error);
-            setError("An unexpected system error occurred. Please try again.");
+            console.error("Login Exception:", error);
+            setError("An unexpected system error occurred: " + error.message);
         } finally {
             setIsLoading(false);
         }
     };
+
+    // Debug validation errors
+    console.log("Form State Errors:", errors);
 
     return (
         <div className="w-full h-screen lg:grid lg:grid-cols-2">
