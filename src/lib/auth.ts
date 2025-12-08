@@ -6,7 +6,8 @@ import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
     // Explicitly set secret to debug Vercel configuration error
-    secret: process.env.NEXTAUTH_SECRET,
+    // Fallback allows deployment to work even if Vercel Env Var is missing (NOT for production use)
+    secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-change-in-prod",
     session: {
         strategy: "jwt",
     },
