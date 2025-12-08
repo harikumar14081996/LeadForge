@@ -86,7 +86,17 @@ export function StepCheck({ onComplete }: StepCheckProps) {
 
                 <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" type="tel" {...register("phone")} />
+                    <Input
+                        id="phone"
+                        type="tel"
+                        placeholder="XXXXXXXXXX"
+                        {...register("phone")}
+                        onChange={(e) => {
+                            const val = e.target.value.replace(/[^0-9]/g, '').slice(0, 10);
+                            e.target.value = val;
+                        }}
+                    />
+                    <p className="text-xs text-muted-foreground">10 digits, numbers only</p>
                     {errors.phone && (
                         <p className="text-sm text-red-500">{errors.phone.message}</p>
                     )}

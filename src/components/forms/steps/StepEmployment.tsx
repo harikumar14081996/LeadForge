@@ -63,7 +63,14 @@ export function StepEmployment() {
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="employerPhone">Employer Phone</Label>
-                    <Input id="employerPhone" {...register("employerPhone")} />
+                    <Input
+                        id="employerPhone"
+                        {...register("employerPhone")}
+                        onChange={(e) => {
+                            const val = e.target.value.replace(/[^0-9]/g, '').slice(0, 10);
+                            e.target.value = val;
+                        }}
+                    />
                     {errors.employerPhone && <p className="text-sm text-red-500">{errors.employerPhone.message as string}</p>}
                 </div>
             </div>

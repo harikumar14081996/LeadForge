@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +33,7 @@ interface ProfileSettingsFormProps {
 
 export function ProfileSettingsForm({ initialData }: ProfileSettingsFormProps) {
     const router = useRouter();
+    const { update } = useSession();
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -65,6 +67,7 @@ export function ProfileSettingsForm({ initialData }: ProfileSettingsFormProps) {
             }
 
             setMessage({ type: "success", text: "Profile updated successfully." });
+            await update(); // Refresh session data
             router.refresh();
             form.setValue("tempPassword", ""); // Clear password field
         } catch (error) {

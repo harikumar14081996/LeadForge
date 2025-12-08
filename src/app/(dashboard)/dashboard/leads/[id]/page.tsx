@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LeadStatusSelector, LeadOwnerSelector, NotesSection } from "@/components/leads/lead-detail-client";
 import { EditLeadDialog } from "@/components/leads/edit-lead-dialog";
 import { FundingEditor } from "@/components/leads/funding-details";
+import { serializeForClient } from "@/lib/utils";
 
 export default async function LeadDetailPage({ params }: { params: { id: string } }) {
     const session = await getServerSession(authOptions);
@@ -49,10 +50,15 @@ export default async function LeadDetailPage({ params }: { params: { id: string 
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const company = results[2];
-    const lead = results[0];
+    const rawLead = results[0];
     const users = results[1];
 
-    if (!lead) return notFound();
+    if (!rawLead) return notFound();
+
+    // Serialize lead data (convert Decimals to strings/numbers) for Client Components
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const lead = serializeForClient(rawLead) as any;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const userOptions = users.map((u: any) => ({ id: u.id, name: `${u.first_name} ${u.last_name}` }));

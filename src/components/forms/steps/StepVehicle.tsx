@@ -57,14 +57,14 @@ export function StepVehicle() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label>Is there a lien on the vehicle?</Label>
+                        <Label>Is it fully paid off ?</Label>
                         <div className="flex space-x-4">
                             <label className="flex items-center space-x-2">
                                 <input
                                     type="radio"
                                     name="hasLien"
-                                    checked={hasLien === true}
-                                    onChange={() => setValue("vehicleDetails.hasLien", true, { shouldValidate: true })}
+                                    checked={hasLien === false}
+                                    onChange={() => setValue("vehicleDetails.hasLien", false, { shouldValidate: true })}
                                 />
                                 <span>Yes</span>
                             </label>
@@ -72,8 +72,8 @@ export function StepVehicle() {
                                 <input
                                     type="radio"
                                     name="hasLien"
-                                    checked={hasLien === false}
-                                    onChange={() => setValue("vehicleDetails.hasLien", false, { shouldValidate: true })}
+                                    checked={hasLien === true}
+                                    onChange={() => setValue("vehicleDetails.hasLien", true, { shouldValidate: true })}
                                 />
                                 <span>No</span>
                             </label>
@@ -83,7 +83,7 @@ export function StepVehicle() {
                     {(hasLien === true) && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Bank/Lender Name</Label>
+                                <Label>Bank Name / Lien Company</Label>
                                 <Input {...register("vehicleDetails.lienBank")} />
                             </div>
                             <div className="space-y-2">

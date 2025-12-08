@@ -24,6 +24,7 @@ interface ApplicationWizardProps {
     onSuccess?: () => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     initialData?: any; // New prop for editing
+    companyId?: string;
 }
 
 export function ApplicationWizard({ isInternal = false, userId, onSuccess, companyId, initialData }: ApplicationWizardProps) {
@@ -262,7 +263,7 @@ export function ApplicationWizard({ isInternal = false, userId, onSuccess, compa
                                         ⚠ Submitting will update your previous application.
                                     </div>
                                 )}
-                                <Button onClick={nextStep} disabled={isSubmitting} className="w-32">
+                                <Button onClick={nextStep} disabled={isSubmitting} className="w-auto px-8 min-w-[140px]">
                                     {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                                     {isUpdate ? "Update Application" : "Submit Application"}
                                 </Button>

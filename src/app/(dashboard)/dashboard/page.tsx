@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardCharts } from "@/components/dashboard/dashboard-charts";
 import { Users, CheckCircle, RefreshCw, AlertCircle } from "lucide-react";
 import { LeadStatus } from "@prisma/client";
+import { CompanyShareCard } from "@/components/dashboard/company-share-card";
 
 export default async function DashboardPage() {
     const session = await getServerSession(authOptions);
@@ -70,53 +71,78 @@ export default async function DashboardPage() {
     };
 
     return (
-        <div className="space-y-8">
-            <div>
-                <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-                <p className="text-muted-foreground">Overview of your company&apos;s lead performance</p>
+        <div className="space-y-8 animate-in fade-in duration-500">
+            {/* Welcome Hero */}
+            <div className="rounded-3xl bg-slate-900 text-white p-8 md:p-12 relative overflow-hidden shadow-2xl">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+                <div className="relative z-10 space-y-4">
+                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/20 text-blue-200 text-xs font-medium border border-blue-500/30">
+                        <CheckCircle className="h-3 w-3 mr-2" />
+                        System Operational
+                    </div>
+                    <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+                        Welcome back, <span className="text-blue-400">{session.user.name}</span>
+                    </h1>
+                    <p className="text-slate-400 text-lg max-w-2xl">
+                        This is your <strong>Unified Command Center</strong>. From this single dashboard, you can track every lead, monitor team performance, and manage your entire lending pipeline.
+                    </p>
+                </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                <Card className="border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
-                        <Users className="h-4 w-4 text-muted-foreground" />
+                        <CardTitle className="text-sm font-medium text-slate-600">Total Leads</CardTitle>
+                        <div className="p-2 bg-blue-50 rounded-lg">
+                            <Users className="h-4 w-4 text-blue-600" />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{totalLeads}</div>
-                        <p className="text-xs text-muted-foreground">{leadsThisMonth} new this month</p>
+                        <div className="text-3xl font-bold text-slate-900">{totalLeads}</div>
+                        <p className="text-xs text-slate-500 mt-1">{leadsThisMonth} new this month</p>
                     </CardContent>
                 </Card>
-                <Card>
+                <Card className="border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Unassigned</CardTitle>
-                        <AlertCircle className="h-4 w-4 text-orange-500" />
+                        <CardTitle className="text-sm font-medium text-slate-600">Unassigned</CardTitle>
+                        <div className="p-2 bg-orange-50 rounded-lg">
+                            <AlertCircle className="h-4 w-4 text-orange-600" />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{unassignedCount}</div>
-                        <p className="text-xs text-muted-foreground">Require attention</p>
+                        <div className="text-3xl font-bold text-slate-900">{unassignedCount}</div>
+                        <p className="text-xs text-slate-500 mt-1">Require immediate attention</p>
                     </CardContent>
                 </Card>
-                <Card>
+                <Card className="border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
-                        <CheckCircle className="h-4 w-4 text-green-500" />
+                        <CardTitle className="text-sm font-medium text-slate-600">Conversion Rate</CardTitle>
+                        <div className="p-2 bg-green-50 rounded-lg">
+                            <CheckCircle className="h-4 w-4 text-green-600" />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{conversionRate}%</div>
-                        <p className="text-xs text-muted-foreground">{wonLeads} closed won</p>
+                        <div className="text-3xl font-bold text-slate-900">{conversionRate}%</div>
+                        <p className="text-xs text-slate-500 mt-1">{wonLeads} closed won</p>
                     </CardContent>
                 </Card>
-                <Card>
+                <Card className="border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Resubmissions</CardTitle>
-                        <RefreshCw className="h-4 w-4 text-blue-500" />
+                        <CardTitle className="text-sm font-medium text-slate-600">Resubmissions</CardTitle>
+                        <div className="p-2 bg-purple-50 rounded-lg">
+                            <RefreshCw className="h-4 w-4 text-purple-600" />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{resubmittedCount}</div>
-                        <p className="text-xs text-muted-foreground">Returning applicants</p>
+                        <div className="text-3xl font-bold text-slate-900">{resubmittedCount}</div>
+                        <p className="text-xs text-slate-500 mt-1">Returning applicants</p>
                     </CardContent>
                 </Card>
+
+                {/* Company Share Link Card - Spans full width on mobile, fits in grid on desktop */}
+                <div className="md:col-span-2 lg:col-span-1">
+                    <CompanyShareCard companyId={companyId} />
+                </div>
             </div>
 
             <DashboardCharts data={chartData} />

@@ -38,12 +38,38 @@ export function StepPersonal({ isInternal }: StepPersonalProps) {
             <div className="space-y-2">
                 <Label>Phone</Label>
                 {/* Read only from step 0 unless internal */}
-                <Input {...register("phone")} disabled={!isInternal} className={!isInternal ? "bg-gray-100" : ""} />
+                {/* Even if internal, we might want to restrict editing format if we allow changes. 
+                    Given the structure, if it's internal we allow editing. */}
+                <Input
+                    {...register("phone")}
+                    disabled={!isInternal}
+                    className={!isInternal ? "bg-gray-100" : ""}
+                    onChange={(e) => {
+                        if (isInternal) {
+                            // Only apply restriction if editable
+                            const val = e.target.value.replace(/[^0-9]/g, '').slice(0, 10);
+                            register("phone").onChange({ target: { value: val, name: "phone" } });
+                            // Direct DOM manipulation for instant feedback if needed or rely on React Rerender if state bound,
+                            // but react-hook-form handles uncontrolled inputs mostly.
+                            // Best way with RHF uncontrolled:
+                            e.target.value = val;
+                        }
+                    }}
+                />
             </div>
 
             <div className="space-y-2">
                 <Label htmlFor="sin">Social Insurance Number (SIN)</Label>
-                <Input id="sin" placeholder="XXX-XXX-XXX" {...register("sin")} />
+                <Input
+                    id="sin"
+                    placeholder="XXXXXXXXX"
+                    {...register("sin")}
+                    onChange={(e) => {
+                        const val = e.target.value.replace(/[^0-9]/g, '').slice(0, 9);
+                        e.target.value = val;
+                    }}
+                />
+                <p className="text-xs text-muted-foreground">9 digits, numbers only</p>
                 {errors.sin && <p className="text-sm text-red-500">{errors.sin.message as string}</p>}
             </div>
 

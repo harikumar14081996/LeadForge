@@ -93,6 +93,30 @@ export function Sidebar({ className }: { className?: string }) {
                 </div>
             </div>
             <div className="px-3 py-2">
+                {session?.user && (
+                    <div className="mb-2 p-3 flex items-center bg-slate-800/50 rounded-xl border border-slate-800">
+                        <div className="h-9 w-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3 border-2 border-slate-700 shadow-sm shrink-0 overflow-hidden relative">
+                            {session.user.image ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                    src={session.user.image}
+                                    alt={session.user.name || "User"}
+                                    className="h-full w-full object-cover"
+                                />
+                            ) : (
+                                <span>{session.user.name?.charAt(0).toUpperCase() || 'U'}</span>
+                            )}
+                        </div>
+                        <div className="flex flex-col overflow-hidden">
+                            <span className="text-sm font-bold text-white truncate">
+                                {session.user.name?.split(" ")[0]}
+                            </span>
+                            <span className="text-[10px] text-slate-400 uppercase tracking-wider font-medium truncate">
+                                {session.user.role || 'User'}
+                            </span>
+                        </div>
+                    </div>
+                )}
                 <button
                     onClick={() => signOut({ callbackUrl: "/login" })}
                     className="text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition text-zinc-400"
