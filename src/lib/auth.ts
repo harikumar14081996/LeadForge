@@ -5,6 +5,8 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
+    // Explicitly set secret to debug Vercel configuration error
+    secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: "jwt",
     },
