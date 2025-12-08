@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LeadForge
+
+LeadForge is a modern lead management platform built for financial institutions to capture, track, and manage client applications efficiently.
+
+## Features
+
+- **Public Lead Capture Wizard**: Multi-step form for detailed client data collection (Personal, Employment, Assets).
+- **Returning User Logic**: Securely recognizes existing users and pre-fills known data.
+- **Admin Dashboard**: Real-time statistics and lead verification.
+- **Lead Management**: 
+  - Status tracking (New, Contacted, Qualified, etc.)
+  - Owner assignment
+  - Activity notes and history logging
+- **Role-Based Access**: Secure login for Admins and Agents.
+
+## tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: NextAuth.js (Credentials + bcrypt)
+- **Styling**: Tailwind CSS
+- **Validation**: Zod & React Hook Form
+- **Security**: AES-256 encryption for sensitive data (SIN).
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js 18+
+- PostgreSQL
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository**
+   ```bash
+   git clone <repo-url>
+   cd leadforge
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Configure Environment**
+   Create a `.env` file based on the example:
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/leadmanager"
+   NEXTAUTH_SECRET="your-secret"
+   NEXTAUTH_URL="http://localhost:3000"
+   ENCRYPTION_KEY="32-byte-key"
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. **Setup Database**
+   ```bash
+   npx prisma migrate dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `src/app`: App Router pages and API routes.
+- `src/components`: UI components (forms, dashboard, leads).
+- `src/lib`: Utilities (auth, prisma, encryption).
+- `prisma`: Database schema and migrations.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+Private and Confidential.

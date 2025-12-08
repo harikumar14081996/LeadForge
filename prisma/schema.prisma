@@ -1,0 +1,184 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id                        String   @id @default(uuid())
+  name                      String
+  email                     String   @unique
+  phone                     String?
+  address                   String?
+  logo_url                  String?
+  created_at                DateTime @default(now())
+  updated_at                DateTime @updatedAt
+  default_admin_fee_percent Decimal? @default(21)
+  leads                     Lead[]
+  users                     User[]
+}
+
+model User {
+  id                String             @id @default(uuid())
+  company_id        String
+  email             String             @unique
+  password_hash     String
+  first_name        String
+  last_name         String
+  role              Role               @default(USER)
+  avatar_url        String?
+  is_active         Boolean            @default(true)
+  created_at        DateTime           @default(now())
+  updated_at        DateTime           @updatedAt
+  owned_leads       Lead[]             @relation("CurrentOwner")
+  notes             Note[]
+  given_leads       OwnershipHistory[] @relation("FromUser")
+  actions_performed OwnershipHistory[] @relation("PerformedBy")
+  received_leads    OwnershipHistory[] @relation("ToUser")
+  company           Company            @relation(fields: [company_id], references: [id])
+}
+
+model Lead {
+  id                     String             @id @default(uuid())
+  company_id             String
+  current_owner_id       String?
+  status                 LeadStatus         @default(UNASSIGNED)
+  loan_type              LoanType
+  first_name             String
+  last_name              String
+  email                  String
+  phone                  String
+  sin_full               String
+  consent_given          Boolean
+  consent_timestamp      DateTime
+  connected_owner        Boolean            @default(false)
+  street                 String
+  city                   String
+  province_state         String
+  postal_zip             String
+  country                String
+  latitude               Decimal?
+  longitude              Decimal?
+  location_accuracy      Int?
+  location_captured_at   DateTime?
+  employer_name          String
+  position               String
+  years_employed         Decimal
+  employer_phone         String
+  employer_address       Json
+  owns_vehicle           Boolean            @default(false)
+  vehicle_details        Json?
+  owns_home              Boolean            @default(false)
+  home_details           Json?
+  created_at             DateTime           @default(now())
+  updated_at             DateTime           @updatedAt
+  last_application_date  DateTime?
+  application_count      Int                @default(1)
+  is_resubmission        Boolean            @default(false)
+  amount_requested       Decimal?
+  employment_status      EmploymentStatus   @default(FULL_TIME)
+  monthly_salary         Decimal            @default(0)
+  paystub_frequency      PaystubFrequency   @default(MONTHLY)
+  admin_fee              Decimal?
+  discharge_amount       Decimal?
+  first_payment_date     DateTime?
+  funded_amount          Decimal?
+  loan_payment_frequency PaystubFrequency?
+  ppsr_fee               Decimal?
+  total_loan_amount      Decimal?
+  company                Company            @relation(fields: [company_id], references: [id])
+  current_owner          User?              @relation("CurrentOwner", fields: [current_owner_id], references: [id])
+  notes                  Note[]
+  history                OwnershipHistory[]
+
+  @@index([email])
+  @@index([phone])
+  @@index([created_at])
+  @@index([company_id, created_at])
+  @@index([company_id, status])
+}
+
+model OwnershipHistory {
+  id                   String     @id @default(uuid())
+  lead_id              String
+  from_user_id         String?
+  to_user_id           String?
+  action_type          ActionType
+  performed_by_user_id String
+  notes                String?
+  created_at           DateTime   @default(now())
+  from_user            User?      @relation("FromUser", fields: [from_user_id], references: [id])
+  lead                 Lead       @relation(fields: [lead_id], references: [id])
+  performed_by         User       @relation("PerformedBy", fields: [performed_by_user_id], references: [id])
+  to_user              User?      @relation("ToUser", fields: [to_user_id], references: [id])
+}
+
+model Note {
+  id         String   @id @default(uuid())
+  lead_id    String
+  user_id    String
+  content    String
+  type       NoteType @default(NOTE)
+  created_at DateTime @default(now())
+  lead       Lead     @relation(fields: [lead_id], references: [id])
+  user       User     @relation(fields: [user_id], references: [id])
+}
+
+enum Role {
+  ADMIN
+  USER
+  AGENT
+}
+
+enum LeadStatus {
+  UNASSIGNED
+  ATTEMPTED_TO_CONTACT
+  CONNECTED
+  QUALIFIED
+  UNQUALIFIED
+  DECLINED
+  FUNDED
+  APPROVED
+}
+
+enum LoanType {
+  PERSONAL_LOAN
+  DEBT_CONSOLIDATION
+  HOME_EQUITY
+}
+
+enum EmploymentStatus {
+  FULL_TIME
+  PART_TIME
+  SELF_EMPLOYED
+  UNEMPLOYED
+  RETIRED
+}
+
+enum PaystubFrequency {
+  WEEKLY
+  BI_WEEKLY
+  SEMI_MONTHLY
+  MONTHLY
+}
+
+enum ActionType {
+  ASSIGNED
+  TRANSFERRED
+  CLAIMED
+  RELEASED
+}
+
+enum NoteType {
+  NOTE
+  CALL
+  EMAIL
+  MEETING
+  STATUS_CHANGE
+  OWNERSHIP_CHANGE
+  RESUBMISSION
+}
