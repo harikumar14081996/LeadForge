@@ -21,7 +21,15 @@ export default withAuth(
     },
     {
         callbacks: {
-            authorized: ({ token }) => !!token,
+            authorized: ({ token, req }) => {
+                console.log("Middleware: Authorized Callback", {
+                    path: req.nextUrl.pathname,
+                    hasToken: !!token,
+                    cookieNames: req.cookies.getAll().map(c => c.name),
+                    isSecure: req.nextUrl.protocol === 'https:'
+                });
+                return !!token;
+            },
         },
         pages: {
             signIn: "/login",
