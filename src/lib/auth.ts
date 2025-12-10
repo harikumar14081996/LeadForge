@@ -4,6 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
+import { AUTH_SECRET } from "@/lib/config";
+
 // Fix for Vercel Preview Deployments:
 // NextAuth v4 needs NEXTAUTH_URL to match the current host.
 // Vercel sets VERCEL_URL on previews. We use it if present.
@@ -13,8 +15,8 @@ if (process.env.VERCEL_URL) {
 
 export const authOptions: NextAuthOptions = {
     // Explicitly set secret to debug Vercel configuration error
-    // Fallback allows deployment to work even if Vercel Env Var is missing (NOT for production use)
-    secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-change-in-prod",
+    // Use shared constant to ensure middleware matches API
+    secret: AUTH_SECRET,
     // Trust Vercel Preview URLs
 
     session: {

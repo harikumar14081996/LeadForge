@@ -1,6 +1,7 @@
 import { withAuth } from "next-auth/middleware";
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
+import { AUTH_SECRET } from "@/lib/config";
 
 export default withAuth(
     function middleware(req) {
@@ -26,7 +27,7 @@ export default withAuth(
                 if (token) return true; // Automatic decoding worked
 
                 // Fallback: Manual decoding
-                const secret = process.env.NEXTAUTH_SECRET || "fallback-secret-key-change-in-prod";
+                const secret = AUTH_SECRET;
 
                 // Explicitly decrypt the token to see if we can find it
                 const manualToken = await getToken({
@@ -41,6 +42,8 @@ export default withAuth(
                     autoTokenFound: !!token,
                     manualTokenFound: !!manualToken,
                     cookieNames: req.cookies.getAll().map(c => c.name),
+                    isSecretConfigured: !!process.env.NEXTAUTH_SECRET,
+                    secretUsed: secret.substring(0, 3) + "..." // Log partial secret for debug safety
                 });
 
                 return !!manualToken;
@@ -49,7 +52,7 @@ export default withAuth(
         pages: {
             signIn: "/login",
         },
-        secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-change-in-prod",
+        secret: AUTH_SECRET,
     }
 );
 
