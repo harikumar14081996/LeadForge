@@ -61,6 +61,7 @@ export const authOptions: NextAuthOptions = {
                 console.log("Password valid:", isPasswordValid);
 
                 if (!isPasswordValid) {
+                    console.log("Authorization failed: Invalid password");
                     return null;
                 }
 
@@ -81,6 +82,7 @@ export const authOptions: NextAuthOptions = {
             },
         }),
     ],
+    debug: true, // Enable NextAuth debug mode
     callbacks: {
         async jwt({ token, user, trigger }) {
             if (trigger === "update" && token.sub) {
@@ -107,6 +109,13 @@ export const authOptions: NextAuthOptions = {
                 token.company_name = user.company_name!;
                 token.picture = user.image;
             }
+
+            console.log("JWT Callback:", {
+                trigger,
+                tokenSub: token.sub,
+                hasUser: !!user
+            });
+
             return token;
         },
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -119,6 +128,10 @@ export const authOptions: NextAuthOptions = {
                 session.user.company_name = token.company_name as string;
                 session.user.image = token.picture;
             }
+            console.log("Session Callback:", {
+                sessionUser: session.user?.email,
+                tokenSub: token?.sub
+            });
             return session;
         },
     },
