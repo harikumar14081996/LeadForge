@@ -1,4 +1,5 @@
 import { withAuth } from "next-auth/middleware";
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
 export default withAuth(
@@ -21,14 +22,28 @@ export default withAuth(
     },
     {
         callbacks: {
-            authorized: ({ token, req }) => {
-                console.log("Middleware: Authorized Callback", {
-                    path: req.nextUrl.pathname,
-                    hasToken: !!token,
-                    cookieNames: req.cookies.getAll().map(c => c.name),
-                    isSecure: req.nextUrl.protocol === 'https:'
+            authorized: async ({ token, req }) => {
+                if (token) return true; // Automatic decoding worked
+
+                // Fallback: Manual decoding
+                const secret = process.env.NEXTAUTH_SECRET || "fallback-secret-key-change-in-prod";
+
+                // Explicitly decrypt the token to see if we can find it
+                const manualToken = await getToken({
+                    req,
+                    secret,
+                    // If cookie name is customized (e.g. __Secure- prefix handling), getToken usually handles it,
+                    // but we can rely on standard behavior first.
                 });
-                return !!token;
+
+                console.log("Middleware: Auth Check", {
+                    path: req.nextUrl.pathname,
+                    autoTokenFound: !!token,
+                    manualTokenFound: !!manualToken,
+                    cookieNames: req.cookies.getAll().map(c => c.name),
+                });
+
+                return !!manualToken;
             },
         },
         pages: {
