@@ -209,7 +209,7 @@ export default function Home() {
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">Simple, Transparent Pricing</h2>
               <p className="mt-4 text-xl text-slate-500">
-                Choose the plan that fits your volume. No hidden setup fees.
+                Pay only for what you use. No hidden setup fees. Instant support included.
               </p>
             </div>
 
@@ -217,11 +217,11 @@ export default function Home() {
               {/* Starter Plan */}
               <div className="flex flex-col p-6 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all">
                 <div className="mb-4">
-                  <h3 className="text-xl font-bold text-slate-900">Starter Lead</h3>
-                  <p className="text-slate-500 text-sm mt-1">Perfect for new loan officers.</p>
+                  <h3 className="text-xl font-bold text-slate-900">Basic Lead</h3>
+                  <p className="text-slate-500 text-sm mt-1">Perfect for getting started.</p>
                 </div>
                 <div className="mb-6">
-                  <span className="text-4xl font-extrabold text-slate-900">$25</span>
+                  <span className="text-4xl font-extrabold text-slate-900">$0.25</span>
                   <span className="text-slate-500">/lead</span>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
@@ -237,6 +237,10 @@ export default function Home() {
                     <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
                     Basic CRM Access
                   </li>
+                  <li className="flex items-center text-sm text-slate-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    Instant Support
+                  </li>
                 </ul>
                 <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold">
                   <Link href="/login">Get Started</Link>
@@ -251,7 +255,7 @@ export default function Home() {
                   <p className="text-slate-500 text-sm mt-1">High-intent leads for serious closers.</p>
                 </div>
                 <div className="mb-6">
-                  <span className="text-4xl font-extrabold text-slate-900">$55</span>
+                  <span className="text-4xl font-extrabold text-slate-900">$0.50</span>
                   <span className="text-slate-500">/lead</span>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
@@ -269,7 +273,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center text-sm text-slate-900 font-medium">
                     <CheckCircle className="h-4 w-4 text-blue-600 mr-2" />
-                    Priority Support
+                    Instant Priority Support
                   </li>
                 </ul>
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-lg shadow-blue-200 text-lg h-12">
@@ -284,13 +288,13 @@ export default function Home() {
                   <p className="text-slate-500 text-sm mt-1">For teams scaling volume.</p>
                 </div>
                 <div className="mb-6">
-                  <span className="text-4xl font-extrabold text-slate-900">$1,500</span>
+                  <span className="text-4xl font-extrabold text-slate-900">$99</span>
                   <span className="text-slate-500">/mo</span>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
                   <li className="flex items-center text-sm text-slate-600">
                     <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    50 Leads / month included
+                    Unlimited Leads at $0.20/each
                   </li>
                   <li className="flex items-center text-sm text-slate-600">
                     <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
@@ -302,7 +306,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center text-sm text-slate-600">
                     <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    White-label Dashboard
+                    Instant 24/7 Support
                   </li>
                 </ul>
                 <Button variant="outline" className="w-full border-slate-200 hover:bg-slate-50 text-slate-900 font-semibold">
