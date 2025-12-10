@@ -1,6 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, Shield, TrendingUp, CheckCircle, Smartphone } from "lucide-react";
+import { ArrowRight, Shield, TrendingUp, CheckCircle, Smartphone, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Home() {
   return (
@@ -13,6 +19,8 @@ export default function Home() {
           </div>
           <span className="ml-2 text-xl font-bold tracking-tight text-slate-900">LeadForge</span>
         </Link>
+
+        {/* Desktop Navigation */}
         <nav className="ml-auto flex gap-4 sm:gap-8 items-center">
           <Link className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors hidden md:block" href="/developer">
             Meet Developer
@@ -23,6 +31,9 @@ export default function Home() {
           <Link className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors hidden md:block" href="#for-companies">
             Why Us
           </Link>
+          <Link className="text-sm font-medium text-blue-600 font-semibold hover:text-blue-700 transition-colors hidden md:block" href="#pricing">
+            Pricing
+          </Link>
           <div className="flex items-center gap-4 ml-4">
             <Link className="hidden sm:block text-sm font-semibold text-slate-900 hover:text-blue-600 transition-colors" href="/login">
               Login
@@ -32,6 +43,42 @@ export default function Home() {
                 Get Started
               </Link>
             </Button>
+
+            {/* Mobile Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="icon" className="h-10 w-10">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem asChild>
+                  <Link href="#pricing" className="w-full cursor-pointer font-semibold text-blue-600">
+                    💰 Pricing
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="#features" className="w-full cursor-pointer">
+                    Platform
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="#for-companies" className="w-full cursor-pointer">
+                    Why Us
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/developer" className="w-full cursor-pointer">
+                    Meet Developer
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/login" className="w-full cursor-pointer">
+                    Login
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </nav>
       </header>
