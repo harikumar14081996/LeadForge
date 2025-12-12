@@ -251,6 +251,135 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Team Chat Feature - Steve Jobs Style */}
+        <section id="team-chat" className="w-full py-20 md:py-32 bg-slate-900 text-white relative overflow-hidden">
+          {/* Animated Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900"></div>
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[150px]"></div>
+          <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-purple-500/20 rounded-full blur-[100px]"></div>
+
+          <div className="container px-4 md:px-6 mx-auto relative z-10">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              {/* Left: Text Content */}
+              <div className="space-y-8">
+                <div className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-2 text-sm font-medium text-blue-300 border border-blue-500/30">
+                  <span className="h-2 w-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+                  New Feature – Now Live
+                </div>
+
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                  One more thing.
+                </h2>
+
+                <p className="text-xl md:text-2xl text-slate-300 leading-relaxed font-light">
+                  Say hello to <span className="text-white font-semibold">Team Chat</span>.
+                  Real-time messaging built right into your workflow.
+                  <span className="text-blue-400"> No more switching apps.</span>
+                </p>
+
+                <div className="space-y-4 pt-4">
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-lg">1:1 & Group Chats</div>
+                      <div className="text-slate-400">Direct messages or team channels. Your choice.</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-lg">@Mention Anyone</div>
+                      <div className="text-slate-400">Type @ and watch the magic happen.</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-lg shadow-green-500/30">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-lg">Instant Notifications</div>
+                      <div className="text-slate-400">Never miss a message. We&apos;ll ping you.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Chat Preview Mockup */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-[80px] rounded-full"></div>
+                <div className="relative bg-slate-800/80 backdrop-blur-xl rounded-3xl border border-slate-700/50 shadow-2xl p-6 space-y-4">
+                  {/* Chat Header */}
+                  <div className="flex items-center justify-between pb-4 border-b border-slate-700/50">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center font-bold text-sm">
+                        LP
+                      </div>
+                      <div>
+                        <div className="font-semibold text-white">Loan Processing Team</div>
+                        <div className="text-xs text-slate-400">Sarah, Mike, and 3 others</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+                      <span className="text-xs text-slate-400">Live</span>
+                    </div>
+                  </div>
+
+                  {/* Messages */}
+                  <div className="space-y-4 py-2">
+                    <div className="flex items-start gap-3">
+                      <div className="h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center text-xs font-bold shrink-0">SM</div>
+                      <div className="bg-slate-700/50 rounded-2xl rounded-tl-sm px-4 py-2">
+                        <div className="text-xs text-purple-400 font-medium mb-1">Sarah M.</div>
+                        <div className="text-sm text-slate-200">Just funded the Anderson file! 🎉</div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center text-xs font-bold shrink-0">MK</div>
+                      <div className="bg-slate-700/50 rounded-2xl rounded-tl-sm px-4 py-2">
+                        <div className="text-xs text-green-400 font-medium mb-1">Mike K.</div>
+                        <div className="text-sm text-slate-200"><span className="bg-blue-500/30 text-blue-300 px-1 rounded">@Sarah</span> Amazing work! That&apos;s $45K this week 💪</div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3 justify-end">
+                      <div className="bg-blue-600 rounded-2xl rounded-tr-sm px-4 py-2 max-w-[80%]">
+                        <div className="text-sm text-white">Team meeting at 3pm to review pipeline. <span className="bg-white/20 px-1 rounded">@everyone</span></div>
+                      </div>
+                      <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold shrink-0">You</div>
+                    </div>
+                  </div>
+
+                  {/* Input */}
+                  <div className="flex items-center gap-2 pt-2 border-t border-slate-700/50">
+                    <div className="flex-1 bg-slate-700/50 rounded-full px-4 py-3 text-sm text-slate-400">
+                      Type @ to mention someone...
+                    </div>
+                    <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
+                      <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Pricing Section - ADDED */}
         <section id="pricing" className="w-full py-24 bg-slate-50 border-t border-slate-200">
           <div className="container px-4 md:px-6 mx-auto">
