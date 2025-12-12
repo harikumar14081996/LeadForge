@@ -7,7 +7,7 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Mail, Lock, AlertCircle, ArrowLeft, CheckCircle } from "lucide-react";
+import { Mail, Lock, AlertCircle, ArrowLeft, CheckCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
