@@ -1,6 +1,8 @@
 import { Sidebar } from "@/components/layout/sidebar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"; // Assuming you might have this, if not, native simple
 import { Menu } from "lucide-react";
+import { ChatPanel } from "@/components/chat/chat-panel";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 
 export default function DashboardLayout({
     children,
@@ -14,22 +16,30 @@ export default function DashboardLayout({
             </div>
             <main className="md:pl-72 h-full bg-slate-50 min-h-screen">
                 {/* Mobile Header */}
-                <div className="md:hidden flex items-center p-4 bg-slate-900 text-white">
-                    {/* Simple Mobile Menu Trigger - placeholder if Sheet component exists, otherwise standard nav */}
-                    <Sheet>
-                        <SheetTrigger>
-                            <Menu className="h-6 w-6" />
-                        </SheetTrigger>
-                        <SheetContent side="left" className="p-0 bg-slate-900">
-                            <Sidebar />
-                        </SheetContent>
-                    </Sheet>
-                    <span className="ml-4 font-bold text-lg">LeadForge</span>
+                <div className="md:hidden flex items-center justify-between p-4 bg-slate-900 text-white">
+                    <div className="flex items-center">
+                        <Sheet>
+                            <SheetTrigger>
+                                <Menu className="h-6 w-6" />
+                            </SheetTrigger>
+                            <SheetContent side="left" className="p-0 bg-slate-900">
+                                <Sidebar />
+                            </SheetContent>
+                        </Sheet>
+                        <span className="ml-4 font-bold text-lg">LeadForge</span>
+                    </div>
+                    <NotificationBell />
+                </div>
+                {/* Desktop Notification Bell */}
+                <div className="hidden md:flex md:fixed md:top-4 md:right-8 z-[70]">
+                    <NotificationBell />
                 </div>
                 <div className="p-4 md:p-8">
                     {children}
                 </div>
             </main>
+            {/* Floating Chat Panel */}
+            <ChatPanel />
         </div>
     );
 }

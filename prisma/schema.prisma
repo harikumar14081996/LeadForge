@@ -23,24 +23,30 @@ model Company {
 }
 
 model User {
-  id                String             @id @default(uuid())
+  id                String               @id @default(uuid())
   company_id        String
-  email             String             @unique
+  email             String               @unique
   password_hash     String
   first_name        String
   last_name         String
-  role              Role               @default(USER)
+  role              Role                 @default(USER)
   avatar_url        String?
-  is_active         Boolean            @default(true)
-  created_at        DateTime           @default(now())
-  updated_at        DateTime           @updatedAt
-  owned_leads       Lead[]             @relation("CurrentOwner")
+  is_active         Boolean              @default(true)
+  created_at        DateTime             @default(now())
+  updated_at        DateTime             @updatedAt
+  owned_leads       Lead[]               @relation("CurrentOwner")
   notes             Note[]
-  given_leads       OwnershipHistory[] @relation("FromUser")
-  actions_performed OwnershipHistory[] @relation("PerformedBy")
-  received_leads    OwnershipHistory[] @relation("ToUser")
-  company           Company            @relation(fields: [company_id], references: [id])
+  given_leads       OwnershipHistory[]   @relation("FromUser")
+  actions_performed OwnershipHistory[]   @relation("PerformedBy")
+  received_leads    OwnershipHistory[]   @relation("ToUser")
+  company           Company              @relation(fields: [company_id], references: [id])
+  // Chat relations
+  conversations     ConversationMember[]
+  messages_sent     Message[]            @relation("MessagesSent")
+  mentions          Mention[]
+  notifications     Notification[]
 }
+
 
 model Lead {
   id                     String             @id @default(uuid())
@@ -181,4 +187,68 @@ enum NoteType {
   STATUS_CHANGE
   OWNERSHIP_CHANGE
   RESUBMISSION
+}
+
+// ==================== CHAT MODELS ====================
+
+model Conversation {
+  id         String               @id @default(uuid())
+  company_id String
+  name       String?              // null for DMs, set for groups
+  is_group   Boolean              @default(false)
+  created_at DateTime             @default(now())
+  updated_at DateTime             @updatedAt
+  members    ConversationMember[]
+  messages   Message[]
+
+  @@index([company_id])
+}
+
+model ConversationMember {
+  id              String       @id @default(uuid())
+  conversation_id String
+  user_id         String
+  joined_at       DateTime     @default(now())
+  last_read_at    DateTime     @default(now())
+  conversation    Conversation @relation(fields: [conversation_id], references: [id], onDelete: Cascade)
+  user            User         @relation(fields: [user_id], references: [id])
+
+  @@unique([conversation_id, user_id])
+}
+
+model Message {
+  id              String       @id @default(uuid())
+  conversation_id String
+  sender_id       String
+  content         String
+  created_at      DateTime     @default(now())
+  conversation    Conversation @relation(fields: [conversation_id], references: [id], onDelete: Cascade)
+  sender          User         @relation("MessagesSent", fields: [sender_id], references: [id])
+  mentions        Mention[]
+
+  @@index([conversation_id, created_at])
+}
+
+model Mention {
+  id         String   @id @default(uuid())
+  message_id String
+  user_id    String
+  read       Boolean  @default(false)
+  created_at DateTime @default(now())
+  message    Message  @relation(fields: [message_id], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [user_id], references: [id])
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  user_id    String
+  type       String   // MENTION, MESSAGE, LEAD_ASSIGNED
+  title      String
+  body       String
+  data       Json?
+  read       Boolean  @default(false)
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id])
+
+  @@index([user_id, read])
 }
