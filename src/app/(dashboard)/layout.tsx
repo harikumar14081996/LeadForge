@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"; // As
 import { Menu } from "lucide-react";
 import { ChatPanel } from "@/components/chat/chat-panel";
 import { NotificationBell } from "@/components/notifications/notification-bell";
+import { ReminderPopup } from "@/components/reminders/reminder-popup";
 
 export default function DashboardLayout({
     children,
@@ -36,6 +37,8 @@ export default function DashboardLayout({
             </main>
             {/* Floating Chat Panel */}
             <ChatPanel />
+            {/* Reminder Popup */}
+            <ReminderPopup />
         </div>
     );
 }

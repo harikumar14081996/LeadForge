@@ -9,42 +9,46 @@ datasource db {
 }
 
 model Company {
-  id                        String   @id @default(uuid())
+  id                        String     @id @default(uuid())
   name                      String
-  email                     String   @unique
+  email                     String     @unique
   phone                     String?
   address                   String?
   logo_url                  String?
-  created_at                DateTime @default(now())
-  updated_at                DateTime @updatedAt
-  default_admin_fee_percent Decimal? @default(21)
+  created_at                DateTime   @default(now())
+  updated_at                DateTime   @updatedAt
+  default_admin_fee_percent Decimal?   @default(21)
   leads                     Lead[]
   users                     User[]
+  reminders                 Reminder[]
 }
 
 model User {
-  id                String               @id @default(uuid())
-  company_id        String
-  email             String               @unique
-  password_hash     String
-  first_name        String
-  last_name         String
-  role              Role                 @default(USER)
-  avatar_url        String?
-  is_active         Boolean              @default(true)
-  created_at        DateTime             @default(now())
-  updated_at        DateTime             @updatedAt
-  owned_leads       Lead[]               @relation("CurrentOwner")
-  notes             Note[]
-  given_leads       OwnershipHistory[]   @relation("FromUser")
-  actions_performed OwnershipHistory[]   @relation("PerformedBy")
-  received_leads    OwnershipHistory[]   @relation("ToUser")
-  company           Company              @relation(fields: [company_id], references: [id])
+  id                   String               @id @default(uuid())
+  company_id           String
+  email                String               @unique
+  password_hash        String
+  first_name           String
+  last_name            String
+  role                 Role                 @default(USER)
+  avatar_url           String?
+  is_active            Boolean              @default(true)
+  created_at           DateTime             @default(now())
+  updated_at           DateTime             @updatedAt
+  owned_leads          Lead[]               @relation("CurrentOwner")
+  notes                Note[]
+  given_leads          OwnershipHistory[]   @relation("FromUser")
+  actions_performed    OwnershipHistory[]   @relation("PerformedBy")
+  received_leads       OwnershipHistory[]   @relation("ToUser")
+  company              Company              @relation(fields: [company_id], references: [id])
   // Chat relations
-  conversations     ConversationMember[]
-  messages_sent     Message[]            @relation("MessagesSent")
-  mentions          Mention[]
-  notifications     Notification[]
+  conversations        ConversationMember[]
+  messages_sent        Message[]            @relation("MessagesSent")
+  mentions             Mention[]
+  notifications        Notification[]
+  // Reminder relations
+  reminders_created    Reminder[]           @relation("ReminderCreator")
+  reminder_recipients  ReminderRecipient[]  @relation("ReminderRecipients")
 }
 
 
@@ -251,4 +255,46 @@ model Notification {
   user       User     @relation(fields: [user_id], references: [id])
 
   @@index([user_id, read])
+}
+
+// Reminder/Announcement System
+model Reminder {
+  id           String              @id @default(uuid())
+  company_id   String
+  creator_id   String
+  type         ReminderType        @default(PERSONAL)
+  title        String
+  content      String
+  scheduled_at DateTime?           // null = immediate
+  is_active    Boolean             @default(true)
+  created_at   DateTime            @default(now())
+  updated_at   DateTime            @updatedAt
+  creator      User                @relation("ReminderCreator", fields: [creator_id], references: [id])
+  company      Company             @relation(fields: [company_id], references: [id])
+  recipients   ReminderRecipient[]
+}
+
+enum ReminderType {
+  COMPANY_WIDE
+  PERSONAL
+}
+
+model ReminderRecipient {
+  id           String           @id @default(uuid())
+  reminder_id  String
+  user_id      String
+  status       ReminderStatus   @default(PENDING)
+  responded_at DateTime?
+  created_at   DateTime         @default(now())
+  reminder     Reminder         @relation(fields: [reminder_id], references: [id], onDelete: Cascade)
+  user         User             @relation("ReminderRecipients", fields: [user_id], references: [id])
+
+  @@unique([reminder_id, user_id])
+  @@index([user_id, status])
+}
+
+enum ReminderStatus {
+  PENDING
+  DONE
+  DISMISSED
 }

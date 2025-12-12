@@ -260,28 +260,32 @@ export function ChatPanel() {
         <>
             {/* Toast Notification */}
             {toast && (
-                <div className="fixed top-4 right-4 z-[100] animate-in slide-in-from-top-5 duration-300">
-                    <div className="bg-white rounded-xl shadow-2xl border border-slate-200 p-4 max-w-sm flex items-start gap-3">
-                        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold text-sm shrink-0">
+                <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[9999] animate-in slide-in-from-top-5 fade-in duration-300">
+                    <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 p-4 min-w-[320px] max-w-sm flex items-start gap-3 ring-2 ring-blue-500/20">
+                        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0 animate-pulse">
                             {toast.senderName.split(" ").map(n => n[0]).join("").toUpperCase().substring(0, 2)}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <div className="font-semibold text-slate-900 text-sm">
+                            <div className="font-bold text-slate-900">
+                                New Message
+                            </div>
+                            <div className="font-semibold text-blue-600 text-sm">
                                 {toast.senderName}
                             </div>
-                            <div className="text-slate-600 text-sm truncate">
-                                {toast.content}...
+                            <div className="text-slate-600 text-sm mt-1 line-clamp-2">
+                                {toast.content}
                             </div>
                         </div>
                         <button
                             onClick={() => setToast(null)}
-                            className="text-slate-400 hover:text-slate-600 transition-colors"
+                            className="text-slate-400 hover:text-slate-600 transition-colors p-1 hover:bg-slate-100 rounded-full"
                         >
-                            <X className="h-4 w-4" />
+                            <X className="h-5 w-5" />
                         </button>
                     </div>
                 </div>
             )}
+
 
             {/* Floating Chat Button */}
             <button
