@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import prisma from "@/lib/prisma";
+import { PrismaClient } from "@prisma/client";
 import { pusherServer, getConversationChannel } from "@/lib/pusher";
+
+const prisma = new PrismaClient();
+
 
 // GET /api/chat/messages?conversationId=xxx
 export async function GET(req: Request) {

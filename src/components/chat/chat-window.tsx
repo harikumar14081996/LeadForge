@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { ArrowLeft, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { MentionInput } from "./mention-input";
 import { cn } from "@/lib/utils";
 import { getPusherClient, getConversationChannel } from "@/lib/pusher";
 import { format } from "date-fns";
@@ -47,6 +46,11 @@ interface ChatWindowProps {
     companyUsers: User[];
 }
 
+interface TypingUser {
+    userId: string;
+    userName: string;
+}
+
 export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowProps) {
     const { data: session } = useSession();
     const [messages, setMessages] = useState<Message[]>([]);
@@ -54,7 +58,12 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
     const [sending, setSending] = useState(false);
     const [messageContent, setMessageContent] = useState("");
     const [mentionedUserIds, setMentionedUserIds] = useState<string[]>([]);
+    const [typingUsers, setTypingUsers] = useState<TypingUser[]>([]);
+    const [showMentions, setShowMentions] = useState(false);
+    const [mentionQuery, setMentionQuery] = useState("");
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const fetchMessages = useCallback(async () => {
         try {
@@ -70,15 +79,55 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
         }
     }, [conversation.id]);
 
+    // Mark messages as read when opening conversation
+    const markAsRead = useCallback(async () => {
+        try {
+            await fetch("/api/chat/read", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ conversationId: conversation.id }),
+            });
+        } catch (error) {
+            console.error("Failed to mark as read:", error);
+        }
+    }, [conversation.id]);
+
     useEffect(() => {
         fetchMessages();
+        markAsRead();
 
         // Subscribe to real-time updates
         const pusher = getPusherClient();
         if (pusher) {
             const channel = pusher.subscribe(getConversationChannel(conversation.id));
+
+            // New message handler
             channel.bind("new-message", (message: Message) => {
                 setMessages(prev => [...prev, message]);
+                markAsRead(); // Mark new messages as read immediately
+            });
+
+            // Typing indicator handler
+            channel.bind("typing", (data: { userId: string; userName: string; isTyping: boolean }) => {
+                if (data.userId === session?.user?.id) return; // Ignore own typing
+
+                setTypingUsers(prev => {
+                    if (data.isTyping) {
+                        // Add user if not already typing
+                        if (!prev.find(u => u.userId === data.userId)) {
+                            return [...prev, { userId: data.userId, userName: data.userName }];
+                        }
+                        return prev;
+                    } else {
+                        // Remove user from typing
+                        return prev.filter(u => u.userId !== data.userId);
+                    }
+                });
+
+                // Auto-remove after 3 seconds
+                setTimeout(() => {
+                    setTypingUsers(prev => prev.filter(u => u.userId !== data.userId));
+                }, 3000);
             });
 
             return () => {
@@ -86,14 +135,85 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
                 pusher.unsubscribe(getConversationChannel(conversation.id));
             };
         }
-    }, [conversation.id, fetchMessages]);
+    }, [conversation.id, fetchMessages, markAsRead, session?.user?.id]);
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
+    // Auto-resize textarea
+    useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = "auto";
+            textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 120) + "px";
+        }
+    }, [messageContent]);
+
+    // Send typing indicator
+    const sendTypingIndicator = useCallback(async (isTyping: boolean) => {
+        try {
+            await fetch("/api/chat/typing", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ conversationId: conversation.id, isTyping }),
+            });
+        } catch (error) {
+            console.error("Failed to send typing indicator:", error);
+        }
+    }, [conversation.id]);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value;
+        setMessageContent(value);
+
+        // Handle @mentions
+        const lastAtIndex = value.lastIndexOf("@");
+        if (lastAtIndex !== -1) {
+            const textAfterAt = value.substring(lastAtIndex + 1);
+            if (!textAfterAt.includes(" ") || textAfterAt.split(" ").length <= 2) {
+                setMentionQuery(textAfterAt);
+                setShowMentions(true);
+            } else {
+                setShowMentions(false);
+            }
+        } else {
+            setShowMentions(false);
+        }
+
+        // Send typing indicator (debounced)
+        if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+        }
+        sendTypingIndicator(true);
+        typingTimeoutRef.current = setTimeout(() => {
+            sendTypingIndicator(false);
+        }, 2000);
+    };
+
+    const selectMention = (user: User) => {
+        const lastAtIndex = messageContent.lastIndexOf("@");
+        const beforeAt = messageContent.substring(0, lastAtIndex);
+        const mentionText = `@${user.first_name} ${user.last_name} `;
+
+        setMessageContent(beforeAt + mentionText);
+        setMentionedUserIds(prev => Array.from(new Set([...prev, user.id])));
+        setShowMentions(false);
+        textareaRef.current?.focus();
+    };
+
+    const filteredUsers = companyUsers.filter(u =>
+        u.id !== session?.user?.id &&
+        `${u.first_name} ${u.last_name}`.toLowerCase().includes(mentionQuery.toLowerCase())
+    ).slice(0, 5);
+
     const sendMessage = async () => {
         if (!messageContent.trim() || sending) return;
+
+        // Stop typing indicator
+        sendTypingIndicator(false);
+        if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+        }
 
         setSending(true);
         try {
@@ -118,6 +238,13 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
         }
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    };
+
     const getConversationName = () => {
         if (conversation.is_group && conversation.name) return conversation.name;
         const otherMember = conversation.members.find(m => m.user.id !== session?.user?.id);
@@ -125,9 +252,9 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
     };
 
     const renderMessageContent = (message: Message) => {
-        let content = message.content;
+        // Preserve line breaks and highlight mentions
+        let content = message.content.replace(/\n/g, "<br>");
 
-        // Highlight mentions
         message.mentions.forEach(mention => {
             const mentionText = `@${mention.user.first_name} ${mention.user.last_name}`;
             content = content.replace(
@@ -137,6 +264,13 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
         });
 
         return <span dangerouslySetInnerHTML={{ __html: content }} />;
+    };
+
+    const getTypingText = () => {
+        if (typingUsers.length === 0) return null;
+        if (typingUsers.length === 1) return `${typingUsers[0].userName} is typing...`;
+        if (typingUsers.length === 2) return `${typingUsers[0].userName} and ${typingUsers[1].userName} are typing...`;
+        return `${typingUsers.length} people are typing...`;
     };
 
     return (
@@ -186,12 +320,12 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
                                         ? "bg-blue-600 text-white rounded-br-sm"
                                         : "bg-slate-100 text-slate-900 rounded-bl-sm"
                                 )}>
-                                    {!isMe && (
+                                    {!isMe && conversation.is_group && (
                                         <div className="text-xs font-medium text-blue-600 mb-1">
-                                            {message.sender.first_name}
+                                            {message.sender.first_name} {message.sender.last_name}
                                         </div>
                                     )}
-                                    <div className="text-sm break-words">{renderMessageContent(message)}</div>
+                                    <div className="text-sm break-words whitespace-pre-wrap">{renderMessageContent(message)}</div>
                                     <div className={cn(
                                         "text-xs mt-1",
                                         isMe ? "text-blue-200" : "text-slate-400"
@@ -206,22 +340,56 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
                 <div ref={messagesEndRef} />
             </div>
 
+            {/* Typing Indicator */}
+            {typingUsers.length > 0 && (
+                <div className="px-4 py-2 text-xs text-slate-500 italic animate-pulse">
+                    {getTypingText()}
+                </div>
+            )}
+
             {/* Input */}
-            <div className="p-3 border-t border-slate-100 bg-white">
-                <div className="flex gap-2">
-                    <MentionInput
+            <div className="p-3 border-t border-slate-100 bg-white relative">
+                {/* Mention Suggestions */}
+                {showMentions && filteredUsers.length > 0 && (
+                    <div className="absolute bottom-full left-3 right-3 mb-2 bg-white rounded-lg shadow-lg border border-slate-200 overflow-hidden z-50">
+                        <div className="p-2 text-xs text-slate-500 border-b border-slate-100 font-medium">
+                            Mention someone
+                        </div>
+                        {filteredUsers.map((user) => (
+                            <button
+                                key={user.id}
+                                onClick={() => selectMention(user)}
+                                className="w-full flex items-center gap-3 p-2 text-left hover:bg-slate-50 transition-colors"
+                            >
+                                <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 text-xs font-medium">
+                                    {user.first_name[0]}{user.last_name[0]}
+                                </div>
+                                <div>
+                                    <div className="text-sm font-medium text-slate-900">
+                                        {user.first_name} {user.last_name}
+                                    </div>
+                                    <div className="text-xs text-slate-500">{user.email}</div>
+                                </div>
+                            </button>
+                        ))}
+                    </div>
+                )}
+
+                <div className="flex gap-2 items-end">
+                    <textarea
+                        ref={textareaRef}
                         value={messageContent}
-                        onChange={setMessageContent}
-                        onMentionsChange={setMentionedUserIds}
-                        users={companyUsers}
-                        placeholder="Type a message... Use @ to mention"
-                        onSubmit={sendMessage}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Type a message... (Shift+Enter for new line, @ to mention)"
+                        rows={1}
+                        className="flex-1 resize-none rounded-2xl border border-slate-200 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent max-h-[120px]"
                     />
                     <Button
                         onClick={sendMessage}
                         disabled={!messageContent.trim() || sending}
                         size="icon"
-                        className="shrink-0 bg-blue-600 hover:bg-blue-700"
+                        className="shrink-0 bg-blue-600 hover:bg-blue-700 h-10 w-10"
                     >
                         <Send className="h-4 w-4" />
                     </Button>
