@@ -2,11 +2,10 @@ import Link from "next/link";
 import { ArrowRight, TrendingUp, CheckCircle, Menu, Users, MessageSquare, Bell, Mail, BarChart3, Clock, Zap, Star, ChevronRight, FileText, MapPin, Lock, CreditCard, UserCheck, RefreshCw, Settings, Send, PenTool } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export default function Home() {
   return (
@@ -30,30 +29,42 @@ export default function Home() {
           <Link className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors hidden md:block" href="/developer">
             Developer
           </Link>
-          <Button asChild className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg shadow-blue-200">
+          <Button asChild className="hidden md:inline-flex bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg shadow-blue-200">
             <Link href="/login">
               Get Started
             </Link>
           </Button>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className="h-10 w-10">
-                <Menu className="h-5 w-5" />
+          {/* Mobile Menu */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-6 w-6 text-slate-700" />
+                <span className="sr-only">Toggle menu</span>
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem asChild>
-                <Link href="#features">Features</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="#pricing">Pricing</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/developer">Developer</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+              <div className="flex flex-col gap-8 mt-8">
+                <Link className="text-lg font-semibold hover:text-blue-600 transition-colors" href="#features">
+                  Features
+                </Link>
+                <Link className="text-lg font-semibold hover:text-blue-600 transition-colors" href="#pricing">
+                  Pricing
+                </Link>
+                <Link className="text-lg font-semibold hover:text-blue-600 transition-colors" href="/developer">
+                  Developer
+                </Link>
+                <div className="flex flex-col gap-4 mt-4">
+                  <Button asChild size="lg" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    <Link href="/signup">Sign Up Today</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg" className="w-full">
+                    <Link href="/login">Existing User Login</Link>
+                  </Button>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </nav>
       </header>
 

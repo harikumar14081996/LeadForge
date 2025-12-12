@@ -181,11 +181,11 @@ export default function LoginPage() {
                                Actually, user asked for back button on login page. Let's put it on top of the right panel form area.
                            */}
                     </div>
-                    <div className="w-full flex justify-start mb-4 lg:mb-0">
+                    <div className="w-full hidden lg:flex justify-start mb-4 lg:mb-0">
                         <Button variant="ghost" asChild className="gap-2 text-slate-500 hover:text-slate-900 -ml-4 mb-4">
                             <Link href="/">
                                 <ArrowLeft className="h-4 w-4" />
-                                Back to Home
+                                <span className="font-medium">Back to Home</span>
                             </Link>
                         </Button>
                     </div>
