@@ -37,6 +37,7 @@ model User {
   email_provider       EmailProvider        @default(GMAIL)
   email_subject        String?              @default("Regarding Your Loan Application")
   email_body           String?              @db.Text
+  email_signature      String?              @db.Text
   created_at           DateTime             @default(now())
   updated_at           DateTime             @updatedAt
   owned_leads          Lead[]               @relation("CurrentOwner")

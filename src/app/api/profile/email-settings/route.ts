@@ -17,6 +17,7 @@ export async function GET() {
                 email_provider: true,
                 email_subject: true,
                 email_body: true,
+                email_signature: true,
             }
         });
 
@@ -40,7 +41,7 @@ export async function PUT(req: Request) {
         }
 
         const body = await req.json();
-        const { email_provider, email_subject, email_body } = body;
+        const { email_provider, email_subject, email_body, email_signature } = body;
 
         // Validate email provider
         const validProviders = ["GMAIL", "OUTLOOK", "YAHOO", "ICLOUD", "PROTONMAIL"];
@@ -54,11 +55,13 @@ export async function PUT(req: Request) {
                 ...(email_provider && { email_provider }),
                 ...(email_subject !== undefined && { email_subject }),
                 ...(email_body !== undefined && { email_body }),
+                ...(email_signature !== undefined && { email_signature }),
             },
             select: {
                 email_provider: true,
                 email_subject: true,
                 email_body: true,
+                email_signature: true,
             }
         });
 
@@ -68,3 +71,4 @@ export async function PUT(req: Request) {
         return NextResponse.json({ error: "Failed to update email settings" }, { status: 500 });
     }
 }
+

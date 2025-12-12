@@ -15,6 +15,7 @@ interface EmailSettings {
     email_provider: string;
     email_subject: string | null;
     email_body: string | null;
+    email_signature: string | null;
 }
 
 export function LeadEmailButton({ leadEmail, leadName, loanType }: LeadEmailButtonProps) {
@@ -45,6 +46,7 @@ export function LeadEmailButton({ leadEmail, leadName, loanType }: LeadEmailButt
         // Default templates with placeholders
         let subject = settings.email_subject || "Regarding Your Loan Application";
         let body = settings.email_body || getDefaultEmailBody(leadName, loanType);
+        const signature = settings.email_signature || "";
 
         // Replace placeholders
         subject = subject.replace(/\{name\}/gi, leadName);
@@ -52,11 +54,13 @@ export function LeadEmailButton({ leadEmail, leadName, loanType }: LeadEmailButt
         body = body.replace(/\{name\}/gi, leadName);
         body = body.replace(/\{loan_type\}/gi, loanType.replace(/_/g, " "));
 
-        // Use mailto: link - opens user's default email client
-        // This opens a native compose window (Gmail app, Outlook app, Mac Mail, etc.)
-        const mailtoUrl = `mailto:${leadEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        // Combine body with signature
+        const fullBody = signature ? `${body}\n\n${signature}` : body;
 
-        // Use window.location for mailto to trigger native email client
+        // Use mailto: link - opens user's default email client
+        const mailtoUrl = `mailto:${leadEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullBody)}`;
+
+        // Trigger native email client
         window.location.href = mailtoUrl;
 
         setLoading(false);
@@ -84,8 +88,7 @@ Thank you for your interest in our ${loanType.replace(/_/g, " ")} services.
 
 I wanted to follow up with you regarding your loan application. Please let me know if you have any questions or if there's anything I can help you with.
 
-Looking forward to hearing from you.
-
-Best regards`;
+Looking forward to hearing from you.`;
 }
+
 

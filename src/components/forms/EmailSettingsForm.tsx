@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Mail, Save, Loader2 } from "lucide-react";
+import { Mail, Save, Loader2, Signature } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,7 @@ interface EmailSettings {
     email_provider: string;
     email_subject: string | null;
     email_body: string | null;
+    email_signature: string | null;
 }
 
 export function EmailSettingsForm() {
@@ -25,6 +26,7 @@ export function EmailSettingsForm() {
         email_provider: "GMAIL",
         email_subject: "Regarding Your Loan Application",
         email_body: "",
+        email_signature: "",
     });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -40,6 +42,7 @@ export function EmailSettingsForm() {
                         email_provider: data.email_provider || "GMAIL",
                         email_subject: data.email_subject || "Regarding Your Loan Application",
                         email_body: data.email_body || getDefaultBody(),
+                        email_signature: data.email_signature || getDefaultSignature(),
                     });
                 }
             } catch (error) {
@@ -130,15 +133,39 @@ export function EmailSettingsForm() {
                     Email Body Template
                 </label>
                 <div className="text-xs text-slate-500 mb-2">
-                    Customize your default email message. Same placeholders apply.
+                    Your message content. Use placeholders for personalization.
                 </div>
                 <textarea
                     value={settings.email_body || ""}
                     onChange={(e) => setSettings({ ...settings, email_body: e.target.value })}
-                    rows={8}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
+                    rows={6}
+                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Dear {name},&#10;&#10;Thank you for your interest..."
                 />
+            </div>
+
+            {/* Email Signature */}
+            <div className="border-t border-slate-200 pt-6">
+                <label className="flex items-center gap-2 text-sm font-medium text-slate-700 mb-1">
+                    <Signature className="h-4 w-4" />
+                    Email Signature
+                </label>
+                <div className="text-xs text-slate-500 mb-2">
+                    Your professional signature will be appended to every email. Include your name, title, company, and contact info.
+                </div>
+                <textarea
+                    value={settings.email_signature || ""}
+                    onChange={(e) => setSettings({ ...settings, email_signature: e.target.value })}
+                    rows={6}
+                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Best regards,&#10;&#10;John Smith&#10;Senior Loan Officer&#10;H Financial Services&#10;📞 (555) 123-4567&#10;📧 john@hfinancial.com"
+                />
+                <div className="mt-2 p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="text-xs font-medium text-slate-500 mb-2">Preview:</div>
+                    <div className="text-sm text-slate-700 whitespace-pre-wrap">
+                        {settings.email_signature || "No signature set"}
+                    </div>
+                </div>
             </div>
 
             {/* Save Button */}
@@ -177,7 +204,16 @@ Thank you for your interest in our {loan_type} services.
 
 I wanted to follow up with you regarding your loan application. Please let me know if you have any questions or if there's anything I can help you with.
 
-Looking forward to hearing from you.
-
-Best regards`;
+Looking forward to hearing from you.`;
 }
+
+function getDefaultSignature(): string {
+    return `Best regards,
+
+[Your Name]
+Loan Officer
+[Your Company]
+📞 [Your Phone]
+📧 [Your Email]`;
+}
+
