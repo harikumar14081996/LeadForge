@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Mail, ExternalLink } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -16,40 +16,6 @@ interface EmailSettings {
     email_subject: string | null;
     email_body: string | null;
 }
-
-// Email provider compose URLs
-const EMAIL_PROVIDERS = {
-    GMAIL: {
-        name: "Gmail",
-        composeUrl: (to: string, subject: string, body: string) =>
-            `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-        checkUrl: "https://mail.google.com",
-    },
-    OUTLOOK: {
-        name: "Outlook",
-        composeUrl: (to: string, subject: string, body: string) =>
-            `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(to)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-        checkUrl: "https://outlook.live.com",
-    },
-    YAHOO: {
-        name: "Yahoo Mail",
-        composeUrl: (to: string, subject: string, body: string) =>
-            `https://compose.mail.yahoo.com/?to=${encodeURIComponent(to)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-        checkUrl: "https://mail.yahoo.com",
-    },
-    ICLOUD: {
-        name: "iCloud Mail",
-        composeUrl: (to: string, subject: string, body: string) =>
-            `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-        checkUrl: null, // iCloud uses mailto
-    },
-    PROTONMAIL: {
-        name: "ProtonMail",
-        composeUrl: (to: string, subject: string, body: string) =>
-            `https://mail.proton.me/u/0/composer?to=${encodeURIComponent(to)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-        checkUrl: "https://mail.proton.me",
-    },
-};
 
 export function LeadEmailButton({ leadEmail, leadName, loanType }: LeadEmailButtonProps) {
     const [settings, setSettings] = useState<EmailSettings | null>(null);
@@ -76,23 +42,22 @@ export function LeadEmailButton({ leadEmail, leadName, loanType }: LeadEmailButt
 
         setLoading(true);
 
-        const provider = EMAIL_PROVIDERS[settings.email_provider as keyof typeof EMAIL_PROVIDERS] || EMAIL_PROVIDERS.GMAIL;
-
         // Default templates with placeholders
         let subject = settings.email_subject || "Regarding Your Loan Application";
         let body = settings.email_body || getDefaultEmailBody(leadName, loanType);
 
         // Replace placeholders
         subject = subject.replace(/\{name\}/gi, leadName);
-        subject = subject.replace(/\{loan_type\}/gi, loanType.replace("_", " "));
+        subject = subject.replace(/\{loan_type\}/gi, loanType.replace(/_/g, " "));
         body = body.replace(/\{name\}/gi, leadName);
-        body = body.replace(/\{loan_type\}/gi, loanType.replace("_", " "));
+        body = body.replace(/\{loan_type\}/gi, loanType.replace(/_/g, " "));
 
-        // Generate compose URL
-        const composeUrl = provider.composeUrl(leadEmail, subject, body);
+        // Use mailto: link - opens user's default email client
+        // This opens a native compose window (Gmail app, Outlook app, Mac Mail, etc.)
+        const mailtoUrl = `mailto:${leadEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-        // Open in new tab
-        window.open(composeUrl, "_blank");
+        // Use window.location for mailto to trigger native email client
+        window.location.href = mailtoUrl;
 
         setLoading(false);
     };
@@ -108,7 +73,6 @@ export function LeadEmailButton({ leadEmail, leadName, loanType }: LeadEmailButt
         >
             <Mail className="h-4 w-4 mr-2" />
             Send Email
-            <ExternalLink className="h-3 w-3 ml-1 opacity-70" />
         </Button>
     );
 }
@@ -116,7 +80,7 @@ export function LeadEmailButton({ leadEmail, leadName, loanType }: LeadEmailButt
 function getDefaultEmailBody(leadName: string, loanType: string): string {
     return `Dear ${leadName},
 
-Thank you for your interest in our ${loanType.replace("_", " ")} services.
+Thank you for your interest in our ${loanType.replace(/_/g, " ")} services.
 
 I wanted to follow up with you regarding your loan application. Please let me know if you have any questions or if there's anything I can help you with.
 
@@ -124,3 +88,4 @@ Looking forward to hearing from you.
 
 Best regards`;
 }
+
