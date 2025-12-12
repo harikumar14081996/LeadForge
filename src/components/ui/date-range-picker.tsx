@@ -26,6 +26,7 @@ export function DatePickerWithRange({
   date,
   setDate,
 }: DatePickerWithRangeProps) {
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const handlePresetChange = (value: string) => {
     const today = new Date();
@@ -73,53 +74,57 @@ export function DatePickerWithRange({
         break;
     }
     setDate({ from, to });
+    setIsOpen(false); // Close popover on mobile after selection
   };
 
   return (
     <div className={cn("grid gap-2", className)}>
-      <Popover>
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
           <Button
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[260px] justify-start text-left font-normal",
+              "w-full sm:w-[260px] justify-start text-left font-normal",
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
-                </>
+            <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+            <span className="truncate">
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
+                  </>
+                ) : (
+                  format(date.from, "LLL dd, y")
+                )
               ) : (
-                format(date.from, "LLL dd, y")
-              )
-            ) : (
-              <span>Pick a date</span>
-            )}
+                "Pick a date"
+              )}
+            </span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="end">
-          <div className="flex h-full">
-            <div className="flex flex-col gap-1 p-2 border-r bg-muted/30 min-w-[160px]">
-              <div className="px-2 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+        <PopoverContent className="w-auto p-0 max-w-[calc(100vw-2rem)]" align="start">
+          {/* Mobile: Stack vertically, Desktop: Side by side */}
+          <div className="flex flex-col sm:flex-row max-h-[70vh] overflow-auto">
+            {/* Presets - Horizontal scroll on mobile, vertical list on desktop */}
+            <div className="flex sm:flex-col gap-1 p-2 border-b sm:border-b-0 sm:border-r bg-muted/30 overflow-x-auto sm:overflow-x-visible sm:min-w-[140px]">
+              <div className="hidden sm:block px-2 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
                 Presets
               </div>
-              <Button variant="ghost" size="sm" onClick={() => handlePresetChange("today")} className="justify-start font-normal h-8 px-2 text-sm">Today</Button>
-              <Button variant="ghost" size="sm" onClick={() => handlePresetChange("yesterday")} className="justify-start font-normal h-8 px-2 text-sm">Yesterday</Button>
-              <div className="my-1 border-t" />
-              <Button variant="ghost" size="sm" onClick={() => handlePresetChange("thisWeek")} className="justify-start font-normal h-8 px-2 text-sm">This Week</Button>
-              <Button variant="ghost" size="sm" onClick={() => handlePresetChange("lastWeek")} className="justify-start font-normal h-8 px-2 text-sm">Last Week</Button>
-              <div className="my-1 border-t" />
-              <Button variant="ghost" size="sm" onClick={() => handlePresetChange("thisMonth")} className="justify-start font-normal h-8 px-2 text-sm">This Month</Button>
-              <Button variant="ghost" size="sm" onClick={() => handlePresetChange("lastMonth")} className="justify-start font-normal h-8 px-2 text-sm">Last Month</Button>
-              <div className="my-1 border-t" />
-              <Button variant="ghost" size="sm" onClick={() => handlePresetChange("last7")} className="justify-start font-normal h-8 px-2 text-sm">Last 7 Days</Button>
-              <Button variant="ghost" size="sm" onClick={() => handlePresetChange("last30")} className="justify-start font-normal h-8 px-2 text-sm">Last 30 Days</Button>
+              <div className="flex sm:flex-col gap-1 min-w-max sm:min-w-0">
+                <Button variant="ghost" size="sm" onClick={() => handlePresetChange("today")} className="justify-start font-normal h-8 px-3 sm:px-2 text-sm whitespace-nowrap">Today</Button>
+                <Button variant="ghost" size="sm" onClick={() => handlePresetChange("yesterday")} className="justify-start font-normal h-8 px-3 sm:px-2 text-sm whitespace-nowrap">Yesterday</Button>
+                <Button variant="ghost" size="sm" onClick={() => handlePresetChange("thisWeek")} className="justify-start font-normal h-8 px-3 sm:px-2 text-sm whitespace-nowrap">This Week</Button>
+                <Button variant="ghost" size="sm" onClick={() => handlePresetChange("lastWeek")} className="justify-start font-normal h-8 px-3 sm:px-2 text-sm whitespace-nowrap">Last Week</Button>
+                <Button variant="ghost" size="sm" onClick={() => handlePresetChange("thisMonth")} className="justify-start font-normal h-8 px-3 sm:px-2 text-sm whitespace-nowrap">This Month</Button>
+                <Button variant="ghost" size="sm" onClick={() => handlePresetChange("lastMonth")} className="justify-start font-normal h-8 px-3 sm:px-2 text-sm whitespace-nowrap">Last Month</Button>
+                <Button variant="ghost" size="sm" onClick={() => handlePresetChange("last7")} className="justify-start font-normal h-8 px-3 sm:px-2 text-sm whitespace-nowrap">Last 7 Days</Button>
+                <Button variant="ghost" size="sm" onClick={() => handlePresetChange("last30")} className="justify-start font-normal h-8 px-3 sm:px-2 text-sm whitespace-nowrap">Last 30 Days</Button>
+              </div>
             </div>
+            {/* Calendar - 1 month on mobile, 2 on desktop */}
             <div className="p-2">
               <Calendar
                 initialFocus
@@ -127,7 +132,17 @@ export function DatePickerWithRange({
                 defaultMonth={date?.from}
                 selected={date}
                 onSelect={setDate}
+                numberOfMonths={1}
+                className="sm:hidden"
+              />
+              <Calendar
+                initialFocus
+                mode="range"
+                defaultMonth={date?.from}
+                selected={date}
+                onSelect={setDate}
                 numberOfMonths={2}
+                className="hidden sm:block"
               />
             </div>
           </div>
@@ -136,4 +151,3 @@ export function DatePickerWithRange({
     </div>
   )
 }
-
