@@ -182,64 +182,65 @@ export default function Home() {
         </section>
 
         {/* Audience Clarification */}
-        <section id="for-companies" className="w-full py-24 bg-white border-t border-slate-200">
+        <section id="for-companies" className="w-full py-12 md:py-24 bg-white border-t border-slate-200">
           <div className="container px-4 md:px-6 mx-auto">
-            <div className="grid gap-16 lg:grid-cols-2 items-center">
-              <div className="space-y-8">
-                <h2 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+            <div className="grid gap-8 lg:gap-16 lg:grid-cols-2 items-center">
+              <div className="space-y-6 md:space-y-8">
+                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
                   Built for Loan Companies,<br /><span className="text-slate-400">Not Borrowers.</span>
                 </h2>
-                <p className="text-xl text-slate-600 leading-relaxed">
+                <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
                   We understand the unique challenges of high-volume lending. You don&apos;t need another generic spreadsheet; you need a purpose-built CRM that speaks your language: &quot;Funded Volume&quot;, &quot;Admin Fees&quot;, and &quot;Conversion Rates&quot;.
                 </p>
-                <ul className="space-y-5 pt-4">
-                  <li className="flex items-center gap-4 text-slate-700 text-lg">
-                    <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                      <CheckCircle className="h-4 w-4 text-green-600" />
+                <ul className="space-y-4 md:space-y-5 pt-2 md:pt-4">
+                  <li className="flex items-center gap-3 md:gap-4 text-slate-700 text-base md:text-lg">
+                    <div className="h-5 w-5 md:h-6 md:w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                      <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-600" />
                     </div>
                     <span className="font-medium">Centralized Lead Database</span>
                   </li>
-                  <li className="flex items-center gap-4 text-slate-700 text-lg">
-                    <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                      <CheckCircle className="h-4 w-4 text-green-600" />
+                  <li className="flex items-center gap-3 md:gap-4 text-slate-700 text-base md:text-lg">
+                    <div className="h-5 w-5 md:h-6 md:w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                      <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-600" />
                     </div>
                     <span className="font-medium">Role-Based Access Control (Admin vs Agent)</span>
                   </li>
-                  <li className="flex items-center gap-4 text-slate-700 text-lg">
-                    <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                      <CheckCircle className="h-4 w-4 text-green-600" />
+                  <li className="flex items-center gap-3 md:gap-4 text-slate-700 text-base md:text-lg">
+                    <div className="h-5 w-5 md:h-6 md:w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                      <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-600" />
                     </div>
                     <span className="font-medium">Bank-Grade Data Security (256-bit Encryption)</span>
                   </li>
                 </ul>
               </div>
-              <div className="relative">
-                <div className="absolute inset-0 bg-blue-600 blur-[100px] opacity-20 rounded-full"></div>
-                <div className="relative bg-slate-50 p-8 rounded-3xl border border-slate-200 shadow-2xl">
-                  <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 space-y-6">
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                      <div className="font-semibold text-slate-900">Executive Report</div>
+              <div className="relative mt-4 lg:mt-0">
+                {/* Hide decorative blur on mobile */}
+                <div className="hidden md:block absolute inset-0 bg-blue-600 blur-[100px] opacity-20 rounded-full"></div>
+                <div className="relative bg-slate-50 p-4 md:p-8 rounded-2xl md:rounded-3xl border border-slate-200 shadow-lg md:shadow-2xl">
+                  <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-100 p-4 md:p-6 space-y-4 md:space-y-6">
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-3 md:pb-4">
+                      <div className="font-semibold text-slate-900 text-sm md:text-base">Executive Report</div>
                       <div className="flex items-center gap-2">
                         <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
                         <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Live Preview</div>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-100">
+                    <div className="grid grid-cols-2 gap-3 md:gap-4">
+                      <div className="p-3 md:p-4 bg-blue-50/50 rounded-lg md:rounded-xl border border-blue-100">
                         <div className="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Total Funded</div>
-                        <div className="text-2xl font-bold text-slate-900">$2,450,000</div>
+                        <div className="text-xl md:text-2xl font-bold text-slate-900">$2,450,000</div>
                       </div>
-                      <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-100">
+                      <div className="p-3 md:p-4 bg-emerald-50/50 rounded-lg md:rounded-xl border border-emerald-100">
                         <div className="text-xs text-emerald-600 font-bold uppercase tracking-wider mb-1">Net Revenue</div>
-                        <div className="text-2xl font-bold text-slate-900">$185,400</div>
+                        <div className="text-xl md:text-2xl font-bold text-slate-900">$185,400</div>
                       </div>
                     </div>
-                    <div className="space-y-3 pt-2">
-                      <div className="flex justify-between text-sm font-medium text-slate-600">
+                    <div className="space-y-2 md:space-y-3 pt-1 md:pt-2">
+                      <div className="flex justify-between text-xs md:text-sm font-medium text-slate-600">
                         <span>Pipeline Goal</span>
                         <span>75% Achieved</span>
                       </div>
-                      <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
+                      <div className="h-2 md:h-3 w-full bg-slate-100 rounded-full overflow-hidden">
                         <div className="h-full bg-slate-900 w-[75%] rounded-full"></div>
                       </div>
                     </div>
