@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Shield, TrendingUp, CheckCircle, Smartphone, Menu } from "lucide-react";
+import { ArrowRight, Shield, TrendingUp, CheckCircle, Menu, Users, MessageSquare, Bell, Mail, BarChart3, Clock, Zap, Star, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,368 +10,240 @@ import {
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 font-sans selection:bg-blue-100">
-      {/* Header */}
-      <header className="px-4 lg:px-6 h-16 flex items-center border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+    <div className="flex flex-col min-h-screen bg-black font-sans selection:bg-blue-500/30">
+      {/* Header - Apple Style */}
+      <header className="px-4 lg:px-6 h-12 flex items-center bg-black/80 backdrop-blur-xl sticky top-0 z-50 border-b border-white/10">
         <Link className="flex items-center justify-center group" href="/">
-          <div className="p-1.5 bg-blue-600 rounded-lg group-hover:bg-blue-700 transition-colors">
-            <TrendingUp className="h-5 w-5 text-white" />
-          </div>
-          <span className="ml-2 text-xl font-bold tracking-tight text-slate-900">LeadForge</span>
+          <TrendingUp className="h-5 w-5 text-blue-500" />
+          <span className="ml-2 text-lg font-semibold text-white">LeadForge</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="ml-auto flex gap-4 sm:gap-8 items-center">
-          <Link className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors hidden md:block" href="/developer">
-            Meet Developer
+        <nav className="ml-auto flex gap-6 items-center">
+          <Link className="text-sm text-zinc-400 hover:text-white transition-colors hidden md:block" href="#features">
+            Features
           </Link>
-          <Link className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors hidden md:block" href="#features">
-            Platform
-          </Link>
-          <Link className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors hidden md:block" href="#for-companies">
-            Why Us
-          </Link>
-          <Link className="text-sm font-medium text-blue-600 font-semibold hover:text-blue-700 transition-colors hidden md:block" href="#pricing">
+          <Link className="text-sm text-zinc-400 hover:text-white transition-colors hidden md:block" href="#pricing">
             Pricing
           </Link>
-          <div className="flex items-center gap-4 ml-4">
-            <Link className="hidden sm:block text-sm font-semibold text-slate-900 hover:text-blue-600 transition-colors" href="/login">
-              Login
-            </Link>
-            <Button asChild className="h-10 px-5 bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-200 transition-all hover:scale-105">
-              <Link href="/login">
-                Get Started
-              </Link>
-            </Button>
+          <Link className="text-sm text-zinc-400 hover:text-white transition-colors hidden md:block" href="/developer">
+            Developer
+          </Link>
+          <Link className="text-sm text-blue-400 hover:text-blue-300 transition-colors" href="/login">
+            Sign In
+          </Link>
 
-            {/* Mobile Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild className="md:hidden">
-                <Button variant="ghost" size="icon" className="h-10 w-10">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem asChild>
-                  <Link href="#pricing" className="w-full cursor-pointer font-semibold text-blue-600">
-                    💰 Pricing
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="#features" className="w-full cursor-pointer">
-                    Platform
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="#for-companies" className="w-full cursor-pointer">
-                    Why Us
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/developer" className="w-full cursor-pointer">
-                    Meet Developer
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/login" className="w-full cursor-pointer">
-                    Login
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          {/* Mobile Menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-white">
+                <Menu className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48 bg-zinc-900 border-zinc-800">
+              <DropdownMenuItem asChild>
+                <Link href="#features" className="text-white">Features</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="#pricing" className="text-white">Pricing</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/developer" className="text-white">Developer</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
       </header>
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="w-full py-20 md:py-32 lg:py-40 bg-white relative overflow-hidden">
-          {/* Background Gradients */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-50 rounded-full blur-3xl opacity-50 -z-10 animate-in fade-in duration-1000" />
-          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+        {/* HERO - Steve Jobs Style Announcement */}
+        <section className="relative min-h-[90vh] flex items-center justify-center bg-black overflow-hidden">
+          {/* Gradient Orbs */}
+          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-600/30 rounded-full blur-[150px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-600/20 rounded-full blur-[120px]" />
 
           <div className="container px-4 md:px-6 mx-auto relative z-10">
-            <div className="flex flex-col items-center space-y-8 text-center max-w-5xl mx-auto">
-
-              {/* Developer & Roadmap Banner */}
-              <div className="flex flex-col sm:flex-row items-center gap-4 animate-in slide-in-from-bottom-4 duration-700">
-                <Link href="/developer" className="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 hover:border-blue-200 transition-all cursor-pointer">
-                  <span className="flex h-2 w-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
-                  Meet the Architect: Harikumar Patel
-                </Link>
-                <div className="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-800 shadow-sm">
-                  🚀 Public Launch Coming 2026
-                </div>
+            <div className="flex flex-col items-center text-center max-w-5xl mx-auto space-y-8">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+                <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-sm text-zinc-300">Now with Team Chat, Reminders & Email Signatures</span>
               </div>
 
-              <div className="space-y-6">
-                <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl text-slate-900 leading-[1.1] animate-in slide-in-from-bottom-8 duration-1000 delay-100">
-                  Business Intelligence for <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Modern Lenders</span>
-                </h1>
-                <p className="mx-auto max-w-[800px] text-slate-600 md:text-xl leading-relaxed animate-in slide-in-from-bottom-12 duration-1000 delay-200">
-                  Consolidate your leads, automate complex fee structures, and fast-track funding.
-                  <br className="hidden sm:inline" />
-                  <span className="font-semibold text-blue-600">New AI Sorting Engine (Beta)</span> helps you prioritize high-value clients instantly.
-                </p>
-              </div>
+              {/* Main Headline */}
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[0.9]">
+                Close More Loans.
+                <br />
+                <span className="bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500 text-transparent bg-clip-text">
+                  Less Chaos.
+                </span>
+              </h1>
 
-              <div className="flex flex-col sm:flex-row gap-4 min-w-[300px] justify-center pt-6 animate-in slide-in-from-bottom-16 duration-1000 delay-300">
-                <Button size="lg" asChild className="h-14 px-8 text-lg bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-200/50 transition-all hover:-translate-y-1">
-                  <Link href="/login">
-                    Start Managing Leads
+              {/* Subheadline */}
+              <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl leading-relaxed">
+                The all-in-one platform for loan officers and lending companies.
+                <br className="hidden sm:block" />
+                <span className="text-white font-medium">Manage leads. Chat with your team. Get funded faster.</span>
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-8">
+                <Button size="lg" asChild className="h-14 px-10 text-lg bg-white text-black hover:bg-zinc-100 rounded-full font-semibold">
+                  <Link href="/signup">
+                    Start Free Trial
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" asChild className="h-14 px-8 text-lg border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300 transition-all">
+                <Button variant="outline" size="lg" asChild className="h-14 px-10 text-lg border-zinc-700 text-white hover:bg-white/10 rounded-full">
                   <Link href="#features">
-                    See Functionality
+                    See Features
                   </Link>
                 </Button>
               </div>
+
+              {/* Trust Badges */}
+              <div className="flex items-center gap-8 pt-12 text-zinc-500 text-sm">
+                <div className="flex items-center gap-2">
+                  <Shield className="h-4 w-4" />
+                  <span>Bank-Grade Encryption</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Zap className="h-4 w-4" />
+                  <span>Real-time Sync</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star className="h-4 w-4" />
+                  <span>Canadian Built</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Features Grid */}
-        <section id="features" className="w-full py-24 bg-slate-50 border-t border-slate-200">
-          <div className="container px-4 md:px-6 mx-auto">
+        {/* FEATURE 1: Lead Management - Steve Jobs Reveal */}
+        <section id="features" className="relative py-32 bg-black overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-950 to-black" />
+
+          <div className="container px-4 md:px-6 mx-auto relative z-10">
+            {/* Section Header */}
             <div className="text-center mb-20">
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">How LeadForge Helps You Limit Risk & Scale</h2>
-              <p className="mt-6 text-xl text-slate-500 max-w-2xl mx-auto">
-                We replace chaotic spreadsheets with a structured, secure, and intelligent system designed for loan professionals.
+              <h2 className="text-sm font-semibold text-blue-400 uppercase tracking-wider mb-4">Lead Management</h2>
+              <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+                Every lead. One place.
+              </h3>
+              <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+                No more scattered spreadsheets. See your entire pipeline at a glance.
               </p>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-3">
-              {/* Feature 1 */}
-              <div className="group flex flex-col space-y-4 p-8 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-blue-100/50 hover:-translate-y-1 transition-all duration-300">
-                <div className="p-4 w-fit bg-blue-50 rounded-xl group-hover:bg-blue-600 transition-colors duration-300">
-                  <TrendingUp className="h-7 w-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
+            {/* Feature Grid */}
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="group p-8 rounded-3xl bg-gradient-to-b from-zinc-900 to-zinc-950 border border-zinc-800 hover:border-blue-500/50 transition-all duration-300">
+                <div className="h-14 w-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 group-hover:bg-blue-500 transition-colors">
+                  <Users className="h-7 w-7 text-blue-400 group-hover:text-white transition-colors" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900">Maximize Conversions</h3>
-                <p className="text-slate-600 leading-relaxed text-lg">
-                  Don&apos;t let good leads slip through the cracks. Our system tracks every interaction and prompts follow-ups to ensure you close every eligible deal.
-                </p>
+                <h4 className="text-xl font-semibold text-white mb-3">360° Lead Profile</h4>
+                <p className="text-zinc-400">Employment, assets, vehicle details, SIN encryption — everything in one secure file.</p>
               </div>
 
-              {/* Feature 2: Updated to AI Focus */}
-              <div className="group flex flex-col space-y-4 p-8 bg-white border border-blue-50 ring-1 ring-blue-100 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-purple-100/50 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
-                <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">2026 PREVIEW</div>
-                <div className="p-4 w-fit bg-purple-50 rounded-xl group-hover:bg-purple-600 transition-colors duration-300">
-                  <Shield className="h-7 w-7 text-purple-600 group-hover:text-white transition-colors duration-300" />
+              <div className="group p-8 rounded-3xl bg-gradient-to-b from-zinc-900 to-zinc-950 border border-zinc-800 hover:border-green-500/50 transition-all duration-300">
+                <div className="h-14 w-14 rounded-2xl bg-green-500/10 flex items-center justify-center mb-6 group-hover:bg-green-500 transition-colors">
+                  <TrendingUp className="h-7 w-7 text-green-400 group-hover:text-white transition-colors" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900">AI Lead Sorting</h3>
-                <p className="text-slate-600 leading-relaxed text-lg">
-                  Our upcoming neural engine analyzes borrower profiles to predict funding probability, letting your team focus on the top 20% of high-yield applications.
-                </p>
+                <h4 className="text-xl font-semibold text-white mb-3">Status Pipeline</h4>
+                <p className="text-zinc-400">From New → In Progress → Approved → Funded. Track every step without missing one.</p>
               </div>
 
-              {/* Feature 3 */}
-              <div className="group flex flex-col space-y-4 p-8 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-green-100/50 hover:-translate-y-1 transition-all duration-300">
-                <div className="p-4 w-fit bg-green-50 rounded-xl group-hover:bg-green-600 transition-colors duration-300">
-                  <CheckCircle className="h-7 w-7 text-green-600 group-hover:text-white transition-colors duration-300" />
+              <div className="group p-8 rounded-3xl bg-gradient-to-b from-zinc-900 to-zinc-950 border border-zinc-800 hover:border-purple-500/50 transition-all duration-300">
+                <div className="h-14 w-14 rounded-2xl bg-purple-500/10 flex items-center justify-center mb-6 group-hover:bg-purple-500 transition-colors">
+                  <CheckCircle className="h-7 w-7 text-purple-400 group-hover:text-white transition-colors" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900">Automated Compliance</h3>
-                <p className="text-slate-600 leading-relaxed text-lg">
-                  Stop worrying about manual fee calculations. PPSR, Admin Fees, and document retention rules are enforced automatically on every file.
-                </p>
+                <h4 className="text-xl font-semibold text-white mb-3">Auto Fee Calculation</h4>
+                <p className="text-zinc-400">PPSR, admin fees, dealer costs — calculated automatically when you enter funding details.</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Audience Clarification */}
-        <section id="for-companies" className="w-full py-12 md:py-24 bg-white border-t border-slate-200">
-          <div className="container px-4 md:px-6 mx-auto">
-            <div className="grid gap-8 lg:gap-16 lg:grid-cols-2 items-center">
-              <div className="space-y-6 md:space-y-8">
-                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
-                  Built for Loan Companies,<br /><span className="text-slate-400">Not Borrowers.</span>
-                </h2>
-                <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
-                  We understand the unique challenges of high-volume lending. You don&apos;t need another generic spreadsheet; you need a purpose-built CRM that speaks your language: &quot;Funded Volume&quot;, &quot;Admin Fees&quot;, and &quot;Conversion Rates&quot;.
-                </p>
-                <ul className="space-y-4 md:space-y-5 pt-2 md:pt-4">
-                  <li className="flex items-center gap-3 md:gap-4 text-slate-700 text-base md:text-lg">
-                    <div className="h-5 w-5 md:h-6 md:w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                      <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-600" />
-                    </div>
-                    <span className="font-medium">Centralized Lead Database</span>
-                  </li>
-                  <li className="flex items-center gap-3 md:gap-4 text-slate-700 text-base md:text-lg">
-                    <div className="h-5 w-5 md:h-6 md:w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                      <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-600" />
-                    </div>
-                    <span className="font-medium">Role-Based Access Control (Admin vs Agent)</span>
-                  </li>
-                  <li className="flex items-center gap-3 md:gap-4 text-slate-700 text-base md:text-lg">
-                    <div className="h-5 w-5 md:h-6 md:w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                      <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-600" />
-                    </div>
-                    <span className="font-medium">Bank-Grade Data Security (256-bit Encryption)</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="relative mt-4 lg:mt-0">
-                {/* Hide decorative blur on mobile */}
-                <div className="hidden md:block absolute inset-0 bg-blue-600 blur-[100px] opacity-20 rounded-full"></div>
-                <div className="relative bg-slate-50 p-4 md:p-8 rounded-2xl md:rounded-3xl border border-slate-200 shadow-lg md:shadow-2xl">
-                  <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-100 p-4 md:p-6 space-y-4 md:space-y-6">
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-3 md:pb-4">
-                      <div className="font-semibold text-slate-900 text-sm md:text-base">Executive Report</div>
-                      <div className="flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-                        <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Live Preview</div>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3 md:gap-4">
-                      <div className="p-3 md:p-4 bg-blue-50/50 rounded-lg md:rounded-xl border border-blue-100">
-                        <div className="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Total Funded</div>
-                        <div className="text-xl md:text-2xl font-bold text-slate-900">$2,450,000</div>
-                      </div>
-                      <div className="p-3 md:p-4 bg-emerald-50/50 rounded-lg md:rounded-xl border border-emerald-100">
-                        <div className="text-xs text-emerald-600 font-bold uppercase tracking-wider mb-1">Net Revenue</div>
-                        <div className="text-xl md:text-2xl font-bold text-slate-900">$185,400</div>
-                      </div>
-                    </div>
-                    <div className="space-y-2 md:space-y-3 pt-1 md:pt-2">
-                      <div className="flex justify-between text-xs md:text-sm font-medium text-slate-600">
-                        <span>Pipeline Goal</span>
-                        <span>75% Achieved</span>
-                      </div>
-                      <div className="h-2 md:h-3 w-full bg-slate-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-slate-900 w-[75%] rounded-full"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Team Chat Feature - Steve Jobs Style */}
-        <section id="team-chat" className="w-full py-20 md:py-32 bg-slate-900 text-white relative overflow-hidden">
-          {/* Animated Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900"></div>
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[150px]"></div>
-          <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-purple-500/20 rounded-full blur-[100px]"></div>
+        {/* FEATURE 2: Team Chat - "One More Thing" */}
+        <section className="relative py-32 bg-gradient-to-b from-black via-blue-950/20 to-black overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[200px]" />
 
           <div className="container px-4 md:px-6 mx-auto relative z-10">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-              {/* Left: Text Content */}
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Left Content */}
               <div className="space-y-8">
-                <div className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-2 text-sm font-medium text-blue-300 border border-blue-500/30">
-                  <span className="h-2 w-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
-                  New Feature – Now Live
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm font-medium">
+                  <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+                  Built-in Messaging
                 </div>
 
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                   One more thing.
-                </h2>
+                  <br />
+                  <span className="text-zinc-400">Team Chat.</span>
+                </h3>
 
-                <p className="text-xl md:text-2xl text-slate-300 leading-relaxed font-light">
-                  Say hello to <span className="text-white font-semibold">Team Chat</span>.
-                  Real-time messaging built right into your workflow.
-                  <span className="text-blue-400"> No more switching apps.</span>
+                <p className="text-xl text-zinc-400 leading-relaxed">
+                  No more switching to Slack or WhatsApp.
+                  <span className="text-white font-medium"> Discuss leads in context.</span>
+                  Mention teammates. Get instant notifications.
                 </p>
 
-                <div className="space-y-4 pt-4">
-                  <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
-                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-lg">1:1 & Group Chats</div>
-                      <div className="text-slate-400">Direct messages or team channels. Your choice.</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/30">
-                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-lg">@Mention Anyone</div>
-                      <div className="text-slate-400">Type @ and watch the magic happen.</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-lg shadow-green-500/30">
-                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-lg">Instant Notifications</div>
-                      <div className="text-slate-400">Never miss a message. We&apos;ll ping you.</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Chat Preview Mockup */}
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-[80px] rounded-full"></div>
-                <div className="relative bg-slate-800/80 backdrop-blur-xl rounded-3xl border border-slate-700/50 shadow-2xl p-6 space-y-4">
-                  {/* Chat Header */}
-                  <div className="flex items-center justify-between pb-4 border-b border-slate-700/50">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center font-bold text-sm">
-                        LP
+                <div className="space-y-4">
+                  {[
+                    { icon: MessageSquare, title: "1:1 & Group Chats", desc: "Private DMs or team channels" },
+                    { icon: Users, title: "@Mention Anyone", desc: "Type @ and watch the magic" },
+                    { icon: Bell, title: "Real-time Notifications", desc: "Never miss an important message" },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-4">
+                      <div className="h-12 w-12 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+                        <item.icon className="h-6 w-6 text-blue-400" />
                       </div>
                       <div>
-                        <div className="font-semibold text-white">Loan Processing Team</div>
-                        <div className="text-xs text-slate-400">Sarah, Mike, and 3 others</div>
+                        <div className="font-semibold text-white">{item.title}</div>
+                        <div className="text-sm text-zinc-500">{item.desc}</div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
-                      <span className="text-xs text-slate-400">Live</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right: Chat Mockup */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full" />
+                <div className="relative bg-zinc-900/80 backdrop-blur-xl rounded-3xl border border-zinc-800 p-6 space-y-4 shadow-2xl">
+                  <div className="flex items-center gap-3 pb-4 border-b border-zinc-800">
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center font-bold text-sm text-white">LT</div>
+                    <div>
+                      <div className="font-semibold text-white">Lending Team</div>
+                      <div className="text-xs text-zinc-500">Sarah, Mike, Lisa</div>
+                    </div>
+                    <div className="ml-auto flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                      <span className="text-xs text-zinc-500">Online</span>
                     </div>
                   </div>
 
-                  {/* Messages */}
-                  <div className="space-y-4 py-2">
-                    <div className="flex items-start gap-3">
-                      <div className="h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center text-xs font-bold shrink-0">SM</div>
-                      <div className="bg-slate-700/50 rounded-2xl rounded-tl-sm px-4 py-2">
-                        <div className="text-xs text-purple-400 font-medium mb-1">Sarah M.</div>
-                        <div className="text-sm text-slate-200">Just funded the Anderson file! 🎉</div>
+                  <div className="space-y-3">
+                    <div className="flex gap-3">
+                      <div className="h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center text-xs font-bold text-white shrink-0">SM</div>
+                      <div className="bg-zinc-800 rounded-2xl rounded-tl-sm px-4 py-2 max-w-[80%]">
+                        <div className="text-xs text-purple-400 font-medium">Sarah M.</div>
+                        <div className="text-sm text-zinc-200">Anderson file is funded! 🎉</div>
                       </div>
                     </div>
-
-                    <div className="flex items-start gap-3">
-                      <div className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center text-xs font-bold shrink-0">MK</div>
-                      <div className="bg-slate-700/50 rounded-2xl rounded-tl-sm px-4 py-2">
-                        <div className="text-xs text-green-400 font-medium mb-1">Mike K.</div>
-                        <div className="text-sm text-slate-200"><span className="bg-blue-500/30 text-blue-300 px-1 rounded">@Sarah</span> Amazing work! That&apos;s $45K this week 💪</div>
+                    <div className="flex gap-3">
+                      <div className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center text-xs font-bold text-white shrink-0">MK</div>
+                      <div className="bg-zinc-800 rounded-2xl rounded-tl-sm px-4 py-2 max-w-[80%]">
+                        <div className="text-xs text-green-400 font-medium">Mike K.</div>
+                        <div className="text-sm text-zinc-200"><span className="bg-blue-500/30 text-blue-300 px-1 rounded">@Sarah</span> $45K this week!</div>
                       </div>
                     </div>
-
-                    <div className="flex items-start gap-3 justify-end">
+                    <div className="flex gap-3 justify-end">
                       <div className="bg-blue-600 rounded-2xl rounded-tr-sm px-4 py-2 max-w-[80%]">
-                        <div className="text-sm text-white">Team meeting at 3pm to review pipeline. <span className="bg-white/20 px-1 rounded">@everyone</span></div>
+                        <div className="text-sm text-white">Team meeting at 3pm <span className="bg-white/20 px-1 rounded">@everyone</span></div>
                       </div>
-                      <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold shrink-0">You</div>
-                    </div>
-                  </div>
-
-                  {/* Input */}
-                  <div className="flex items-center gap-2 pt-2 border-t border-slate-700/50">
-                    <div className="flex-1 bg-slate-700/50 rounded-full px-4 py-3 text-sm text-slate-400">
-                      Type @ to mention someone...
-                    </div>
-                    <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
-                      <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                      </svg>
+                      <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold text-white shrink-0">You</div>
                     </div>
                   </div>
                 </div>
@@ -380,153 +252,169 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Company Announcements Feature - Steve Jobs Style */}
-        <section id="announcements" className="w-full py-20 md:py-32 bg-gradient-to-b from-slate-900 via-amber-950/20 to-slate-900 text-white relative overflow-hidden">
-          {/* Animated Background */}
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/20 rounded-full blur-[150px]"></div>
-          <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-orange-500/20 rounded-full blur-[100px]"></div>
+        {/* FEATURE 3: Reminders & Announcements */}
+        <section className="relative py-32 bg-gradient-to-b from-black via-amber-950/20 to-black overflow-hidden">
+          <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-amber-600/10 rounded-full blur-[200px]" />
 
           <div className="container px-4 md:px-6 mx-auto relative z-10">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-              {/* Left: Announcement Preview Mockup */}
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Left: Reminder Mockup */}
               <div className="relative order-2 lg:order-1">
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-orange-500/20 blur-[80px] rounded-full"></div>
-                <div className="relative bg-slate-800/80 backdrop-blur-xl rounded-3xl border border-slate-700/50 shadow-2xl overflow-hidden">
-                  {/* Admin Dashboard Preview */}
-                  <div className="p-6 border-b border-slate-700/50">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
-                          <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <div className="font-semibold text-white">Company Announcements</div>
-                          <div className="text-xs text-slate-400">Admin Dashboard</div>
-                        </div>
+                <div className="absolute inset-0 bg-amber-500/20 blur-[100px] rounded-full" />
+                <div className="relative space-y-4">
+                  {/* Admin Reminder */}
+                  <div className="bg-zinc-900/80 backdrop-blur-xl rounded-2xl border border-zinc-800 p-5 shadow-xl">
+                    <div className="flex items-start gap-4">
+                      <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shrink-0">
+                        <Bell className="h-6 w-6 text-white" />
                       </div>
-                      <div className="bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full text-xs font-medium">
-                        3 Pending
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Announcement Cards */}
-                  <div className="p-4 space-y-3">
-                    <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-xl p-4 border border-amber-500/20">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <div className="font-semibold text-white">🎯 Q4 Goals Update</div>
-                          <div className="text-sm text-slate-400 mt-1">Holiday schedule and targets for December...</div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-semibold text-amber-400 uppercase">Company Announcement</span>
+                          <span className="text-xs text-zinc-500">Just now</span>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <div className="h-6 w-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                            <svg className="h-3 w-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                          </div>
-                          <span className="text-xs text-green-400">8/12</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="bg-slate-700/30 rounded-xl p-4 border border-slate-600/20">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <div className="font-semibold text-white">📋 New Compliance Policy</div>
-                          <div className="text-sm text-slate-400 mt-1">Updated documentation requirements...</div>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <div className="h-6 w-6 rounded-full bg-amber-500/20 flex items-center justify-center">
-                            <svg className="h-3 w-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                          </div>
-                          <span className="text-xs text-amber-400">5/12</span>
+                        <div className="font-semibold text-white mt-1">End-of-Month Pipeline Check</div>
+                        <div className="text-sm text-zinc-400 mt-1">All loan officers: Submit your EOM forecasts by Friday.</div>
+                        <div className="flex gap-2 mt-3">
+                          <button className="px-4 py-1.5 rounded-full bg-amber-500 text-white text-sm font-medium">Mark Done</button>
+                          <button className="px-4 py-1.5 rounded-full bg-zinc-700 text-white text-sm">Snooze</button>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Stats Bar */}
-                  <div className="px-4 pb-4">
-                    <div className="bg-slate-700/50 rounded-xl p-4 flex items-center justify-between">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-white">12</div>
-                        <div className="text-xs text-slate-400">Total</div>
+                  {/* Personal Reminder */}
+                  <div className="bg-zinc-900/80 backdrop-blur-xl rounded-2xl border border-zinc-800 p-5 shadow-xl">
+                    <div className="flex items-start gap-4">
+                      <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shrink-0">
+                        <Clock className="h-6 w-6 text-white" />
                       </div>
-                      <div className="h-8 w-px bg-slate-600"></div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-green-400">8</div>
-                        <div className="text-xs text-slate-400">Done</div>
-                      </div>
-                      <div className="h-8 w-px bg-slate-600"></div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-amber-400">3</div>
-                        <div className="text-xs text-slate-400">Pending</div>
-                      </div>
-                      <div className="h-8 w-px bg-slate-600"></div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-slate-400">1</div>
-                        <div className="text-xs text-slate-400">Dismissed</div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-semibold text-blue-400 uppercase">Personal Reminder</span>
+                          <span className="text-xs text-zinc-500">Repeats Daily @ 9:00 AM</span>
+                        </div>
+                        <div className="font-semibold text-white mt-1">Follow up on pending docs</div>
+                        <div className="text-sm text-zinc-400 mt-1">Check for missing documents from clients.</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Right: Text Content */}
+              {/* Right Content */}
               <div className="space-y-8 order-1 lg:order-2">
-                <div className="inline-flex items-center rounded-full bg-amber-500/20 px-4 py-2 text-sm font-medium text-amber-300 border border-amber-500/30">
-                  <span className="h-2 w-2 rounded-full bg-amber-400 mr-2 animate-pulse"></span>
-                  Brand New – Just Launched
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium">
+                  <Bell className="h-4 w-4" />
+                  Smart Reminders
                 </div>
 
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-                  And there&apos;s more.
-                </h2>
+                <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                  Never forget
+                  <br />
+                  <span className="text-zinc-400">a follow-up.</span>
+                </h3>
 
-                <p className="text-xl md:text-2xl text-slate-300 leading-relaxed font-light">
-                  Introducing <span className="text-white font-semibold">Company Announcements</span>.
-                  Broadcast to your entire team instantly.
-                  <span className="text-amber-400"> Track who&apos;s acknowledged.</span>
+                <p className="text-xl text-zinc-400 leading-relaxed">
+                  Admins broadcast company-wide announcements.
+                  <span className="text-white font-medium"> Loan officers set personal reminders.</span>
+                  Scheduled notifications pop up right on time.
                 </p>
 
-                <div className="space-y-4 pt-4">
-                  <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/30">
-                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-                      </svg>
+                <div className="space-y-4">
+                  {[
+                    { title: "Company Announcements", desc: "Broadcast to entire team with acknowledgment tracking" },
+                    { title: "Personal Reminders", desc: "Daily, weekly, or specific day scheduling" },
+                    { title: "Popup Notifications", desc: "Never miss a reminder — they come to you" },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <CheckCircle className="h-5 w-5 text-amber-400 shrink-0" />
+                      <div>
+                        <span className="font-medium text-white">{item.title}</span>
+                        <span className="text-zinc-500"> — {item.desc}</span>
+                      </div>
                     </div>
-                    <div>
-                      <div className="font-semibold text-lg">Company-Wide Broadcasts</div>
-                      <div className="text-slate-400">One click sends to everyone. No email chains.</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FEATURE 4: Email with Signature - NEW */}
+        <section className="relative py-32 bg-gradient-to-b from-black via-green-950/20 to-black overflow-hidden">
+          <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-green-600/10 rounded-full blur-[200px]" />
+
+          <div className="container px-4 md:px-6 mx-auto relative z-10">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Left Content */}
+              <div className="space-y-8">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/30 text-green-400 text-sm font-medium">
+                  <Mail className="h-4 w-4" />
+                  One-Click Email
+                </div>
+
+                <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                  Contact leads
+                  <br />
+                  <span className="text-zinc-400">in seconds.</span>
+                </h3>
+
+                <p className="text-xl text-zinc-400 leading-relaxed">
+                  Click &quot;Send Email&quot; on any lead.
+                  <span className="text-white font-medium"> Your email opens with a prefilled message.</span>
+                  Subject, body, and professional signature — all ready to send.
+                </p>
+
+                <div className="space-y-4">
+                  {[
+                    { title: "Template Placeholders", desc: "{name} and {loan_type} auto-filled" },
+                    { title: "Professional Signature", desc: "Your name, title, phone, and email appended" },
+                    { title: "Works with Any Provider", desc: "Gmail, Outlook, Yahoo, iCloud, ProtonMail" },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <CheckCircle className="h-5 w-5 text-green-400 shrink-0" />
+                      <div>
+                        <span className="font-medium text-white">{item.title}</span>
+                        <span className="text-zinc-500"> — {item.desc}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right: Email Mockup */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-green-500/20 blur-[100px] rounded-full" />
+                <div className="relative bg-zinc-900/80 backdrop-blur-xl rounded-3xl border border-zinc-800 p-6 shadow-2xl">
+                  <div className="bg-zinc-800 rounded-xl p-4 mb-4">
+                    <div className="flex items-center gap-2 text-sm text-zinc-400 mb-2">
+                      <span className="font-medium text-zinc-300">To:</span>
+                      <span>john.anderson@email.com</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-zinc-400">
+                      <span className="font-medium text-zinc-300">Subject:</span>
+                      <span>Regarding Your Personal Loan Application</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
-                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-lg">Acknowledgment Tracking</div>
-                      <div className="text-slate-400">See who&apos;s read it. Done, dismissed, or pending.</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
-                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-lg">Personal Reminders</div>
-                      <div className="text-slate-400">Loan officers can set their own reminders too.</div>
+                  <div className="bg-zinc-950 rounded-xl p-4 text-zinc-300 text-sm leading-relaxed">
+                    <p>Dear John Anderson,</p>
+                    <br />
+                    <p>Thank you for your interest in our Personal Loan services.</p>
+                    <br />
+                    <p>I wanted to follow up regarding your loan application. Please let me know if you have any questions.</p>
+                    <br />
+                    <p>Looking forward to hearing from you.</p>
+                    <br />
+                    <div className="border-t border-zinc-800 pt-4 mt-4">
+                      <p className="font-semibold text-white">Best regards,</p>
+                      <br />
+                      <p className="text-white font-medium">Sarah Mitchell</p>
+                      <p>Senior Loan Officer</p>
+                      <p>H Financial Services</p>
+                      <p>📞 (555) 123-4567</p>
+                      <p>📧 sarah@hfinancial.com</p>
                     </div>
                   </div>
                 </div>
@@ -535,114 +423,173 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pricing Section - ADDED */}
-        <section id="pricing" className="w-full py-24 bg-slate-50 border-t border-slate-200">
+        {/* FEATURE 5: Reports & Analytics */}
+        <section className="relative py-32 bg-gradient-to-b from-black via-purple-950/20 to-black overflow-hidden">
+          <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[200px]" />
 
-          <div className="container px-4 md:px-6 mx-auto">
+          <div className="container px-4 md:px-6 mx-auto relative z-10">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Left: Reports Mockup */}
+              <div className="relative order-2 lg:order-1">
+                <div className="absolute inset-0 bg-purple-500/20 blur-[100px] rounded-full" />
+                <div className="relative bg-zinc-900/80 backdrop-blur-xl rounded-3xl border border-zinc-800 p-6 shadow-2xl">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="font-semibold text-white">Company Insights</div>
+                    <div className="text-xs text-zinc-500">Last 30 Days</div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-zinc-800/50 rounded-xl p-4">
+                      <div className="text-xs text-purple-400 uppercase font-semibold mb-1">Total Funded</div>
+                      <div className="text-2xl font-bold text-white">$2.4M</div>
+                      <div className="text-xs text-green-400">↑ 12% vs last month</div>
+                    </div>
+                    <div className="bg-zinc-800/50 rounded-xl p-4">
+                      <div className="text-xs text-purple-400 uppercase font-semibold mb-1">Conversion Rate</div>
+                      <div className="text-2xl font-bold text-white">34%</div>
+                      <div className="text-xs text-green-400">↑ 5% improvement</div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    {[
+                      { name: "Sarah M.", amount: "$485,000", count: 12 },
+                      { name: "Mike K.", amount: "$392,000", count: 9 },
+                      { name: "Lisa R.", amount: "$315,000", count: 8 },
+                    ].map((officer, i) => (
+                      <div key={i} className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-xl">
+                        <div className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-full bg-purple-500/20 flex items-center justify-center text-xs font-bold text-purple-400">
+                            {officer.name.split(' ').map(n => n[0]).join('')}
+                          </div>
+                          <span className="text-white font-medium">{officer.name}</span>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-white font-semibold">{officer.amount}</div>
+                          <div className="text-xs text-zinc-500">{officer.count} deals</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Content */}
+              <div className="space-y-8 order-1 lg:order-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-400 text-sm font-medium">
+                  <BarChart3 className="h-4 w-4" />
+                  Business Intelligence
+                </div>
+
+                <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                  Know your
+                  <br />
+                  <span className="text-zinc-400">numbers.</span>
+                </h3>
+
+                <p className="text-xl text-zinc-400 leading-relaxed">
+                  Real-time dashboards for admins.
+                  <span className="text-white font-medium"> See total funded, conversion rates, and per-officer performance.</span>
+                  Export to PDF with one click.
+                </p>
+
+                <div className="space-y-4">
+                  {[
+                    { title: "Company-Wide Analytics", desc: "Total volume, revenue, pipeline health" },
+                    { title: "Per-Officer Breakdown", desc: "See who's crushing it and who needs help" },
+                    { title: "PDF Export", desc: "One-click reports for stakeholders" },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <CheckCircle className="h-5 w-5 text-purple-400 shrink-0" />
+                      <div>
+                        <span className="font-medium text-white">{item.title}</span>
+                        <span className="text-zinc-500"> — {item.desc}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* PRICING SECTION */}
+        <section id="pricing" className="relative py-32 bg-black overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-blue-950/10 to-black" />
+
+          <div className="container px-4 md:px-6 mx-auto relative z-10">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">Simple, Transparent Pricing</h2>
-              <p className="mt-4 text-xl text-slate-500">
-                Pay only for what you use. No hidden setup fees. Instant support included.
+              <h2 className="text-sm font-semibold text-blue-400 uppercase tracking-wider mb-4">Pricing</h2>
+              <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                Simple, transparent pricing
+              </h3>
+              <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+                No hidden fees. No surprises. Cancel anytime.
               </p>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
-              {/* Starter Plan */}
-              <div className="flex flex-col p-6 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all">
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold text-slate-900">Basic Lead</h3>
-                  <p className="text-slate-500 text-sm mt-1">Perfect for getting started.</p>
-                </div>
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {/* Starter */}
+              <div className="p-8 rounded-3xl bg-zinc-900 border border-zinc-800 flex flex-col">
+                <h4 className="text-xl font-semibold text-white mb-2">Starter</h4>
+                <p className="text-zinc-400 text-sm mb-6">Perfect for individual loan officers</p>
                 <div className="mb-6">
-                  <span className="text-4xl font-extrabold text-slate-900">$0.25</span>
-                  <span className="text-slate-500">/lead</span>
+                  <span className="text-4xl font-bold text-white">$29</span>
+                  <span className="text-zinc-500">/month</span>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
-                  <li className="flex items-center text-sm text-slate-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Verified Contact Info
-                  </li>
-                  <li className="flex items-center text-sm text-slate-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Standard Delivery (24hr)
-                  </li>
-                  <li className="flex items-center text-sm text-slate-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Basic CRM Access
-                  </li>
-                  <li className="flex items-center text-sm text-slate-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Instant Support
-                  </li>
+                  {["Up to 100 leads", "Basic analytics", "Email templates", "Personal reminders"].map((f, i) => (
+                    <li key={i} className="flex items-center gap-2 text-zinc-300 text-sm">
+                      <CheckCircle className="h-4 w-4 text-green-400" />
+                      {f}
+                    </li>
+                  ))}
                 </ul>
-                <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold">
-                  <Link href="/login">Get Started</Link>
+                <Button asChild className="w-full bg-zinc-800 hover:bg-zinc-700 text-white">
+                  <Link href="/signup">Get Started</Link>
                 </Button>
               </div>
 
-              {/* Pro Plan (Highlighted) */}
-              <div className="flex flex-col p-6 bg-white rounded-2xl border-2 border-blue-600 shadow-xl relative scale-105 z-10">
-                <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">MOST POPULAR</div>
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold text-slate-900">Verified Transfer</h3>
-                  <p className="text-slate-500 text-sm mt-1">High-intent leads for serious closers.</p>
+              {/* Pro - Featured */}
+              <div className="p-8 rounded-3xl bg-gradient-to-b from-blue-600 to-blue-700 border border-blue-500 flex flex-col relative">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white text-blue-600 text-sm font-semibold rounded-full">
+                  Most Popular
                 </div>
+                <h4 className="text-xl font-semibold text-white mb-2">Pro</h4>
+                <p className="text-blue-100 text-sm mb-6">For growing lending teams</p>
                 <div className="mb-6">
-                  <span className="text-4xl font-extrabold text-slate-900">$0.50</span>
-                  <span className="text-slate-500">/lead</span>
+                  <span className="text-4xl font-bold text-white">$79</span>
+                  <span className="text-blue-200">/month</span>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
-                  <li className="flex items-center text-sm text-slate-900 font-medium">
-                    <CheckCircle className="h-4 w-4 text-blue-600 mr-2" />
-                    Phone Verified Prospects
-                  </li>
-                  <li className="flex items-center text-sm text-slate-900 font-medium">
-                    <CheckCircle className="h-4 w-4 text-blue-600 mr-2" />
-                    Income Documents Checked
-                  </li>
-                  <li className="flex items-center text-sm text-slate-900 font-medium">
-                    <CheckCircle className="h-4 w-4 text-blue-600 mr-2" />
-                    Instant SMS Notification
-                  </li>
-                  <li className="flex items-center text-sm text-slate-900 font-medium">
-                    <CheckCircle className="h-4 w-4 text-blue-600 mr-2" />
-                    Instant Priority Support
-                  </li>
+                  {["Unlimited leads", "Team chat", "Company announcements", "Advanced analytics", "Email with signatures", "Priority support"].map((f, i) => (
+                    <li key={i} className="flex items-center gap-2 text-white text-sm">
+                      <CheckCircle className="h-4 w-4 text-white" />
+                      {f}
+                    </li>
+                  ))}
                 </ul>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-lg shadow-blue-200 text-lg h-12">
-                  <Link href="/login">Buy Leads Now</Link>
+                <Button asChild className="w-full bg-white hover:bg-zinc-100 text-blue-600">
+                  <Link href="/signup">Start Free Trial</Link>
                 </Button>
               </div>
 
-              {/* Enterprise Plan */}
-              <div className="flex flex-col p-6 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all">
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold text-slate-900">Agency Bundle</h3>
-                  <p className="text-slate-500 text-sm mt-1">For teams scaling volume.</p>
-                </div>
+              {/* Enterprise */}
+              <div className="p-8 rounded-3xl bg-zinc-900 border border-zinc-800 flex flex-col">
+                <h4 className="text-xl font-semibold text-white mb-2">Enterprise</h4>
+                <p className="text-zinc-400 text-sm mb-6">For large lending operations</p>
                 <div className="mb-6">
-                  <span className="text-4xl font-extrabold text-slate-900">$99</span>
-                  <span className="text-slate-500">/mo</span>
+                  <span className="text-4xl font-bold text-white">Custom</span>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
-                  <li className="flex items-center text-sm text-slate-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Unlimited Leads at $0.20/each
-                  </li>
-                  <li className="flex items-center text-sm text-slate-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Dedicated Account Manager
-                  </li>
-                  <li className="flex items-center text-sm text-slate-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Custom API Integration
-                  </li>
-                  <li className="flex items-center text-sm text-slate-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Instant 24/7 Support
-                  </li>
+                  {["Everything in Pro", "Dedicated account manager", "Custom integrations", "SLA guarantee", "On-premise option"].map((f, i) => (
+                    <li key={i} className="flex items-center gap-2 text-zinc-300 text-sm">
+                      <CheckCircle className="h-4 w-4 text-green-400" />
+                      {f}
+                    </li>
+                  ))}
                 </ul>
-                <Button variant="outline" className="w-full border-slate-200 hover:bg-slate-50 text-slate-900 font-semibold">
+                <Button asChild variant="outline" className="w-full border-zinc-700 text-white hover:bg-zinc-800">
                   <Link href="mailto:sales@leadforge.com">Contact Sales</Link>
                 </Button>
               </div>
@@ -650,127 +597,51 @@ export default function Home() {
           </div>
         </section>
 
+        {/* FINAL CTA */}
+        <section className="relative py-32 bg-gradient-to-t from-blue-600 to-black overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent" />
 
-        {/* Deep Dive Features */}
-        <section className="w-full py-24 bg-white border-t border-slate-100">
-          <div className="container px-4 md:px-6 mx-auto">
-            <div className="text-center mb-16 max-w-3xl mx-auto">
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900">Platform Capabilities</h2>
-              <p className="mt-4 text-slate-600">Tailored workflows for every role in your organization.</p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-12">
-              {/* Admin Side */}
-              <div className="space-y-8">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-slate-900 rounded-xl">
-                    <Shield className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900">For Company Admins</h3>
-                    <p className="text-slate-500 text-sm">Total control over your organization.</p>
-                  </div>
-                </div>
-                <ul className="space-y-6">
-                  <li className="flex gap-4">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-xs font-medium text-slate-600">1</span>
-                    <div>
-                      <h4 className="font-semibold text-slate-900">Company Registration & Branding</h4>
-                      <p className="text-slate-600 text-sm mt-1">Set up your agency profile instantly.</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-4">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-xs font-medium text-slate-600">2</span>
-                    <div>
-                      <h4 className="font-semibold text-slate-900">Staff Management</h4>
-                      <p className="text-slate-600 text-sm mt-1">Add Loan Officers, manage access, and activate/deactivate accounts with one click.</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-4">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-xs font-medium text-slate-600">3</span>
-                    <div>
-                      <h4 className="font-semibold text-slate-900">Financial Control</h4>
-                      <p className="text-slate-600 text-sm mt-1">Set global Admin Fees (e.g. 21%) and PPSR fees that auto-apply to every deal.</p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Loan Officer Side */}
-              <div className="space-y-8">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-blue-600 rounded-xl">
-                    <Smartphone className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900">For Loan Officers</h3>
-                    <p className="text-slate-500 text-sm">Tools to close deals faster.</p>
-                  </div>
-                </div>
-                <ul className="space-y-6">
-                  <li className="flex gap-4">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-xs font-medium text-blue-600">1</span>
-                    <div>
-                      <h4 className="font-semibold text-slate-900">Smart Lead Entry</h4>
-                      <p className="text-slate-600 text-sm mt-1">Manual entry wizard that validates data as you type.</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-4">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-xs font-medium text-blue-600">2</span>
-                    <div>
-                      <h4 className="font-semibold text-slate-900">Status Tracking</h4>
-                      <p className="text-slate-600 text-sm mt-1">Move leads through the pipeline: Connected &rarr; Qualified &rarr; Approved &rarr; Funded.</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-4">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-xs font-medium text-blue-600">3</span>
-                    <div>
-                      <h4 className="font-semibold text-slate-900">Performance Stats</h4>
-                      <p className="text-slate-600 text-sm mt-1">Real-time dashboard showing your funding volume and conversion metrics.</p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+          <div className="container px-4 md:px-6 mx-auto relative z-10 text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+              Ready to close more loans?
+            </h2>
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10">
+              Join hundreds of loan officers who are already using LeadForge to streamline their workflow.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" asChild className="h-14 px-10 text-lg bg-white text-blue-600 hover:bg-zinc-100 rounded-full font-semibold">
+                <Link href="/signup">
+                  Start Free Trial
+                  <ChevronRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button variant="outline" size="lg" asChild className="h-14 px-10 text-lg border-white/30 text-white hover:bg-white/10 rounded-full">
+                <Link href="/login">
+                  Sign In
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
-
       </main>
 
-      <footer className="bg-slate-900 py-16 text-slate-400">
-        <div className="container px-4 md:px-6 mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex flex-col gap-4 max-w-sm">
+      {/* Footer */}
+      <footer className="py-12 bg-black border-t border-zinc-900">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2">
-              <div className="p-1 bg-blue-600 rounded">
-                <TrendingUp className="h-5 w-5 text-white" />
-              </div>
-              <span className="font-bold text-white text-xl">LeadForge</span>
+              <TrendingUp className="h-5 w-5 text-blue-500" />
+              <span className="font-semibold text-white">LeadForge</span>
             </div>
-            <p className="text-base leading-relaxed">
-              The trusted infrastructure for modern lending companies. We provide the tools; you provide the capital.
-            </p>
-            <div className="text-sm pt-2">
-              © 2025 LeadForge Inc. <span className="text-slate-600 mx-2">|</span>
-              <Link href="/developer" className="hover:text-white transition-colors">
-                Developed by Harikumar Patel
-              </Link>
+            <div className="flex gap-8 text-sm text-zinc-500">
+              <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy</Link>
+              <Link href="/developer" className="hover:text-white transition-colors">Developer</Link>
+              <Link href="/login" className="hover:text-white transition-colors">Sign In</Link>
+            </div>
+            <div className="text-sm text-zinc-600">
+              © 2024 LeadForge. Canadian Built.
             </div>
           </div>
-
-          <nav className="flex flex-wrap gap-8">
-            <Link className="text-sm font-medium hover:text-white transition-colors" href="/privacy-policy">
-              Privacy Policy
-            </Link>
-            <Link className="text-sm font-medium hover:text-white transition-colors" href="#">
-              Terms of Service
-            </Link>
-            <Link className="text-sm font-medium hover:text-white transition-colors" href="/login">
-              Employee Login
-            </Link>
-            <Link className="text-sm font-medium hover:text-white transition-colors" href="mailto:support@leadforge.com">
-              Contact Sales
-            </Link>
-          </nav>
         </div>
       </footer>
     </div>
