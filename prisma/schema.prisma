@@ -33,6 +33,10 @@ model User {
   role                 Role                 @default(USER)
   avatar_url           String?
   is_active            Boolean              @default(true)
+  // Email settings for lead contact
+  email_provider       EmailProvider        @default(GMAIL)
+  email_subject        String?              @default("Regarding Your Loan Application")
+  email_body           String?              @db.Text
   created_at           DateTime             @default(now())
   updated_at           DateTime             @updatedAt
   owned_leads          Lead[]               @relation("CurrentOwner")
@@ -50,6 +54,15 @@ model User {
   reminders_created    Reminder[]           @relation("ReminderCreator")
   reminder_recipients  ReminderRecipient[]  @relation("ReminderRecipients")
 }
+
+enum EmailProvider {
+  GMAIL
+  OUTLOOK
+  YAHOO
+  ICLOUD
+  PROTONMAIL
+}
+
 
 
 model Lead {

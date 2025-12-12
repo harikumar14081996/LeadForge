@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LeadStatusSelector, LeadOwnerSelector, NotesSection } from "@/components/leads/lead-detail-client";
 import { EditLeadDialog } from "@/components/leads/edit-lead-dialog";
 import { FundingEditor } from "@/components/leads/funding-details";
+import { LeadEmailButton } from "@/components/leads/lead-email-button";
 import { serializeForClient } from "@/lib/utils";
 
 export default async function LeadDetailPage({ params }: { params: { id: string } }) {
@@ -127,6 +128,11 @@ export default async function LeadDetailPage({ params }: { params: { id: string 
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
+                    <LeadEmailButton
+                        leadEmail={lead.email}
+                        leadName={`${lead.first_name} ${lead.last_name}`}
+                        loanType={lead.loan_type}
+                    />
                     <EditLeadDialog lead={leadDataForEdit} userId={session.user.id} />
 
                     <div className="flex flex-col items-start sm:items-end">
