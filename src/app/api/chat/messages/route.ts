@@ -123,10 +123,15 @@ export async function POST(req: Request) {
             }
         });
 
-        // Update conversation updated_at
-        await prisma.conversation.update({
+        // Update conversation updated_at and get all members
+        const conversation = await prisma.conversation.update({
             where: { id: conversationId },
-            data: { updated_at: new Date() }
+            data: { updated_at: new Date() },
+            include: {
+                members: {
+                    select: { user_id: true }
+                }
+            }
         });
 
         // Broadcast message to conversation channel
@@ -136,25 +141,61 @@ export async function POST(req: Request) {
             message
         );
 
-        // Create notifications for mentioned users
-        if (mentionedUserIds?.length) {
-            const notifications = mentionedUserIds.map((userId: string) => ({
+        // Get all members except sender
+        const otherMembers = conversation.members
+            .filter((m: { user_id: string }) => m.user_id !== session.user.id)
+            .map((m: { user_id: string }) => m.user_id);
+
+
+        // Create notifications for all other members (new message notification)
+        if (otherMembers.length > 0) {
+            const messageNotifications = otherMembers.map((userId: string) => ({
                 user_id: userId,
-                type: "MENTION",
-                title: `${session.user.name} mentioned you`,
+                type: "MESSAGE",
+                title: `New message from ${session.user.name}`,
                 body: content.substring(0, 100),
-                data: { conversationId, messageId: message.id },
+                data: JSON.stringify({ conversationId, messageId: message.id }),
             }));
 
-            await prisma.notification.createMany({ data: notifications });
+            await prisma.notification.createMany({ data: messageNotifications });
+
+            // Send real-time notification to each member
+            for (const userId of otherMembers) {
+                await pusherServer.trigger(`user-${userId}`, "new-message-notification", {
+                    type: "MESSAGE",
+                    senderName: session.user.name,
+                    content: content.substring(0, 50),
+                    conversationId,
+                    messageId: message.id,
+                });
+            }
+        }
+
+        // Create additional notifications for mentioned users
+        if (mentionedUserIds?.length) {
+            const mentionNotifications = mentionedUserIds
+                .filter((userId: string) => userId !== session.user.id)
+                .map((userId: string) => ({
+                    user_id: userId,
+                    type: "MENTION",
+                    title: `${session.user.name} mentioned you`,
+                    body: content.substring(0, 100),
+                    data: JSON.stringify({ conversationId, messageId: message.id }),
+                }));
+
+            if (mentionNotifications.length > 0) {
+                await prisma.notification.createMany({ data: mentionNotifications });
+            }
 
             // Notify each mentioned user
             for (const userId of mentionedUserIds) {
-                await pusherServer.trigger(`user-${userId}`, "notification", {
-                    type: "MENTION",
-                    title: `${session.user.name} mentioned you`,
-                    conversationId,
-                });
+                if (userId !== session.user.id) {
+                    await pusherServer.trigger(`user-${userId}`, "notification", {
+                        type: "MENTION",
+                        title: `${session.user.name} mentioned you`,
+                        conversationId,
+                    });
+                }
             }
         }
 
@@ -164,3 +205,4 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Failed to send message" }, { status: 500 });
     }
 }
+

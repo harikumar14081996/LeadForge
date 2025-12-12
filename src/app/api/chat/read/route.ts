@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// PATCH /api/chat/read - Mark messages as read
+// PATCH /api/chat/read - Mark messages as read and dismiss notifications
 export async function PATCH(req: Request) {
     try {
         const session = await getServerSession(authOptions);
@@ -31,9 +31,20 @@ export async function PATCH(req: Request) {
             }
         });
 
+        // Mark all notifications for this conversation as read
+        // Using raw query since Prisma JSON filtering is complex
+        await prisma.$executeRaw`
+            UPDATE "Notification" 
+            SET read = true 
+            WHERE user_id = ${session.user.id} 
+            AND read = false 
+            AND data::text LIKE ${'%' + conversationId + '%'}
+        `;
+
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error("Error marking as read:", error);
         return NextResponse.json({ error: "Failed to mark as read" }, { status: 500 });
     }
 }
+

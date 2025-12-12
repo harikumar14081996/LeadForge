@@ -110,6 +110,21 @@ export function ChatPanel() {
         }
     }, [isOpen, session?.user?.id, fetchConversations, fetchUsers, fetchNotifications]);
 
+    // Toast notification state
+    const [toast, setToast] = useState<{
+        senderName: string;
+        content: string;
+        conversationId: string;
+    } | null>(null);
+
+    // Auto-dismiss toast after 4 seconds
+    useEffect(() => {
+        if (toast) {
+            const timer = setTimeout(() => setToast(null), 4000);
+            return () => clearTimeout(timer);
+        }
+    }, [toast]);
+
     // Subscribe to real-time updates for new conversations and messages
     useEffect(() => {
         if (!session?.user?.id) return;
@@ -128,16 +143,31 @@ export function ChatPanel() {
                 fetchNotifications();
             });
 
+            // New message notification with toast
+            channel.bind("new-message-notification", (data: {
+                senderName: string;
+                content: string;
+                conversationId: string;
+            }) => {
+                // Only show toast if not viewing that conversation
+                if (!selectedConversation || selectedConversation.id !== data.conversationId) {
+                    setToast(data);
+                }
+                fetchNotifications();
+                fetchConversations();
+            });
+
             return () => {
                 channel.unbind_all();
                 pusher.unsubscribe(`user-${session.user.id}`);
             };
         }
-    }, [session?.user?.id, fetchConversations, fetchNotifications]);
+    }, [session?.user?.id, fetchConversations, fetchNotifications, selectedConversation]);
 
     const startDM = async (userId: string) => {
         setLoading(true);
         try {
+
             const res = await fetch("/api/chat/conversations", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -228,18 +258,44 @@ export function ChatPanel() {
 
     return (
         <>
+            {/* Toast Notification */}
+            {toast && (
+                <div className="fixed top-4 right-4 z-[100] animate-in slide-in-from-top-5 duration-300">
+                    <div className="bg-white rounded-xl shadow-2xl border border-slate-200 p-4 max-w-sm flex items-start gap-3">
+                        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold text-sm shrink-0">
+                            {toast.senderName.split(" ").map(n => n[0]).join("").toUpperCase().substring(0, 2)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <div className="font-semibold text-slate-900 text-sm">
+                                {toast.senderName}
+                            </div>
+                            <div className="text-slate-600 text-sm truncate">
+                                {toast.content}...
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => setToast(null)}
+                            className="text-slate-400 hover:text-slate-600 transition-colors"
+                        >
+                            <X className="h-4 w-4" />
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Floating Chat Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 hover:scale-105 transition-all flex items-center justify-center"
+                className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-200 hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center"
             >
                 {isOpen ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
                 {unreadCount > 0 && !isOpen && (
-                    <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center font-bold">
+                    <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center font-bold animate-pulse">
                         {unreadCount > 9 ? "9+" : unreadCount}
                     </span>
                 )}
             </button>
+
 
             {/* Chat Panel */}
             {isOpen && (
