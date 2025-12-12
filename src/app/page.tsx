@@ -380,8 +380,164 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Company Announcements Feature - Steve Jobs Style */}
+        <section id="announcements" className="w-full py-20 md:py-32 bg-gradient-to-b from-slate-900 via-amber-950/20 to-slate-900 text-white relative overflow-hidden">
+          {/* Animated Background */}
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/20 rounded-full blur-[150px]"></div>
+          <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-orange-500/20 rounded-full blur-[100px]"></div>
+
+          <div className="container px-4 md:px-6 mx-auto relative z-10">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              {/* Left: Announcement Preview Mockup */}
+              <div className="relative order-2 lg:order-1">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-orange-500/20 blur-[80px] rounded-full"></div>
+                <div className="relative bg-slate-800/80 backdrop-blur-xl rounded-3xl border border-slate-700/50 shadow-2xl overflow-hidden">
+                  {/* Admin Dashboard Preview */}
+                  <div className="p-6 border-b border-slate-700/50">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
+                          <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <div className="font-semibold text-white">Company Announcements</div>
+                          <div className="text-xs text-slate-400">Admin Dashboard</div>
+                        </div>
+                      </div>
+                      <div className="bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full text-xs font-medium">
+                        3 Pending
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Announcement Cards */}
+                  <div className="p-4 space-y-3">
+                    <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-xl p-4 border border-amber-500/20">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="font-semibold text-white">🎯 Q4 Goals Update</div>
+                          <div className="text-sm text-slate-400 mt-1">Holiday schedule and targets for December...</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="h-6 w-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                            <svg className="h-3 w-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <span className="text-xs text-green-400">8/12</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-700/30 rounded-xl p-4 border border-slate-600/20">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="font-semibold text-white">📋 New Compliance Policy</div>
+                          <div className="text-sm text-slate-400 mt-1">Updated documentation requirements...</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="h-6 w-6 rounded-full bg-amber-500/20 flex items-center justify-center">
+                            <svg className="h-3 w-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                          </div>
+                          <span className="text-xs text-amber-400">5/12</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Stats Bar */}
+                  <div className="px-4 pb-4">
+                    <div className="bg-slate-700/50 rounded-xl p-4 flex items-center justify-between">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-white">12</div>
+                        <div className="text-xs text-slate-400">Total</div>
+                      </div>
+                      <div className="h-8 w-px bg-slate-600"></div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-green-400">8</div>
+                        <div className="text-xs text-slate-400">Done</div>
+                      </div>
+                      <div className="h-8 w-px bg-slate-600"></div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-amber-400">3</div>
+                        <div className="text-xs text-slate-400">Pending</div>
+                      </div>
+                      <div className="h-8 w-px bg-slate-600"></div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-slate-400">1</div>
+                        <div className="text-xs text-slate-400">Dismissed</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Text Content */}
+              <div className="space-y-8 order-1 lg:order-2">
+                <div className="inline-flex items-center rounded-full bg-amber-500/20 px-4 py-2 text-sm font-medium text-amber-300 border border-amber-500/30">
+                  <span className="h-2 w-2 rounded-full bg-amber-400 mr-2 animate-pulse"></span>
+                  Brand New – Just Launched
+                </div>
+
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                  And there&apos;s more.
+                </h2>
+
+                <p className="text-xl md:text-2xl text-slate-300 leading-relaxed font-light">
+                  Introducing <span className="text-white font-semibold">Company Announcements</span>.
+                  Broadcast to your entire team instantly.
+                  <span className="text-amber-400"> Track who&apos;s acknowledged.</span>
+                </p>
+
+                <div className="space-y-4 pt-4">
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/30">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-lg">Company-Wide Broadcasts</div>
+                      <div className="text-slate-400">One click sends to everyone. No email chains.</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-lg">Acknowledgment Tracking</div>
+                      <div className="text-slate-400">See who&apos;s read it. Done, dismissed, or pending.</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-lg">Personal Reminders</div>
+                      <div className="text-slate-400">Loan officers can set their own reminders too.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Pricing Section - ADDED */}
         <section id="pricing" className="w-full py-24 bg-slate-50 border-t border-slate-200">
+
           <div className="container px-4 md:px-6 mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">Simple, Transparent Pricing</h2>
