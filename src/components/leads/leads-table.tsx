@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { format } from "date-fns";
+import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     Table,
@@ -10,11 +11,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"; // Needs create or standard
-
-// Simple Badge component inline if not exist, but let's assume I create it later or simple span.
-// I'll create `ui/badge` and `ui/table` later or use standard divs if I want to skip.
-// I'll assume standard shadcn-like structure.
+} from "@/components/ui/table";
 
 function StatusBadge({ status }: { status: string }) {
     const colors: Record<string, string> = {
@@ -23,7 +20,7 @@ function StatusBadge({ status }: { status: string }) {
         CONNECTED: "bg-blue-100 text-blue-800",
         QUALIFIED: "bg-purple-100 text-purple-800",
         UNQUALIFIED: "bg-red-100 text-red-800",
-        DECLINED: "bg-red-200 text-red-900", // Darker red for declined
+        DECLINED: "bg-red-200 text-red-900",
         FUNDED: "bg-green-100 text-green-800",
     };
     return (
@@ -31,6 +28,13 @@ function StatusBadge({ status }: { status: string }) {
             {status.replace("_", " ")}
         </span>
     );
+}
+
+// Quick email handler - opens mailto with lead info
+function handleQuickEmail(lead: { email: string; first_name: string; last_name: string; loan_type: string }) {
+    const subject = encodeURIComponent(`Regarding Your ${lead.loan_type?.replace(/_/g, " ")} Application`);
+    const body = encodeURIComponent(`Dear ${lead.first_name} ${lead.last_name},\n\nThank you for your interest in our ${lead.loan_type?.replace(/_/g, " ")} services.\n\nI wanted to follow up regarding your loan application. Please let me know if you have any questions.\n\nBest regards`);
+    window.location.href = `mailto:${lead.email}?subject=${subject}&body=${body}`;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -89,11 +93,22 @@ export function LeadsTable({ leads }: { leads: any[] }) {
                                 )}
                             </TableCell>
                             <TableCell className="text-right">
-                                <Button variant="ghost" size="sm" asChild>
-                                    <Link href={`/dashboard/leads/${lead.id}`}>
-                                        View
-                                    </Link>
-                                </Button>
+                                <div className="flex items-center justify-end gap-1">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => handleQuickEmail(lead)}
+                                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                                        title="Send Email"
+                                    >
+                                        <Mail className="h-4 w-4" />
+                                    </Button>
+                                    <Button variant="ghost" size="sm" asChild>
+                                        <Link href={`/dashboard/leads/${lead.id}`}>
+                                            View
+                                        </Link>
+                                    </Button>
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -102,3 +117,4 @@ export function LeadsTable({ leads }: { leads: any[] }) {
         </div>
     );
 }
+
