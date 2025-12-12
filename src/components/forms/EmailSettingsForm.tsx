@@ -1,19 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Mail, Save, Loader2, Signature } from "lucide-react";
+import { Save, Loader2, Signature } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
-import { cn } from "@/lib/utils";
-
-const EMAIL_PROVIDERS = [
-    { value: "GMAIL", label: "Gmail", color: "from-red-500 to-red-600" },
-    { value: "OUTLOOK", label: "Outlook", color: "from-blue-500 to-blue-600" },
-    { value: "YAHOO", label: "Yahoo Mail", color: "from-purple-500 to-purple-600" },
-    { value: "ICLOUD", label: "iCloud Mail", color: "from-gray-500 to-gray-600" },
-    { value: "PROTONMAIL", label: "ProtonMail", color: "from-violet-500 to-violet-600" },
-];
 
 interface EmailSettings {
     email_provider: string;
@@ -86,33 +77,6 @@ export function EmailSettingsForm() {
 
     return (
         <div className="space-y-6">
-            {/* Provider Selection */}
-            <div>
-                <label className="block text-sm font-medium text-slate-700 mb-3">
-                    Email Service Provider
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-                    {EMAIL_PROVIDERS.map((provider) => (
-                        <button
-                            key={provider.value}
-                            onClick={() => setSettings({ ...settings, email_provider: provider.value })}
-                            className={cn(
-                                "p-3 rounded-xl border-2 transition-all text-center",
-                                settings.email_provider === provider.value
-                                    ? `border-slate-900 bg-gradient-to-br ${provider.color} text-white shadow-lg`
-                                    : "border-slate-200 hover:border-slate-300 bg-white"
-                            )}
-                        >
-                            <Mail className={cn(
-                                "h-5 w-5 mx-auto mb-1",
-                                settings.email_provider === provider.value ? "text-white" : "text-slate-500"
-                            )} />
-                            <div className="text-xs font-medium">{provider.label}</div>
-                        </button>
-                    ))}
-                </div>
-            </div>
-
             {/* Subject Template */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">

@@ -99,9 +99,9 @@ export function LeadsTable({ leads }: { leads: any[] }) {
                                         size="sm"
                                         onClick={() => handleQuickEmail(lead)}
                                         className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                                        title="Send Email"
                                     >
-                                        <Mail className="h-4 w-4" />
+                                        <Mail className="h-4 w-4 mr-1" />
+                                        Email
                                     </Button>
                                     <Button variant="ghost" size="sm" asChild>
                                         <Link href={`/dashboard/leads/${lead.id}`}>

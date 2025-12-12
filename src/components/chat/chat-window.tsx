@@ -222,9 +222,10 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
     ).slice(0, 5);
 
     // Check if @everyone should appear in suggestions
-    const showEveryoneOption = conversation.is_group &&
+    const showEveryoneOption = conversation.is_group && (
         mentionQuery.toLowerCase().startsWith("every") ||
-        mentionQuery === "";
+        mentionQuery === ""
+    );
 
 
     const sendMessage = async () => {
