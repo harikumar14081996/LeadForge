@@ -7,7 +7,7 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Mail, Lock, AlertCircle, ArrowLeft } from "lucide-react";
+import { Loader2, Mail, Lock, AlertCircle, ArrowLeft, CheckCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,7 @@ export default function LoginPage() {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [loginSuccess, setLoginSuccess] = useState(false);
 
     const {
         register,
@@ -59,16 +60,20 @@ export default function LoginPage() {
                 } else {
                     setError("Authentication failed. " + res.error);
                 }
+                setIsLoading(false);
             } else {
                 console.log("Login successful. Redirecting...");
-                router.push("/dashboard");
-                router.refresh();
+                setLoginSuccess(true);
+                // Small delay to show success state
+                setTimeout(() => {
+                    router.push("/dashboard");
+                    router.refresh();
+                }, 500);
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error("Login Exception:", error);
             setError("An unexpected system error occurred: " + error.message);
-        } finally {
             setIsLoading(false);
         }
     };
@@ -76,8 +81,40 @@ export default function LoginPage() {
     // Debug validation errors
     console.log("Form State Errors:", errors);
 
+    // Full-screen loading overlay
+    if (isLoading || loginSuccess) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
+                <div className="flex flex-col items-center gap-6 animate-fade-in">
+                    {loginSuccess ? (
+                        <>
+                            <div className="h-16 w-16 rounded-full bg-green-500/20 flex items-center justify-center animate-scale-in">
+                                <CheckCircle className="h-10 w-10 text-green-400" />
+                            </div>
+                            <div className="text-center">
+                                <p className="text-xl font-semibold text-white">Welcome back!</p>
+                                <p className="text-slate-400 mt-1">Redirecting to dashboard...</p>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="relative">
+                                <div className="h-16 w-16 rounded-full border-4 border-slate-700"></div>
+                                <div className="absolute top-0 left-0 h-16 w-16 rounded-full border-4 border-blue-500 border-t-transparent animate-spin"></div>
+                            </div>
+                            <div className="text-center">
+                                <p className="text-xl font-semibold text-white">Signing you in...</p>
+                                <p className="text-slate-400 mt-1">Verifying credentials</p>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="w-full h-screen lg:grid lg:grid-cols-2">
+        <div className="w-full h-screen lg:grid lg:grid-cols-2 animate-fade-in">
             {/* Left Panel - Branding & Information */}
             <div className="hidden lg:flex flex-col justify-between bg-slate-900 p-12 text-white relative overflow-hidden">
                 {/* Background Effects */}
@@ -221,8 +258,7 @@ export default function LoginPage() {
                                     </div>
                                 )}
 
-                                <Button type="submit" className="w-full h-11 bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-lg shadow-slate-200/50" disabled={isLoading}>
-                                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                <Button type="submit" className="w-full h-11 bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-lg shadow-slate-200/50 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]" disabled={isLoading}>
                                     Sign In to Dashboard
                                 </Button>
                             </form>
