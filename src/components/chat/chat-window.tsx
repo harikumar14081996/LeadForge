@@ -201,10 +201,31 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
         textareaRef.current?.focus();
     };
 
+    const selectEveryoneMention = () => {
+        const lastAtIndex = messageContent.lastIndexOf("@");
+        const beforeAt = messageContent.substring(0, lastAtIndex);
+        const mentionText = "@everyone ";
+
+        setMessageContent(beforeAt + mentionText);
+        // Add all conversation members (except self) to mentions
+        const allMemberIds = conversation.members
+            .filter(m => m.user.id !== session?.user?.id)
+            .map(m => m.user.id);
+        setMentionedUserIds(prev => Array.from(new Set([...prev, ...allMemberIds])));
+        setShowMentions(false);
+        textareaRef.current?.focus();
+    };
+
     const filteredUsers = companyUsers.filter(u =>
         u.id !== session?.user?.id &&
         `${u.first_name} ${u.last_name}`.toLowerCase().includes(mentionQuery.toLowerCase())
     ).slice(0, 5);
+
+    // Check if @everyone should appear in suggestions
+    const showEveryoneOption = conversation.is_group &&
+        mentionQuery.toLowerCase().startsWith("every") ||
+        mentionQuery === "";
+
 
     const sendMessage = async () => {
         if (!messageContent.trim() || sending) return;
@@ -254,6 +275,13 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
     const renderMessageContent = (message: Message) => {
         let content = message.content.replace(/\n/g, "<br>");
 
+        // Highlight @everyone mentions
+        content = content.replace(
+            /@everyone/gi,
+            '<span class="bg-amber-200/50 text-amber-700 px-1 rounded font-medium">@everyone</span>'
+        );
+
+        // Highlight individual mentions
         message.mentions.forEach(mention => {
             const mentionText = `@${mention.user.first_name} ${mention.user.last_name}`;
             content = content.replace(
@@ -388,11 +416,28 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
             {/* Input */}
             <div className="p-3 border-t border-slate-200/80 bg-white/80 backdrop-blur-sm">
                 {/* Mention Suggestions */}
-                {showMentions && filteredUsers.length > 0 && (
+                {showMentions && (filteredUsers.length > 0 || showEveryoneOption) && (
                     <div className="mb-2 bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden animate-in slide-in-from-bottom-2 duration-150">
                         <div className="px-3 py-2 text-xs text-slate-500 border-b border-slate-100 font-medium bg-slate-50">
                             💬 Mention someone
                         </div>
+                        {/* @everyone option for group chats */}
+                        {showEveryoneOption && conversation.is_group && (
+                            <button
+                                onClick={selectEveryoneMention}
+                                className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-amber-50 transition-colors border-b border-slate-100"
+                            >
+                                <div className="h-7 w-7 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white text-xs font-bold">
+                                    @
+                                </div>
+                                <div>
+                                    <div className="text-sm font-medium text-slate-900">
+                                        @everyone
+                                    </div>
+                                    <div className="text-xs text-slate-500">Notify all {conversation.members.length} members</div>
+                                </div>
+                            </button>
+                        )}
                         {filteredUsers.map((user) => (
                             <button
                                 key={user.id}
@@ -407,6 +452,7 @@ export function ChatWindow({ conversation, onBack, companyUsers }: ChatWindowPro
                                         {user.first_name} {user.last_name}
                                     </div>
                                 </div>
+
                             </button>
                         ))}
                     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { Check, X, Megaphone, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,8 @@ interface Reminder {
         title: string;
         content: string;
         type: string;
+        is_recurring: boolean;
+        time_of_day: string | null;
         created_at: string;
         creator: {
             id: string;
@@ -38,6 +40,7 @@ export function ReminderPopup() {
     const [currentReminder, setCurrentReminder] = useState<Reminder | null>(null);
     const [toast, setToast] = useState<ToastReminder | null>(null);
     const [loading, setLoading] = useState(false);
+    const lastCheckTimeRef = useRef<string>("");
 
     const fetchReminders = useCallback(async () => {
         try {
@@ -60,6 +63,53 @@ export function ReminderPopup() {
             fetchReminders();
         }
     }, [session?.user?.id, fetchReminders]);
+
+    // Timer to check for scheduled reminders every minute
+    useEffect(() => {
+        if (!session?.user?.id) return;
+
+        const checkScheduledReminders = () => {
+            const now = new Date();
+            const currentTime = now.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+
+            // Only check if time has changed (once per minute)
+            if (currentTime !== lastCheckTimeRef.current) {
+                lastCheckTimeRef.current = currentTime;
+
+                // Check if any pending reminders match current time
+                reminders.forEach(reminder => {
+                    if (reminder.reminder.time_of_day === currentTime &&
+                        reminder.reminder.is_recurring) {
+                        // Show toast for scheduled reminder
+                        setToast({
+                            id: reminder.reminder.id,
+                            title: reminder.reminder.title,
+                            content: reminder.reminder.content,
+                            creatorName: `${reminder.reminder.creator.first_name} ${reminder.reminder.creator.last_name}`,
+                            type: reminder.reminder.type,
+                        });
+                        // Show modal
+                        if (!currentReminder) {
+                            setCurrentReminder(reminder);
+                        }
+                    }
+                });
+
+                // Refetch reminders to get any new scheduled ones
+                fetchReminders();
+            }
+        };
+
+        // Check immediately and then every 10 seconds
+        checkScheduledReminders();
+        const interval = setInterval(checkScheduledReminders, 10000);
+
+        return () => clearInterval(interval);
+    }, [session?.user?.id, reminders, currentReminder, fetchReminders]);
 
     // Auto-dismiss toast after 5 seconds
     useEffect(() => {
@@ -88,6 +138,7 @@ export function ReminderPopup() {
             };
         }
     }, [session?.user?.id, fetchReminders]);
+
 
     const respondToReminder = async (status: "DONE" | "DISMISSED") => {
         if (!currentReminder) return;
