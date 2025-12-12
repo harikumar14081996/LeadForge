@@ -200,9 +200,9 @@ export default async function LeadDetailPage({ params }: { params: { id: string 
                                 {lead.latitude ? (
                                     <p className="flex items-center gap-1">
                                         <MapPin size={12} className="text-blue-500" />
-                                        {lead.latitude.toFixed(4)}, {lead.longitude?.toFixed(4)}
+                                        {Number(lead.latitude).toFixed(4)}, {lead.longitude ? Number(lead.longitude).toFixed(4) : "N/A"}
                                         <span className="text-xs text-gray-400 ml-1">
-                                            (±{lead.location_accuracy?.toFixed(0) || "&nbsp;"}m)
+                                            (±{lead.location_accuracy ? Number(lead.location_accuracy).toFixed(0) : "?"}m)
                                         </span>
                                     </p>
                                 ) : (
