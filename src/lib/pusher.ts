@@ -30,12 +30,12 @@ export const getPusherClient = () => {
     return pusherClientInstance;
 };
 
-// Channel naming conventions
+// Channel naming conventions - using public channels (no auth required)
 export const getConversationChannel = (conversationId: string) =>
-    `private-conversation-${conversationId}`;
+    `conversation-${conversationId}`;
 
 export const getUserChannel = (userId: string) =>
-    `private-user-${userId}`;
+    `user-${userId}`;
 
 export const getCompanyChannel = (companyId: string) =>
-    `private-company-${companyId}`;
+    `company-${companyId}`;

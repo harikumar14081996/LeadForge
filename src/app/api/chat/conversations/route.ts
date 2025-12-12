@@ -144,7 +144,7 @@ export async function POST(req: Request) {
 
         // Notify all members via Pusher
         for (const memberId of memberIds) {
-            await pusherServer.trigger(`private-user-${memberId}`, "new-conversation", conversation);
+            await pusherServer.trigger(`user-${memberId}`, "new-conversation", conversation);
         }
 
         return NextResponse.json(conversation);

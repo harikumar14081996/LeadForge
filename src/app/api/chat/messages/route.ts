@@ -150,7 +150,7 @@ export async function POST(req: Request) {
 
             // Notify each mentioned user
             for (const userId of mentionedUserIds) {
-                await pusherServer.trigger(`private-user-${userId}`, "notification", {
+                await pusherServer.trigger(`user-${userId}`, "notification", {
                     type: "MENTION",
                     title: `${session.user.name} mentioned you`,
                     conversationId,

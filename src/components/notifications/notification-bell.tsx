@@ -50,14 +50,14 @@ export function NotificationBell() {
             // Subscribe to real-time notifications
             const pusher = getPusherClient();
             if (pusher) {
-                const channel = pusher.subscribe(`private-user-${session.user.id}`);
+                const channel = pusher.subscribe(`user-${session.user.id}`);
                 channel.bind("notification", () => {
                     fetchNotifications();
                 });
 
                 return () => {
                     channel.unbind_all();
-                    pusher.unsubscribe(`private-user-${session.user.id}`);
+                    pusher.unsubscribe(`user-${session.user.id}`);
                 };
             }
         }

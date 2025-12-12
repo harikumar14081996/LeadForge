@@ -116,7 +116,7 @@ export function ChatPanel() {
 
         const pusher = getPusherClient();
         if (pusher) {
-            const channel = pusher.subscribe(`private-user-${session.user.id}`);
+            const channel = pusher.subscribe(`user-${session.user.id}`);
 
             // New conversation created
             channel.bind("new-conversation", () => {
@@ -130,7 +130,7 @@ export function ChatPanel() {
 
             return () => {
                 channel.unbind_all();
-                pusher.unsubscribe(`private-user-${session.user.id}`);
+                pusher.unsubscribe(`user-${session.user.id}`);
             };
         }
     }, [session?.user?.id, fetchConversations, fetchNotifications]);
