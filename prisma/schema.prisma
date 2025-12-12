@@ -267,6 +267,12 @@ model Reminder {
   content      String
   scheduled_at DateTime?           // null = immediate
   is_active    Boolean             @default(true)
+  // Recurring reminder fields
+  is_recurring Boolean             @default(false)
+  recurrence   RecurrenceType?     // DAILY, WEEKLY, SPECIFIC_DAYS
+  days_of_week String?             // comma-separated: "1,2,3,4,5" for Mon-Fri
+  time_of_day  String?             // "09:00" format for when to trigger
+  last_sent_at DateTime?           // Track when last sent
   created_at   DateTime            @default(now())
   updated_at   DateTime            @updatedAt
   creator      User                @relation("ReminderCreator", fields: [creator_id], references: [id])
@@ -278,6 +284,13 @@ enum ReminderType {
   COMPANY_WIDE
   PERSONAL
 }
+
+enum RecurrenceType {
+  DAILY
+  WEEKLY
+  SPECIFIC_DAYS
+}
+
 
 model ReminderRecipient {
   id           String           @id @default(uuid())

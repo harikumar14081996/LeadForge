@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, LogOut, Settings, Briefcase, UserCircle, TrendingUp, Megaphone } from "lucide-react";
+import { LayoutDashboard, Users, LogOut, Settings, Briefcase, UserCircle, TrendingUp, Megaphone, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut, useSession } from "next-auth/react";
 
@@ -55,14 +55,22 @@ export function Sidebar({ className }: { className?: string }) {
                 href: "/settings/company",
                 color: "text-gray-500",
             }
-        ] : []),
-
+        ] : [
+            // Non-admin users get My Reminders
+            {
+                label: "My Reminders",
+                icon: Clock,
+                href: "/my-reminders",
+                color: "text-blue-500",
+            }
+        ]),
         {
             label: "Profile",
             icon: Settings,
             href: "/settings/profile",
             color: "text-gray-500",
         },
+
     ];
 
     return (

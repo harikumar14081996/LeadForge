@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { Megaphone, Plus, Check, X, Clock, Eye, AlertCircle } from "lucide-react";
+import { Clock, Plus, Check, X, Megaphone, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -10,59 +10,42 @@ import { formatDistanceToNow } from "date-fns";
 
 interface Reminder {
     id: string;
-    title: string;
-    content: string;
-    type: string;
-    is_active: boolean;
-    created_at: string;
-    creator: {
+    reminder: {
         id: string;
-        first_name: string;
-        last_name: string;
+        title: string;
+        content: string;
+        type: string;
+        is_recurring: boolean;
+        recurrence: string | null;
+        time_of_day: string | null;
+        created_at: string;
+        creator: {
+            id: string;
+            first_name: string;
+            last_name: string;
+        };
     };
-}
-
-interface RecipientStats {
-    total: number;
-    done: number;
-    dismissed: number;
-    pending: number;
-}
-
-interface Recipient {
-    id: string;
     status: string;
-    responded_at: string | null;
-    user: {
-        id: string;
-        first_name: string;
-        last_name: string;
-        email: string;
-    };
 }
 
-export default function RemindersPage() {
-    const { data: session } = useSession();
+export default function MyRemindersPage() {
+    useSession(); // For authentication check
     const [reminders, setReminders] = useState<Reminder[]>([]);
     const [loading, setLoading] = useState(true);
     const [creating, setCreating] = useState(false);
     const [showCreate, setShowCreate] = useState(false);
-    const [selectedReminder, setSelectedReminder] = useState<string | null>(null);
-    const [recipients, setRecipients] = useState<Recipient[]>([]);
-    const [stats, setStats] = useState<RecipientStats | null>(null);
 
     // Form state
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [type, setType] = useState<"COMPANY_WIDE" | "PERSONAL">("COMPANY_WIDE");
     const [isRecurring, setIsRecurring] = useState(false);
     const [recurrence, setRecurrence] = useState<"DAILY" | "WEEKLY" | "SPECIFIC_DAYS">("DAILY");
-    const [daysOfWeek, setDaysOfWeek] = useState<number[]>([1, 2, 3, 4, 5]); // Mon-Fri
+    const [daysOfWeek, setDaysOfWeek] = useState<number[]>([1, 2, 3, 4, 5]);
     const [timeOfDay, setTimeOfDay] = useState("09:00");
 
     const fetchReminders = useCallback(async () => {
         try {
-            const res = await fetch("/api/reminders/admin");
+            const res = await fetch("/api/reminders");
             if (res.ok) {
                 const data = await res.json();
                 setReminders(data);
@@ -97,7 +80,7 @@ export default function RemindersPage() {
                 body: JSON.stringify({
                     title,
                     content,
-                    type,
+                    type: "PERSONAL", // Loan officers can only create personal
                     isRecurring,
                     recurrence: isRecurring ? recurrence : null,
                     daysOfWeek: isRecurring && recurrence === "SPECIFIC_DAYS" ? daysOfWeek.join(",") : null,
@@ -119,30 +102,21 @@ export default function RemindersPage() {
         }
     };
 
-    const viewRecipients = async (reminderId: string) => {
-        setSelectedReminder(reminderId);
+    const respondToReminder = async (reminderId: string, status: "DONE" | "DISMISSED") => {
         try {
-            const res = await fetch(`/api/reminders/${reminderId}/recipients`);
+            const res = await fetch(`/api/reminders/${reminderId}/respond`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status }),
+            });
+
             if (res.ok) {
-                const data = await res.json();
-                setRecipients(data.reminder.recipients);
-                setStats(data.stats);
+                fetchReminders();
             }
         } catch (error) {
-            console.error("Failed to fetch recipients:", error);
+            console.error("Failed to respond to reminder:", error);
         }
     };
-
-    // Check if user is admin
-    if (session?.user?.role !== "ADMIN") {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
-                <AlertCircle className="h-16 w-16 text-slate-300 mb-4" />
-                <h2 className="text-xl font-semibold text-slate-700">Admin Access Required</h2>
-                <p className="text-slate-500 mt-2">Only company admins can manage reminders.</p>
-            </div>
-        );
-    }
 
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -151,17 +125,17 @@ export default function RemindersPage() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900">Reminders & Announcements</h1>
+                    <h1 className="text-3xl font-bold text-slate-900">My Reminders</h1>
                     <p className="text-slate-600 mt-1">
-                        Send company-wide announcements and track acknowledgments
+                        Set personal reminders to stay on track
                     </p>
                 </div>
                 <Button
                     onClick={() => setShowCreate(true)}
-                    className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
+                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
                 >
                     <Plus className="h-4 w-4 mr-2" />
-                    New Announcement
+                    New Reminder
                 </Button>
             </div>
 
@@ -171,7 +145,7 @@ export default function RemindersPage() {
                     <div className="absolute inset-0 bg-black/50" onClick={() => setShowCreate(false)} />
                     <div className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 animate-in zoom-in-95 max-h-[90vh] overflow-y-auto">
                         <h2 className="text-xl font-bold text-slate-900 mb-4">
-                            Create New Announcement
+                            Create Personal Reminder
                         </h2>
 
                         <div className="space-y-4">
@@ -182,61 +156,21 @@ export default function RemindersPage() {
                                 <Input
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
-                                    placeholder="Enter announcement title..."
+                                    placeholder="e.g., Follow up with client..."
                                 />
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">
-                                    Message
+                                    Details
                                 </label>
                                 <textarea
                                     value={content}
                                     onChange={(e) => setContent(e.target.value)}
-                                    placeholder="Enter your message..."
-                                    rows={4}
-                                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                    placeholder="Add any notes or details..."
+                                    rows={3}
+                                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-2">
-                                    Type
-                                </label>
-                                <div className="flex gap-3">
-                                    <button
-                                        onClick={() => setType("COMPANY_WIDE")}
-                                        className={cn(
-                                            "flex-1 p-3 rounded-lg border-2 transition-all",
-                                            type === "COMPANY_WIDE"
-                                                ? "border-amber-500 bg-amber-50"
-                                                : "border-slate-200 hover:border-slate-300"
-                                        )}
-                                    >
-                                        <Megaphone className={cn(
-                                            "h-5 w-5 mx-auto mb-1",
-                                            type === "COMPANY_WIDE" ? "text-amber-600" : "text-slate-400"
-                                        )} />
-                                        <div className="text-sm font-medium">Company-Wide</div>
-                                        <div className="text-xs text-slate-500">All users</div>
-                                    </button>
-                                    <button
-                                        onClick={() => setType("PERSONAL")}
-                                        className={cn(
-                                            "flex-1 p-3 rounded-lg border-2 transition-all",
-                                            type === "PERSONAL"
-                                                ? "border-blue-500 bg-blue-50"
-                                                : "border-slate-200 hover:border-slate-300"
-                                        )}
-                                    >
-                                        <Clock className={cn(
-                                            "h-5 w-5 mx-auto mb-1",
-                                            type === "PERSONAL" ? "text-blue-600" : "text-slate-400"
-                                        )} />
-                                        <div className="text-sm font-medium">Personal</div>
-                                        <div className="text-xs text-slate-500">Just me</div>
-                                    </button>
-                                </div>
                             </div>
 
                             {/* Recurring Toggle */}
@@ -244,7 +178,7 @@ export default function RemindersPage() {
                                 <label className="flex items-center gap-3 cursor-pointer">
                                     <div className={cn(
                                         "w-12 h-6 rounded-full transition-colors relative",
-                                        isRecurring ? "bg-amber-500" : "bg-slate-200"
+                                        isRecurring ? "bg-blue-500" : "bg-slate-200"
                                     )} onClick={() => setIsRecurring(!isRecurring)}>
                                         <div className={cn(
                                             "absolute top-1 w-4 h-4 bg-white rounded-full transition-transform shadow",
@@ -252,7 +186,7 @@ export default function RemindersPage() {
                                         )} />
                                     </div>
                                     <span className="text-sm font-medium text-slate-700">
-                                        Recurring Reminder
+                                        Repeat this reminder
                                     </span>
                                 </label>
                             </div>
@@ -270,7 +204,7 @@ export default function RemindersPage() {
                                                 className={cn(
                                                     "flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all",
                                                     recurrence === "DAILY"
-                                                        ? "bg-amber-500 text-white"
+                                                        ? "bg-blue-500 text-white"
                                                         : "bg-white border border-slate-200 text-slate-600"
                                                 )}
                                             >
@@ -281,7 +215,7 @@ export default function RemindersPage() {
                                                 className={cn(
                                                     "flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all",
                                                     recurrence === "WEEKLY"
-                                                        ? "bg-amber-500 text-white"
+                                                        ? "bg-blue-500 text-white"
                                                         : "bg-white border border-slate-200 text-slate-600"
                                                 )}
                                             >
@@ -292,11 +226,11 @@ export default function RemindersPage() {
                                                 className={cn(
                                                     "flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all",
                                                     recurrence === "SPECIFIC_DAYS"
-                                                        ? "bg-amber-500 text-white"
+                                                        ? "bg-blue-500 text-white"
                                                         : "bg-white border border-slate-200 text-slate-600"
                                                 )}
                                             >
-                                                Specific Days
+                                                Custom
                                             </button>
                                         </div>
                                     </div>
@@ -315,7 +249,7 @@ export default function RemindersPage() {
                                                         className={cn(
                                                             "flex-1 py-2 rounded-lg text-xs font-medium transition-all",
                                                             daysOfWeek.includes(idx)
-                                                                ? "bg-amber-500 text-white"
+                                                                ? "bg-blue-500 text-white"
                                                                 : "bg-white border border-slate-200 text-slate-500"
                                                         )}
                                                     >
@@ -329,13 +263,13 @@ export default function RemindersPage() {
                                     {/* Time Picker */}
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 mb-2">
-                                            Time
+                                            Remind me at
                                         </label>
                                         <input
                                             type="time"
                                             value={timeOfDay}
                                             onChange={(e) => setTimeOfDay(e.target.value)}
-                                            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         />
                                     </div>
                                 </div>
@@ -353,163 +287,105 @@ export default function RemindersPage() {
                             <Button
                                 onClick={createReminder}
                                 disabled={creating || !title.trim() || !content.trim()}
-                                className="flex-1 bg-gradient-to-r from-amber-500 to-orange-500"
+                                className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600"
                             >
-                                {creating ? "Creating..." : (isRecurring ? "Schedule Reminder" : "Send Now")}
+                                {creating ? "Creating..." : (isRecurring ? "Schedule" : "Create")}
                             </Button>
                         </div>
                     </div>
                 </div>
             )}
 
-
             {/* Reminders List */}
             {loading ? (
                 <div className="flex items-center justify-center py-12">
                     <div className="flex gap-1">
-                        <div className="h-2 w-2 bg-amber-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                        <div className="h-2 w-2 bg-amber-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                        <div className="h-2 w-2 bg-amber-500 rounded-full animate-bounce"></div>
+                        <div className="h-2 w-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                        <div className="h-2 w-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                        <div className="h-2 w-2 bg-blue-500 rounded-full animate-bounce"></div>
                     </div>
                 </div>
             ) : reminders.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
-                    <Megaphone className="h-16 w-16 text-slate-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-slate-700">No announcements yet</h3>
+                    <Clock className="h-16 w-16 text-slate-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-slate-700">No reminders</h3>
                     <p className="text-slate-500 mt-1">
-                        Create your first company-wide announcement
+                        Create your first personal reminder
                     </p>
                 </div>
             ) : (
                 <div className="grid gap-4">
-                    {reminders.map((reminder) => (
+                    {reminders.map((item) => (
                         <div
-                            key={reminder.id}
+                            key={item.id}
                             className="bg-white rounded-xl border border-slate-200 p-5 hover:shadow-md transition-shadow"
                         >
                             <div className="flex items-start justify-between">
                                 <div className="flex items-start gap-4">
                                     <div className={cn(
                                         "h-12 w-12 rounded-full flex items-center justify-center shrink-0",
-                                        reminder.type === "COMPANY_WIDE"
+                                        item.reminder.type === "COMPANY_WIDE"
                                             ? "bg-gradient-to-br from-amber-500 to-orange-500"
                                             : "bg-gradient-to-br from-blue-500 to-blue-600"
                                     )}>
-                                        {reminder.type === "COMPANY_WIDE"
+                                        {item.reminder.type === "COMPANY_WIDE"
                                             ? <Megaphone className="h-5 w-5 text-white" />
                                             : <Clock className="h-5 w-5 text-white" />
                                         }
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-slate-900">
-                                            {reminder.title}
+                                            {item.reminder.title}
                                         </h3>
                                         <p className="text-slate-600 text-sm mt-1 line-clamp-2">
-                                            {reminder.content}
+                                            {item.reminder.content}
                                         </p>
                                         <div className="flex items-center gap-2 mt-2 text-xs text-slate-500">
                                             <span>
-                                                {formatDistanceToNow(new Date(reminder.created_at), { addSuffix: true })}
+                                                {formatDistanceToNow(new Date(item.reminder.created_at), { addSuffix: true })}
                                             </span>
+                                            {item.reminder.is_recurring && (
+                                                <>
+                                                    <span>•</span>
+                                                    <span className="flex items-center gap-1 text-blue-600">
+                                                        <RefreshCw className="h-3 w-3" />
+                                                        {item.reminder.recurrence}
+                                                    </span>
+                                                </>
+                                            )}
                                             <span>•</span>
                                             <span className={cn(
                                                 "px-2 py-0.5 rounded-full",
-                                                reminder.type === "COMPANY_WIDE"
+                                                item.reminder.type === "COMPANY_WIDE"
                                                     ? "bg-amber-100 text-amber-700"
                                                     : "bg-blue-100 text-blue-700"
                                             )}>
-                                                {reminder.type === "COMPANY_WIDE" ? "Company-Wide" : "Personal"}
+                                                {item.reminder.type === "COMPANY_WIDE" ? "Announcement" : "Personal"}
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-                                {reminder.type === "COMPANY_WIDE" && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => viewRecipients(reminder.id)}
-                                    >
-                                        <Eye className="h-4 w-4 mr-1" />
-                                        View Status
-                                    </Button>
+                                {item.status === "PENDING" && (
+                                    <div className="flex gap-2">
+                                        <Button
+                                            size="sm"
+                                            className="bg-green-500 hover:bg-green-600"
+                                            onClick={() => respondToReminder(item.reminder.id, "DONE")}
+                                        >
+                                            <Check className="h-4 w-4" />
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => respondToReminder(item.reminder.id, "DISMISSED")}
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </Button>
+                                    </div>
                                 )}
                             </div>
                         </div>
                     ))}
-                </div>
-            )}
-
-            {/* Recipients Modal */}
-            {selectedReminder && stats && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-black/50" onClick={() => setSelectedReminder(null)} />
-                    <div className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-hidden animate-in zoom-in-95">
-                        <div className="p-6 border-b border-slate-200">
-                            <h2 className="text-xl font-bold text-slate-900">
-                                Acknowledgment Status
-                            </h2>
-                            <div className="flex gap-4 mt-4">
-                                <div className="flex-1 bg-slate-100 rounded-lg p-3 text-center">
-                                    <div className="text-2xl font-bold text-slate-900">{stats.total}</div>
-                                    <div className="text-xs text-slate-500">Total</div>
-                                </div>
-                                <div className="flex-1 bg-green-100 rounded-lg p-3 text-center">
-                                    <div className="text-2xl font-bold text-green-600">{stats.done}</div>
-                                    <div className="text-xs text-green-600">Done</div>
-                                </div>
-                                <div className="flex-1 bg-slate-100 rounded-lg p-3 text-center">
-                                    <div className="text-2xl font-bold text-slate-500">{stats.dismissed}</div>
-                                    <div className="text-xs text-slate-500">Dismissed</div>
-                                </div>
-                                <div className="flex-1 bg-amber-100 rounded-lg p-3 text-center">
-                                    <div className="text-2xl font-bold text-amber-600">{stats.pending}</div>
-                                    <div className="text-xs text-amber-600">Pending</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="max-h-[400px] overflow-y-auto p-4">
-                            {recipients.map((recipient) => (
-                                <div
-                                    key={recipient.id}
-                                    className="flex items-center justify-between py-3 border-b border-slate-100 last:border-0"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div className="h-9 w-9 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-medium text-sm">
-                                            {recipient.user.first_name[0]}{recipient.user.last_name[0]}
-                                        </div>
-                                        <div>
-                                            <div className="font-medium text-slate-900">
-                                                {recipient.user.first_name} {recipient.user.last_name}
-                                            </div>
-                                            <div className="text-xs text-slate-500">
-                                                {recipient.user.email}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className={cn(
-                                        "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium",
-                                        recipient.status === "DONE" && "bg-green-100 text-green-700",
-                                        recipient.status === "DISMISSED" && "bg-slate-100 text-slate-600",
-                                        recipient.status === "PENDING" && "bg-amber-100 text-amber-700"
-                                    )}>
-                                        {recipient.status === "DONE" && <Check className="h-3 w-3" />}
-                                        {recipient.status === "DISMISSED" && <X className="h-3 w-3" />}
-                                        {recipient.status === "PENDING" && <Clock className="h-3 w-3" />}
-                                        {recipient.status}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="p-4 border-t border-slate-200">
-                            <Button
-                                onClick={() => setSelectedReminder(null)}
-                                className="w-full"
-                                variant="outline"
-                            >
-                                Close
-                            </Button>
-                        </div>
-                    </div>
                 </div>
             )}
         </div>

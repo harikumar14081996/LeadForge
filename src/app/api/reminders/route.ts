@@ -51,28 +51,43 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { title, content, type, scheduledAt } = body;
+        const {
+            title,
+            content,
+            type,
+            scheduledAt,
+            isRecurring,
+            recurrence,
+            daysOfWeek,
+            timeOfDay
+        } = body;
 
         if (!title || !content) {
             return NextResponse.json({ error: "Title and content required" }, { status: 400 });
         }
 
         // Only admins can create company-wide reminders
+        // Loan officers can only create personal reminders
         if (type === "COMPANY_WIDE" && session.user.role !== "ADMIN") {
-            return NextResponse.json({ error: "Only admins can create company-wide reminders" }, { status: 403 });
+            return NextResponse.json({ error: "Only admins can create company-wide announcements" }, { status: 403 });
         }
 
-        // Create the reminder
+        // Create the reminder with recurrence options
         const reminder = await prisma.reminder.create({
             data: {
                 company_id: session.user.company_id,
                 creator_id: session.user.id,
-                type: type || "PERSONAL",
+                type: session.user.role === "ADMIN" ? (type || "COMPANY_WIDE") : "PERSONAL",
                 title,
                 content,
                 scheduled_at: scheduledAt ? new Date(scheduledAt) : null,
+                is_recurring: isRecurring || false,
+                recurrence: isRecurring ? recurrence : null,
+                days_of_week: isRecurring && recurrence === "SPECIFIC_DAYS" ? daysOfWeek : null,
+                time_of_day: timeOfDay || null,
             }
         });
+
 
         // Create recipients
         if (type === "COMPANY_WIDE") {
