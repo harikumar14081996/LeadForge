@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Mail, Save, Loader2, Signature } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { cn } from "@/lib/utils";
 
 const EMAIL_PROVIDERS = [
@@ -127,44 +128,43 @@ export function EmailSettingsForm() {
                 />
             </div>
 
-            {/* Body Template */}
+            {/* Body Template - Rich Text */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                     Email Body Template
                 </label>
                 <div className="text-xs text-slate-500 mb-2">
-                    Your message content. Use placeholders for personalization.
+                    Your message content with rich formatting. Use {"{name}"} and {"{loan_type}"} placeholders.
                 </div>
-                <textarea
-                    value={settings.email_body || ""}
-                    onChange={(e) => setSettings({ ...settings, email_body: e.target.value })}
-                    rows={6}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Dear {name},&#10;&#10;Thank you for your interest..."
+                <RichTextEditor
+                    content={settings.email_body || ""}
+                    onChange={(html) => setSettings({ ...settings, email_body: html })}
+                    placeholder="Dear {name}, Thank you for your interest..."
                 />
             </div>
 
-            {/* Email Signature */}
+            {/* Email Signature - Rich Text */}
             <div className="border-t border-slate-200 pt-6">
                 <label className="flex items-center gap-2 text-sm font-medium text-slate-700 mb-1">
                     <Signature className="h-4 w-4" />
-                    Email Signature
+                    Email Signature (Rich Text)
                 </label>
                 <div className="text-xs text-slate-500 mb-2">
-                    Your professional signature will be appended to every email. Include your name, title, company, and contact info.
+                    Paste your signature from Gmail/Outlook to preserve images and formatting. Or use the toolbar to create your own.
                 </div>
-                <textarea
-                    value={settings.email_signature || ""}
-                    onChange={(e) => setSettings({ ...settings, email_signature: e.target.value })}
-                    rows={6}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Best regards,&#10;&#10;John Smith&#10;Senior Loan Officer&#10;H Financial Services&#10;📞 (555) 123-4567&#10;📧 john@hfinancial.com"
+                <RichTextEditor
+                    content={settings.email_signature || ""}
+                    onChange={(html) => setSettings({ ...settings, email_signature: html })}
+                    placeholder="Best regards, John Smith..."
                 />
-                <div className="mt-2 p-3 bg-slate-50 rounded-lg border border-slate-200">
-                    <div className="text-xs font-medium text-slate-500 mb-2">Preview:</div>
-                    <div className="text-sm text-slate-700 whitespace-pre-wrap">
-                        {settings.email_signature || "No signature set"}
-                    </div>
+
+                {/* Live Preview */}
+                <div className="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="text-xs font-medium text-slate-500 mb-2">📧 Signature Preview:</div>
+                    <div
+                        className="prose prose-sm max-w-none text-slate-700"
+                        dangerouslySetInnerHTML={{ __html: settings.email_signature || "<p class='text-slate-400 italic'>No signature set</p>" }}
+                    />
                 </div>
             </div>
 
@@ -198,22 +198,15 @@ export function EmailSettingsForm() {
 }
 
 function getDefaultBody(): string {
-    return `Dear {name},
-
-Thank you for your interest in our {loan_type} services.
-
-I wanted to follow up with you regarding your loan application. Please let me know if you have any questions or if there's anything I can help you with.
-
-Looking forward to hearing from you.`;
+    return `<p>Dear {name},</p>
+<p>Thank you for your interest in our {loan_type} services.</p>
+<p>I wanted to follow up with you regarding your loan application. Please let me know if you have any questions or if there's anything I can help you with.</p>
+<p>Looking forward to hearing from you.</p>`;
 }
 
 function getDefaultSignature(): string {
-    return `Best regards,
-
-[Your Name]
-Loan Officer
-[Your Company]
-📞 [Your Phone]
-📧 [Your Email]`;
+    return `<p><strong>Best regards,</strong></p>
+<p>[Your Name]<br>Loan Officer<br>[Your Company]<br>📞 [Your Phone]<br>📧 [Your Email]</p>`;
 }
+
 

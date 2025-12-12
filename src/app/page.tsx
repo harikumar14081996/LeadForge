@@ -10,27 +10,27 @@ import {
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-slate-50 to-white font-sans selection:bg-emerald-100">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-slate-50 to-white font-sans selection:bg-blue-100">
       {/* Header - Clean White */}
       <header className="px-4 lg:px-6 h-16 flex items-center bg-white/90 backdrop-blur-xl sticky top-0 z-50 border-b border-slate-200 shadow-sm">
         <Link className="flex items-center justify-center group" href="/">
-          <div className="p-1.5 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg group-hover:scale-105 transition-transform">
+          <div className="p-1.5 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg group-hover:scale-105 transition-transform">
             <TrendingUp className="h-5 w-5 text-white" />
           </div>
           <span className="ml-2 text-xl font-bold text-slate-900">LeadForge</span>
         </Link>
 
         <nav className="ml-auto flex gap-6 items-center">
-          <Link className="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors hidden md:block" href="#features">
+          <Link className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors hidden md:block" href="#features">
             Features
           </Link>
-          <Link className="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors hidden md:block" href="#pricing">
+          <Link className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors hidden md:block" href="#pricing">
             Pricing
           </Link>
-          <Link className="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors hidden md:block" href="/developer">
+          <Link className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors hidden md:block" href="/developer">
             Developer
           </Link>
-          <Button asChild className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg shadow-emerald-200">
+          <Button asChild className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg shadow-blue-200">
             <Link href="/login">
               Get Started
             </Link>
@@ -59,17 +59,17 @@ export default function Home() {
 
       <main className="flex-1">
         {/* HERO SECTION - Warm & Inviting */}
-        <section className="relative min-h-[85vh] flex items-center justify-center bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/50 overflow-hidden">
+        <section className="relative min-h-[85vh] flex items-center justify-center bg-gradient-to-br from-white via-emerald-50/30 to-indigo-50/50 overflow-hidden">
           {/* Decorative Elements */}
-          <div className="absolute top-20 right-20 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-teal-200/30 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-emerald-100/50 to-teal-100/50 rounded-full blur-3xl" />
+          <div className="absolute top-20 right-20 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-indigo-200/30 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-100/50 to-indigo-100/50 rounded-full blur-3xl" />
 
           <div className="container px-4 md:px-6 mx-auto relative z-10">
             <div className="flex flex-col items-center text-center max-w-5xl mx-auto space-y-8">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white shadow-lg border border-emerald-100">
-                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white shadow-lg border border-blue-100">
+                <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
                 <span className="text-sm font-medium text-slate-700">Now with Team Chat, Reminders & Professional Signatures</span>
               </div>
 
@@ -77,7 +77,7 @@ export default function Home() {
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-slate-900 leading-[1.1]">
                 Close More Loans.
                 <br />
-                <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 text-transparent bg-clip-text">
+                <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-violet-500 text-transparent bg-clip-text">
                   Grow Your Business.
                 </span>
               </h1>
@@ -85,13 +85,13 @@ export default function Home() {
               {/* Subheadline */}
               <p className="text-xl md:text-2xl text-slate-600 max-w-3xl leading-relaxed">
                 The all-in-one platform built specifically for
-                <span className="font-semibold text-emerald-600"> loan officers </span>
-                and <span className="font-semibold text-teal-600">lending companies.</span>
+                <span className="font-semibold text-blue-600"> loan officers </span>
+                and <span className="font-semibold text-indigo-600">lending companies.</span>
               </p>
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <Button size="lg" asChild className="h-14 px-10 text-lg bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-xl shadow-emerald-200/50 rounded-full font-semibold">
+                <Button size="lg" asChild className="h-14 px-10 text-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-xl shadow-blue-200/50 rounded-full font-semibold">
                   <Link href="/signup">
                     Start Free Trial
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -107,11 +107,11 @@ export default function Home() {
               {/* Trust Badges */}
               <div className="flex flex-wrap justify-center items-center gap-8 pt-12 text-slate-500 text-sm">
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4 text-emerald-500" />
+                  <Lock className="h-4 w-4 text-blue-500" />
                   <span>Bank-Grade Encryption</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Zap className="h-4 w-4 text-teal-500" />
+                  <Zap className="h-4 w-4 text-indigo-500" />
                   <span>Real-time Sync</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -127,7 +127,7 @@ export default function Home() {
         <section id="features" className="py-24 bg-white">
           <div className="container px-4 md:px-6 mx-auto">
             <div className="text-center mb-20">
-              <h2 className="text-sm font-semibold text-emerald-600 uppercase tracking-wider mb-4">Everything You Need</h2>
+              <h2 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-4">Everything You Need</h2>
               <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
                 Powerful Features for Modern Lenders
               </h3>
@@ -161,18 +161,18 @@ export default function Home() {
         </section>
 
         {/* FEATURE: Team Chat */}
-        <section className="py-24 bg-gradient-to-br from-emerald-50 via-teal-50/30 to-white">
+        <section className="py-24 bg-gradient-to-br from-emerald-50 via-indigo-50/30 to-white">
           <div className="container px-4 md:px-6 mx-auto">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
                   <MessageSquare className="h-4 w-4" />
                   Built-in Team Chat
                 </div>
 
                 <h3 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
                   Stay connected
-                  <span className="text-emerald-600"> without switching apps.</span>
+                  <span className="text-blue-600"> without switching apps.</span>
                 </h3>
 
                 <p className="text-xl text-slate-600 leading-relaxed">
@@ -185,9 +185,9 @@ export default function Home() {
                     { icon: Users, title: "@Mention Teammates", desc: "Get attention when it matters" },
                     { icon: Bell, title: "Instant Notifications", desc: "Never miss an important message" },
                   ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white shadow-sm border border-emerald-100">
-                      <div className="h-10 w-10 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
-                        <item.icon className="h-5 w-5 text-emerald-600" />
+                    <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white shadow-sm border border-blue-100">
+                      <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+                        <item.icon className="h-5 w-5 text-blue-600" />
                       </div>
                       <div>
                         <div className="font-semibold text-slate-900">{item.title}</div>
@@ -200,16 +200,16 @@ export default function Home() {
 
               {/* Chat Mockup */}
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-200/50 to-teal-200/50 blur-3xl rounded-full" />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-200/50 to-indigo-200/50 blur-3xl rounded-full" />
                 <div className="relative bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 space-y-4">
                   <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center font-bold text-sm text-white">LT</div>
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center font-bold text-sm text-white">LT</div>
                     <div>
                       <div className="font-semibold text-slate-900">Lending Team</div>
                       <div className="text-xs text-slate-500">Sarah, Mike, Lisa</div>
                     </div>
                     <div className="ml-auto">
-                      <span className="h-2 w-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
+                      <span className="h-2 w-2 rounded-full bg-blue-500 inline-block animate-pulse" />
                     </div>
                   </div>
 
@@ -222,17 +222,17 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="flex gap-3">
-                      <div className="h-8 w-8 rounded-full bg-emerald-500 flex items-center justify-center text-xs font-bold text-white shrink-0">MK</div>
+                      <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold text-white shrink-0">MK</div>
                       <div className="bg-slate-100 rounded-2xl rounded-tl-sm px-4 py-2 max-w-[80%]">
-                        <div className="text-xs text-emerald-600 font-medium">Mike K.</div>
+                        <div className="text-xs text-blue-600 font-medium">Mike K.</div>
                         <div className="text-sm text-slate-700"><span className="bg-blue-100 text-blue-700 px-1 rounded">@Sarah</span> Amazing! $45K this week! 💪</div>
                       </div>
                     </div>
                     <div className="flex gap-3 justify-end">
-                      <div className="bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl rounded-tr-sm px-4 py-2 max-w-[80%]">
+                      <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl rounded-tr-sm px-4 py-2 max-w-[80%]">
                         <div className="text-sm text-white">Team meeting at 3pm <span className="bg-white/20 px-1 rounded">@everyone</span></div>
                       </div>
-                      <div className="h-8 w-8 rounded-full bg-teal-500 flex items-center justify-center text-xs font-bold text-white shrink-0">You</div>
+                      <div className="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs font-bold text-white shrink-0">You</div>
                     </div>
                   </div>
                 </div>
@@ -318,19 +318,19 @@ export default function Home() {
         </section>
 
         {/* FEATURE: Email with Signature */}
-        <section className="py-24 bg-gradient-to-br from-teal-50 via-cyan-50/30 to-white">
+        <section className="py-24 bg-gradient-to-br from-indigo-50 via-cyan-50/30 to-white">
           <div className="container px-4 md:px-6 mx-auto">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               {/* Content */}
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-100 text-teal-700 text-sm font-medium">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium">
                   <Mail className="h-4 w-4" />
                   One-Click Email
                 </div>
 
                 <h3 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
                   Contact leads
-                  <span className="text-teal-600"> in seconds.</span>
+                  <span className="text-indigo-600"> in seconds.</span>
                 </h3>
 
                 <p className="text-xl text-slate-600 leading-relaxed">
@@ -345,7 +345,7 @@ export default function Home() {
                     { title: "One-Click from Lead List", desc: "Email icon right in My Leads table" },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-3">
-                      <CheckCircle className="h-5 w-5 text-teal-500 shrink-0" />
+                      <CheckCircle className="h-5 w-5 text-indigo-500 shrink-0" />
                       <span className="text-slate-700"><span className="font-medium">{item.title}</span> — {item.desc}</span>
                     </div>
                   ))}
@@ -354,7 +354,7 @@ export default function Home() {
 
               {/* Email Mockup */}
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-teal-200/50 to-cyan-200/50 blur-3xl rounded-full" />
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-200/50 to-cyan-200/50 blur-3xl rounded-full" />
                 <div className="relative bg-white rounded-3xl border border-slate-200 shadow-2xl p-6">
                   <div className="bg-slate-50 rounded-xl p-4 mb-4 border border-slate-100">
                     <div className="flex items-center gap-2 text-sm text-slate-600 mb-2">
@@ -381,7 +381,7 @@ export default function Home() {
                       <p className="text-slate-600">Senior Loan Officer</p>
                       <p className="text-slate-600">H Financial Services</p>
                       <p className="text-slate-600">📞 (555) 123-4567</p>
-                      <p className="text-teal-600">📧 sarah@hfinancial.com</p>
+                      <p className="text-indigo-600">📧 sarah@hfinancial.com</p>
                     </div>
                   </div>
                 </div>
@@ -407,12 +407,12 @@ export default function Home() {
                     <div className="bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl p-4 border border-violet-100">
                       <div className="text-xs text-violet-600 uppercase font-semibold mb-1">Total Funded</div>
                       <div className="text-2xl font-bold text-slate-900">$2.4M</div>
-                      <div className="text-xs text-emerald-600 font-medium">↑ 12% vs last month</div>
+                      <div className="text-xs text-blue-600 font-medium">↑ 12% vs last month</div>
                     </div>
-                    <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 border border-emerald-100">
-                      <div className="text-xs text-emerald-600 uppercase font-semibold mb-1">Conversion</div>
+                    <div className="bg-gradient-to-br from-emerald-50 to-indigo-50 rounded-xl p-4 border border-blue-100">
+                      <div className="text-xs text-blue-600 uppercase font-semibold mb-1">Conversion</div>
                       <div className="text-2xl font-bold text-slate-900">34%</div>
-                      <div className="text-xs text-emerald-600 font-medium">↑ 5% improvement</div>
+                      <div className="text-xs text-blue-600 font-medium">↑ 5% improvement</div>
                     </div>
                   </div>
 
@@ -490,7 +490,7 @@ export default function Home() {
                 { icon: RefreshCw, title: "Status Pipeline", desc: "From New → Connected → Qualified → Funded." },
               ].map((feature, i) => (
                 <div key={i} className="p-6 rounded-2xl bg-white border border-slate-200 hover:shadow-lg transition-shadow">
-                  <feature.icon className="h-8 w-8 text-emerald-600 mb-4" />
+                  <feature.icon className="h-8 w-8 text-blue-600 mb-4" />
                   <h4 className="font-semibold text-slate-900 mb-2">{feature.title}</h4>
                   <p className="text-sm text-slate-600">{feature.desc}</p>
                 </div>
@@ -503,7 +503,7 @@ export default function Home() {
         <section id="pricing" className="py-24 bg-white">
           <div className="container px-4 md:px-6 mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-sm font-semibold text-emerald-600 uppercase tracking-wider mb-4">Pricing</h2>
+              <h2 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-4">Pricing</h2>
               <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
                 Simple, transparent pricing
               </h3>
@@ -524,7 +524,7 @@ export default function Home() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {["Up to 100 leads", "Basic analytics", "Email templates", "Personal reminders"].map((f, i) => (
                     <li key={i} className="flex items-center gap-2 text-slate-700 text-sm">
-                      <CheckCircle className="h-4 w-4 text-emerald-500" />
+                      <CheckCircle className="h-4 w-4 text-blue-500" />
                       {f}
                     </li>
                   ))}
@@ -535,15 +535,15 @@ export default function Home() {
               </div>
 
               {/* Pro - Featured */}
-              <div className="p-8 rounded-3xl bg-gradient-to-b from-emerald-500 to-teal-600 border border-emerald-400 flex flex-col relative shadow-2xl shadow-emerald-200/50">
+              <div className="p-8 rounded-3xl bg-gradient-to-b from-blue-500 to-indigo-600 border border-blue-400 flex flex-col relative shadow-2xl shadow-blue-200/50">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-amber-400 text-amber-900 text-sm font-bold rounded-full shadow-lg">
                   Most Popular
                 </div>
                 <h4 className="text-xl font-semibold text-white mb-2">Pro</h4>
-                <p className="text-emerald-100 text-sm mb-6">For growing lending teams</p>
+                <p className="text-blue-100 text-sm mb-6">For growing lending teams</p>
                 <div className="mb-6">
                   <span className="text-4xl font-bold text-white">$79</span>
-                  <span className="text-emerald-200">/month</span>
+                  <span className="text-blue-200">/month</span>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
                   {["Unlimited leads", "Team chat", "Company announcements", "Advanced analytics", "Email with signatures", "Priority support"].map((f, i) => (
@@ -553,7 +553,7 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <Button asChild className="w-full bg-white hover:bg-slate-100 text-emerald-600 font-semibold">
+                <Button asChild className="w-full bg-white hover:bg-slate-100 text-blue-600 font-semibold">
                   <Link href="/signup">Start Free Trial</Link>
                 </Button>
               </div>
@@ -568,7 +568,7 @@ export default function Home() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {["Everything in Pro", "Dedicated account manager", "Custom integrations", "SLA guarantee", "On-premise option"].map((f, i) => (
                     <li key={i} className="flex items-center gap-2 text-slate-700 text-sm">
-                      <CheckCircle className="h-4 w-4 text-emerald-500" />
+                      <CheckCircle className="h-4 w-4 text-blue-500" />
                       {f}
                     </li>
                   ))}
@@ -582,16 +582,16 @@ export default function Home() {
         </section>
 
         {/* FINAL CTA */}
-        <section className="py-24 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600">
+        <section className="py-24 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600">
           <div className="container px-4 md:px-6 mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Ready to close more loans?
             </h2>
-            <p className="text-xl text-emerald-100 max-w-2xl mx-auto mb-10">
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10">
               Join loan officers who are already using LeadForge to streamline their workflow and grow their business.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild className="h-14 px-10 text-lg bg-white text-emerald-600 hover:bg-slate-100 rounded-full font-semibold shadow-xl">
+              <Button size="lg" asChild className="h-14 px-10 text-lg bg-white text-blue-600 hover:bg-slate-100 rounded-full font-semibold shadow-xl">
                 <Link href="/signup">
                   Start Free Trial
                   <ChevronRight className="ml-2 h-5 w-5" />
@@ -612,7 +612,7 @@ export default function Home() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg">
+              <div className="p-1.5 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg">
                 <TrendingUp className="h-4 w-4 text-white" />
               </div>
               <span className="font-semibold text-white">LeadForge</span>
