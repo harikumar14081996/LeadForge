@@ -30,10 +30,6 @@ export default function DashboardLayout({
                     </div>
                     <NotificationBell />
                 </div>
-                {/* Desktop Notification Bell */}
-                <div className="hidden md:flex md:fixed md:top-4 md:right-8 z-[70]">
-                    <NotificationBell />
-                </div>
                 <div className="p-4 md:p-8">
                     {children}
                 </div>

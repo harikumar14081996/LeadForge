@@ -45,9 +45,12 @@ export async function GET() {
             orderBy: { updated_at: "desc" }
         });
 
-        // Calculate unread counts
-        const enrichedConversations = conversations.map(conv => {
-            const myMembership = conv.members.find(m => m.user_id === session.user.id);
+        // Calculate unread counts - use type inference from the query result
+        type ConversationType = typeof conversations[number];
+        type MemberType = ConversationType["members"][number];
+
+        const enrichedConversations = conversations.map((conv: ConversationType) => {
+            const myMembership = conv.members.find((m: MemberType) => m.user_id === session.user.id);
             const lastReadAt = myMembership?.last_read_at || new Date(0);
             const lastMessage = conv.messages[0];
             const hasUnread = lastMessage && lastMessage.created_at > lastReadAt && lastMessage.sender_id !== session.user.id;
@@ -121,7 +124,7 @@ export async function POST(req: Request) {
                 name: isGroup ? name : null,
                 is_group: isGroup || false,
                 members: {
-                    create: memberIds.map(userId => ({
+                    create: memberIds.map((userId: string) => ({
                         user_id: userId,
                     }))
                 }
@@ -148,3 +151,4 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Failed to create conversation" }, { status: 500 });
     }
 }
+
